@@ -35,6 +35,8 @@ Dokumentację do tego pakietu znajdziesz tutaj: <https://rspatial.github.io/terr
 
 # Materiały do kursu
 
+1. Wprowadzenie do R
+
 # Materiały dodatkowe
 
 1. ["Geocomputation with R"](https://r.geocompx.org/) Robin Lovelace, Jakub Nowosad i Jannes Muenchow
