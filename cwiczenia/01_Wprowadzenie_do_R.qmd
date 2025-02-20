@@ -1,0 +1,524 @@
+---
+title: "Eksploracja danych geoprzestrzennych"
+subtitle: "Wprowadzenie do R"
+author: "Krzysztof Dyba"
+format:
+  html:
+    toc: true
+    toc-title: " "
+    embed-resources: true
+    code-links:
+      - text: Repozytorium
+        icon: github
+        href: https://github.com/kadyb/edg2025
+---
+
+R to interpretowany język programowania wysokiego poziomu wykorzystywany przede
+wszystkim do przetwarzania, analizy i wizualizacji danych. Jest powszechnie
+używany zaróno w środowisku akademickim, jak i w przemyśle, szczególnie w takich
+dziedzinach jak statystyka, uczenie maszynowe, systemy informacji geograficznej
+czy bioinformatyka.
+
+Cechy języka R:
+
+- darmowy i otwarty,
+- język interpretowany (kod wykonywany jest linia po linii, bez potrzeby kompilacji),
+- język wysokiego poziomu (pominięcie aspektów związanych z zarządzaniem pamięcią),
+- dynamiczne typowanie (zmienne nie wymagają jawnych deklaracji przed użyciem),
+- wsparcie dwóch paradygmatów programowania, tj. obiektowego i funkcjonalnego,
+- duży ekosystem (biblioteki, wsparcie, tutoriale),
+- indeksowanie od 1,
+- zwektoryzowane operacje (brak konieczności pisania pętli).
+
+# Zmienne
+
+Do przypisania wartości zmiennej można wykorzystać dwa operatory: `<-` oraz `=`.
+Są między nimi pewne różnice, jednakże dla spójności z innymi językami
+programowania można korzystać z operatora `=` w następujący sposób:
+
+```{r}
+x = 10           # liczba
+imie = "Tomek"   # tekst
+```
+
+Znak `#` służy do komentowania kodu. Wartościowe i zwięzłe komentarze sprawiają,
+że kod staje się zrozumiały.
+
+Utworzone zmienne można wyświetlić wywołując bezpośrednio stworzony obiekt lub
+używając funkcji `print()`.
+
+```{r}
+x
+print(imie)
+```
+
+# Typy danych
+
+Typ danych definiuje rodzaj wartości, jaką zmienna może przechowywać, oraz
+operacje, jakie można na niej wykonywać. Możemy wyróżnić następujące podstawowe
+typy danych:
+
+- numeryczny **numeric**:
+  - liczby całkowite **integer** (np. -10, 0, 10),
+  - liczby zmiennoprzecinkowe **double** (np. 0.01, 21.37),
+- tekstowy **character** (np. "Ala ma kota.", 'rower'),
+- logiczny **logical** (TRUE, FALSE).
+
+Do sprawdzenia typu danych służy funkcja `typeof()`.
+
+```{r}
+typeof(10.1)
+typeof(10)
+typeof("Tomek")
+typeof(TRUE)
+```
+
+**Uwaga!** Domyślnie wszystkie liczby traktowane są jako zmiennoprzecinkowe,
+tak jak w powyższym przykładzie 10 posiada typ `double`, mimo iż jest całkowita.
+Aby traktować ją jako całkowitą należy do liczby dodać literę `L`.
+
+```{r}
+typeof(10L)
+```
+
+# Struktury danych
+
+Struktura danych to format organizowania, przetwarzania i przechowywania danych.
+Jest to sposób na uporządkowanie danych w pamięci komputera lub na dysku, tak
+aby można było z nich efektywnie korzystać.
+
+Różne rodzaje struktur danych sprawdzają się w różnych zadaniach. Wybór
+właściwej dla danej sytuacji jest kluczową częścią programowania i
+tworzenia efektywnych algorytmów.
+
+## Wektor
+
+Wektory (*vector*) stanowią najprostszą strukturę danych. Są to jednowymiarowe
+tablice, które mogą przechowywać zbiór elementów tego samego typu danych (np.
+tylko liczby, tylko tekst lub tylko wartości logiczne). Wektory są podstawą
+bardziej złożonych struktur danych, takich jak macierze czy ramki danych.
+
+Do tworzenia wektorów wykorzystuje się funkcje `c()` (*combine*) łączącą elementy.
+
+```{r}
+# stworzenie wektora
+vec = c(1, 2, 3, 4, 5)
+vec
+```
+
+```{r}
+vec = c("a", "b", "c", "d", "e")
+vec
+```
+
+Aby odwołać się do poszczególnych elementów wektora używa się pojedynczych
+nawiasów kwadratowych (`[]`) oraz indeksów.
+
+```{r}
+# selekcja poprzez indeks
+vec[3]
+vec[1:3]
+vec[-5]
+```
+
+## Czynnik
+
+Czynnik (*factor*) używany jest do reprezentowania zmiennych kategorycznych
+podczas pracy z danymi jakościowymi, takimi jak etykiety czy klasy, ponieważ
+przechowują unikalne wartości kategorii. Mogą być również uporządkowane
+(stopniowane) według określonej kolejności (np. niski < średni < wysoki).
+
+Czynniki są przechowywane jako liczby całkowite, tj. każdej kategorii
+przypisywany jest unikalny kod liczby całkowitej, co efektywnie ogranicza ilość
+zajmowanej pamięci. Dodatkowo, przechowywane są etykiety (opisy) powiązane z
+tymi liczbami całkowitymi.
+
+Do tworzenia czynników służy funkcja `factor()`.
+
+```{r}
+fct = factor(c("Drzewo", "Skała", "Budynek", "Drzewo", "Drzewo"))
+
+length(fct)  # liczba wszystkich elementów w wektorze
+nlevels(fct) # liczba kategorii
+levels(fct)  # wyświetl kategorie
+```
+
+## Macierz
+
+Macierze (*matrix*) to dwuwymiarowe tablice składające się z wierszy oaz kolumn,
+w których wszystkie elementy są tego samego typu.
+
+Do tworzenia macierzy służy funkcja `matrix()`.
+
+```{r}
+mat = matrix(1:9, ncol = 3)
+mat
+```
+
+Podobnie jak w przypadku wektorów, selekcja danych odbywa się poprzez nawiasy
+kwadratowe i wskazanie dwóch indeksów w tej kolejności: `[wiersze, kolumny]`.
+
+```{r}
+# selekcja pierwszego wiersza
+mat[1, ]
+
+# selekcja pierwszej kolumny
+mat[, 1]
+```
+
+## Lista
+
+Lista jest uniwersalną strukturą danych, która może przechowywać dowolne zbiory
+obiektów o różnych typach i długościach. Listy mogą zawierać inne listy
+(a nawet inne struktury), tworząc zagnieżdżone hierarchie o dowolnej głębokości.
+
+Do tworzenia list służy funkcja `list()`.
+
+```{r}
+lst = list(imie = "Ania", wiek = 25, oceny = c(4, 4, 5), czy_student = TRUE)
+lst
+```
+
+Selekcja w przypadku list jest bardziej zaawansowana niż w przypadku wektorów,
+ponieważ można dokonać jej na trzy różne sposoby:
+
+- znak dolara `$` jeśli lista posiada nazwy,
+- podwójne nawiasy kwadratowe `[[]]` (zwraca tylko zawartość listy),
+- pojedynczy nawias kwadratowy `[]` (zwraca listę i jej zawartość).
+
+```{r}
+lst$imie
+
+lst["oceny"]   # zwrócona jest lista
+
+lst[["oceny"]] # zwrócony jest wektor
+```
+
+Jeśli mamy do czynienia ze strukturą zagnieżdzoną, to do selekcji używamy kolejne
+nawiasy kwadratowe lub symbol dolara, które odnoszą się do kolejnych poziomów
+w hierarchii.
+
+```{r}
+lst = list(
+  osoba1 = list(imie = "Ania", wiek = 25),
+  osoba2 = list(imie = "Andrzej", wiek = 30)
+)
+
+lst$osoba1$wiek # wiek pierwszej osoby
+```
+
+## Ramka danych
+
+Ramka danych (*data frame*) jest fundamentalną i najczęściej używaną strukturą
+danych do przechowywania i przetwarzania danych tabelarycznych (tj. zorganizowane
+w wierszach i kolumnach, jak w arkuszu kalkulacyjnym czy bazie danych).
+Znajomość ramek danych jest absolutnie niezbędna do przeprowadzania wszelkiego
+rodzaju analiz danych!
+
+Ramka danych ma dwuwymiarowy, prostokątny format, składający się z wierszy i
+kolumn. Każdy wiersz reprezentuje pojedynczą obserwację (rekord). Każda kolumna
+reprezentuje zmienną (atrybut), które mogą być różnego typu. Co więcej,
+kolumny muszą posiadać nazwy oraz dokładnie tę samą długość. W sytuacji, gdy
+kolumny nie mają tej samej długości, używa się brakujących wartości `NA`
+(*Not Available*).
+
+Ramkę danych można stworzyć używając funkcję `data.frame()` i definiując
+wektory jako kolumny.
+
+```{r}
+df = data.frame(
+  imie = c("Ania", "Andrzej"), 
+  wiek = c(25, 30),
+  miasto = c("Warszawa", "Kraków")
+)
+df
+```
+
+Selekcja danych wygląda identycznie jak w przypadku list (ponieważ formalnie
+ramka danych jest listą).
+
+```{r}
+df$imie
+
+df$imie[1]
+
+df[1, 1]
+
+df[df$wiek == 25, "imie"]
+```
+
+# Operatory
+
+## Arytmetyczne
+
+- Dodawanie `+`,
+- Odejmowanie `-`,
+- Mnożenie `*`,
+- Dzielenie `/`,
+- Modulo `%%` (reszta z dzielenia),
+- Potęgowanie `^`.
+
+```{r}
+a = 10
+b = 3
+```
+
+```{r}
+a + b
+a - b
+a * b
+a / b
+a %% b
+a ^ b
+```
+
+## Porównawcze
+
+- Operator równości `==`,
+- Operator negacji równości `!=`,
+- Operatory nierówności `>`, `>=`, `<`, `<=`.
+
+```{r}
+a = 10
+b = 3
+```
+
+```{r}
+a == b
+a != b
+a < b
+a > b
+```
+
+Operatory porównawcze są bardzo przydatne do indeksowania elementów.
+
+```{r}
+vec = c(1, 2, 3, 4, 5)
+vec
+
+# zwraca wartość logiczną dla każdego elementu
+vec >= 3
+
+# zwraca tylko te elementy, które spełniają warunek
+vec[vec >= 3]
+```
+
+## Logiczne
+
+- Koniunkcja `&` (`TRUE`, jeśli obie wartości są prawdziwe),
+- Alternatywa `|` (`TRUE`, jeśli przynajmniej jedna wartość jest prawdziwa),
+- Negacja `!` (odwraca wartość logiczną).
+
+```{r}
+a = 10
+a > 0 & a < 100
+```
+
+```{r}
+TRUE & FALSE
+TRUE | FALSE
+```
+
+# Wbudowane funkcje
+
+R posiada szereg wbudowanych funkcji, które są bardzo przydatne do analizy danych
+i znacząco ułatwiają pracę:
+
+- `sample()` -- losowanie elementów z wektora (ze zwracaniem lub bez).
+- `seq()` -- generowanie sekwencji liczb z określonym interwałem.
+- `rnorm()` -- generowanie liczb losowych z rozkładu normalnego.
+- `runif()` -- generowanie liczb losowych z rozkładu jednostajnego.
+- `rep()` -- powtarzanie elementów wektora lub całego wektora.
+- `rev()` -- odwrócenie kolejności elementów w wektorze.
+- `sort()` -- sortowanie elementów w kolejności rosnącej lub malejącej.
+- `round()` -- zaokrąglenie wartości liczbowych.
+
+```{r}
+# wylosuj 5 liczb z zakresu od 1 do 10
+sample(1:10, size = 5)
+
+# stwórz sekwencję liczb od 1 do 10
+seq(1, 10, by = 1)
+
+# wylosuj 5 liczb (rozkład normalny)
+rnorm(5)
+
+# wylosuj 5 liczb (rozkład jednostajny)
+runif(5)
+
+# powtórz cały wektor 3 razy
+rep(c(1, 2), times = 3)
+
+# powtórz każdy element 3 razy
+rep(c(1, 2), each = 3)
+
+# odwróć kolejność
+rev(c("a", "b", "c"))
+
+# sortuj elementy wektora
+sort(c(4, 1, 3, 2), decreasing = FALSE)
+
+# zaokrąglij liczbę do części setnej
+round(1.1833, digits = 2)
+```
+
+# Eksploracyjna analiza danych
+
+Eksploracyjna analiza danych (*exploratory data analysis*) to proces
+analizowania i opisywania zbioru danych w celu zrozumienia jego struktury.
+Obejmuje ona stosowanie różnych metod statystycznych i graficznych w celu
+opisania rozkładu zmiennych, identyfikacji relacji między zmiennymi i
+wykrywania wszelkich nietypowych przypadków (np. nieprawidłowe wartości,
+duplikaty, brakujące wartości czy wartości odstające).
+
+Eksploracja danych jest niezbędnym pierwszym krokiem w każdym projekcie
+dotyczącym analizy danych, ponieważ zapobiega potencjalnym błędom.
+Pamiętaj o zasadzie: "**garbage in, garbage out**"!
+
+Przeznaczeniem eksploracji jest znalezenie odpowiedzi na następujące pytania:
+
+1. Jakiego typu jest zmienna?
+2. Jak wygląda rozkład zmiennej?
+3. Czy występują jakieś anomalie (np. brakujące/odstające wartości, błędy)?
+4. Czy wsytępuje jakaś zależność (korelacja) pomiędzy zmiennymi?
+
+## Opisowa
+
+- `str()` -- wyświetla strukturę obiektu, obejmującą nazwy kolumn, typy danych
+i przykładowe wartości.
+- `summary()` -- zwraca statystyki opisowe.
+- `head()` -- domyślnie wyświetla pierwsze 6 wierszy zbioru danych.
+- `tail()` -- domyślnie wyświetla ostatnie 6 wierszy zestawu danych.
+- `unique()` -- zwraca unikalne wartości.
+- `length()` -- zwraca liczbę elementów obiektu.
+- `dim()` -- zwraca liczbę wierszy i kolumn macierzy lub ramki danych.
+- `ncol()` -- zwraca liczbę kolumn w macierzy lub ramce danych.
+- `nrow()` -- zwraca liczbę wierszy w macierzy lub ramce danych.
+- `rownames()` -- zwraca lub modyfikuje nazwy wierszy macierzy lub ramki danych.
+- `colnames()` -- zwraca lub modyfikuje nazwy kolumn macierzy lub ramki danych.
+- `class()` -- zwraca klasę obiektu (np. ramka danych).
+
+`mtcars` to wbudowany zestaw danych w R, który zawiera informacje o 32 różnych
+modelach samochodów z magazynu Motor Trend US z 1974 r. Zawiera 11 zmiennych
+(kolumn) związanych z osiągami i konstrukcją tych samochodów. Sprawdź
+dokumentację tego zbioru używając `?mtcars`.
+
+```{r}
+# wczytanie danych do sesji
+mtcars = mtcars
+
+# struktura danych
+str(mtcars)
+```
+
+Sprawdź samodzielnie pozostałe funkcje do eksploracji i odpowiedz na wcześniej
+postawione pytania.
+
+## Wizualna
+
+### Wykres pudełkowy
+
+Wykres pudełkowy (nazywany również wykresem ramka-wąsy) to sposób przedstawienia
+rozkładu danych w oparciu o pięć następujących statystyk:
+
+- Wartość minimalna,
+- Pierwszy kwartyl (Q1, 25. percentyl),
+- Mediana (Q2, 50. percentyl),
+- Trzeci kwartyl (Q3, 75. percentyl),
+- Wartość maksymalna.
+
+"Pudełko" pokazuje zakres międzykwartylowy ($IQR = Q3 - Q1$), który zawiera
+środkowe 50% danych, natomiast "wąsy" rozciągają się od "pudełka" do najbardziej
+ekstremalnych punktów w zbiorze danych, które nie są klasyfikowane jako wartości
+odstające. Istnieje kilka sposobów definiowania długości "wąsów", ale najbardziej
+standardową metodą jest ich wyznaczenie z równań: $Q3 + 1.5 \times IQR$ dla
+górnej części oraz $Q1 - 1.5 \times IQR$ dla dolnej części. Jeśli jakieś punkty
+wykraczają poza ten zakres zdefiniowany przez "wąsy", to wtedy mamy do czynienia
+z wartościami odstającymi (*outliers*).
+
+Wykresy pudełkowe wykorzystuje się przede wszystkim do porównaniu rozkładu
+danych w wielu grupach, oceny symetrii i rozrzutu wartości oraz wykrywania
+wartości odstających.
+
+Do stworzenia prostego wykresu pudełkowego służy funkcja `boxplot()`.
+
+```{r}
+boxplot(mtcars$mpg, ylab = "Mile na galon (MPG)")
+```
+
+Używając odpowiednich parametrów możemy poprawić wygląd ryciny oraz
+uwzględnić zmienność w poszczególnych grupach, tj. zależność od liczby cylindrów
+(formuła `mpg ~ cyl`, czytaj `mpg` zależy od `cyl`).
+
+```{r}
+boxplot(mpg ~ cyl, data = mtcars,
+        main = "Mile na galon (MPG) w zależności od liczby cylindrów",
+        xlab = "Liczba cylindrów",
+        ylab = "Mile na galon (MPG)",
+        col = "lightblue",
+        border = "navy")
+```
+
+### Histogram
+
+Histogram również służy do przedstawienia rozkładu danych liczbowych jednak
+w postaci słupkowej. Pokazuje jak często dane wartości (lub zakresy) występują
+w danych.
+
+```{r}
+hist(mtcars$hp, xlab = "Konie mechaniczne [KM]", ylab = "Częstość", main = NULL)
+```
+
+### Wykres słupkowy
+
+```{r}
+cyl_counts = table(mtcars$cyl)
+cyl_counts
+```
+
+```{r}
+barplot(cyl_counts, xlab = "Liczba cylindrów", ylab = "Liczba samochodów")
+```
+
+### Wykres rozrzutu
+
+```{r}
+plot(mtcars$wt, mtcars$mpg, 
+     main = "Spalanie paliwa w zależności od wagi samochodu",
+     xlab = "Waga (1000 funtów)",
+     ylab = "Mile na galon (MPG)",
+     pch = 19, # kształt punktu
+     col = "darkred")
+```
+
+```{r}
+plot(mtcars$wt, mtcars$mpg, 
+     main = "Spalanie paliwa w zależności od wagi i liczby cylindrów samochodu",
+     xlab = "Waga (1000 funtów)",
+     ylab = "Mile na galon (MPG)",
+     pch = 19,
+     col = mtcars$cyl)
+
+legend("topright",
+       legend = sort(unique(mtcars$cyl)),
+       col = sort(unique(mtcars$cyl)),
+       pch = 19,
+       title = "Cylindry")
+```
+
+# Zadania
+
+1. Oblicz powierzchnię koła o promieniu 10 cm ze wzoru $\pi r^2$. Jako liczby
+$\pi$ użyj stałej `pi`.
+2. Definiując dwie zmienne `imie` oraz `wiek`, wykorzystaj funkcję `paste()`
+do stworzenia tekstu o następującej treści:
+`Cześć! Moje imię to <imie>. Mam <wiek> lat.`
+3. Używając funkcji `seq()`, wygeneruj wektor (sekewncje) liczb parzystych od
+2 do 20 i następnie oblicz sumę, średnią oraz odchylenie standardowe jego
+elementów używając odpowiednich funkcji.
+4. Dokonaj eksploracji opisowej dostępnego zbioru danych `iris`.
+5. Stwórz wykres rozrzutu wykorzystując dane ze zbioru `iris` oraz zmienne
+`Sepal.Length` i `Sepal.Width`. Jako kolor uwzględnij gatunek irysów (zmienna
+`Species`) oraz dodaj legendę do wykresu.
+6. W zbiorze `iris` znajdź ten gatunek irysów, którego wartość `Sepal.Length`
+jest większa niż 7 cm. Jaki to gatunek?
