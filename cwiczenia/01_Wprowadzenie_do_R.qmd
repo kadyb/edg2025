@@ -15,7 +15,7 @@ format:
 
 R to interpretowany język programowania wysokiego poziomu wykorzystywany przede
 wszystkim do przetwarzania, analizy i wizualizacji danych. Jest powszechnie
-używany zaróno w środowisku akademickim, jak i w przemyśle, szczególnie w takich
+używany zarówno w środowisku akademickim, jak i w przemyśle, szczególnie w takich
 dziedzinach jak statystyka, uczenie maszynowe, systemy informacji geograficznej
 czy bioinformatyka.
 
@@ -194,7 +194,7 @@ lst["oceny"]   # zwrócona jest lista
 lst[["oceny"]] # zwrócony jest wektor
 ```
 
-Jeśli mamy do czynienia ze strukturą zagnieżdzoną, to do selekcji używamy kolejne
+Jeśli mamy do czynienia ze strukturą zagnieżdżoną, to do selekcji używamy kolejne
 nawiasy kwadratowe lub symbol dolara, które odnoszą się do kolejnych poziomów
 w hierarchii.
 
@@ -375,12 +375,12 @@ Eksploracja danych jest niezbędnym pierwszym krokiem w każdym projekcie
 dotyczącym analizy danych, ponieważ zapobiega potencjalnym błędom.
 Pamiętaj o zasadzie: "**garbage in, garbage out**"!
 
-Przeznaczeniem eksploracji jest znalezenie odpowiedzi na następujące pytania:
+Przeznaczeniem eksploracji jest znalezienie odpowiedzi na następujące pytania:
 
 1. Jakiego typu jest zmienna?
 2. Jak wygląda rozkład zmiennej?
 3. Czy występują jakieś anomalie (np. brakujące/odstające wartości, błędy)?
-4. Czy wsytępuje jakaś zależność (korelacja) pomiędzy zmiennymi?
+4. Czy występuje jakaś zależność (korelacja) pomiędzy zmiennymi?
 
 ## Opisowa
 
@@ -536,7 +536,7 @@ $\pi$ użyj stałej `pi`.
 2. Definiując dwie zmienne `imie` oraz `wiek`, wykorzystaj funkcję `paste()`
 do stworzenia tekstu o następującej treści:
 `Cześć! Moje imię to <imie>. Mam <wiek> lat.`
-3. Używając funkcji `seq()`, wygeneruj wektor (sekewncje) liczb parzystych od
+3. Używając funkcji `seq()`, wygeneruj wektor (sekwencje) liczb parzystych od
 2 do 20 i następnie oblicz sumę, średnią oraz odchylenie standardowe jego
 elementów używając odpowiednich funkcji.
 4. Dokonaj eksploracji opisowej dostępnego zbioru danych `iris`.
