@@ -3,6 +3,12 @@
 To repozytorium zawiera materiały do kursu "Eksploracja danych geoprzestrzennych" prowadzonego
 na Uniwersytecie Adama Mickiewicza w semestrze letnim w 2025 r.
 
+Eksploracyjna analiza danych jest kluczowym krokiem w zrozumieniu zbiorów danych, odkrywaniu wzorców
+i identyfikacji anomalii przed przystąpieniem do modelowania. Kurs ten stanowi kompleksowe wprowadzenie
+do eksploracyjnej analizy danych ze szczególnym uwzględnieniem danych przestrzennych przy użyciu języka
+programowania R. Druga część kursu obejmuje proces modelowania danych wykorzystując narzędzia uczenia
+maszynowego do analizy regresji oraz klasyfikacji (nadzorowanej i nienadzorowanej).
+
 # Wstęp
 
 **1. Instalacja R**
