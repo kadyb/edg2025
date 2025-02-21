@@ -416,6 +416,22 @@ postawione pytania.
 
 ## Wizualna
 
+### Wykres słupkowy
+
+Wykres słupkowy służy do wizualnego przedstawiania danych kategorycznych za
+pomocą prostokątnych słupków. Wysokość lub długość słupków jest proporcjonalna
+do wartości, które reprezentują.
+
+```{r}
+# zlicz wystąpienia dla każdego cylindra (grupy)
+cyl_counts = table(mtcars$cyl)
+cyl_counts
+```
+
+```{r}
+barplot(cyl_counts, xlab = "Liczba cylindrów", ylab = "Liczba samochodów")
+```
+
 ### Wykres pudełkowy
 
 Wykres pudełkowy (nazywany również wykresem ramka-wąsy) to sposób przedstawienia
@@ -461,40 +477,47 @@ boxplot(mpg ~ cyl, data = mtcars,
 
 ### Histogram
 
-Histogram również służy do przedstawienia rozkładu danych liczbowych jednak
-w postaci słupkowej. Pokazuje jak często dane wartości (lub zakresy) występują
-w danych.
+Histogram, podobnie jak wykres pudełkowy, służy również do przedstawienia
+rozkładu danych liczbowych, z tą różnicą iż w postaci słupków. Histogram grupuje
+dane w przedziały (interwały) i pokazuje częstość wystąpień obserwacji
+mieszczących się w każdym z przedziałów. Kształt histogramu dostarcza istotnych
+informacji o rozkładzie danych (np. czy jest skośny czy symetryczny).
+
+Podczas tworzenia histogramu należy wybrać odpowiednią liczbę przedziałów,
+ponieważ zbyt mała liczba może spowodować nadmierne uproszczenie danych
+(generalizację), natomiast zbyt duża liczba może spowodować zaszumienie i
+utrudnić interpretację.
 
 ```{r}
 hist(mtcars$hp, xlab = "Konie mechaniczne [KM]", ylab = "Częstość", main = NULL)
 ```
 
-### Wykres słupkowy
-
-```{r}
-cyl_counts = table(mtcars$cyl)
-cyl_counts
-```
-
-```{r}
-barplot(cyl_counts, xlab = "Liczba cylindrów", ylab = "Liczba samochodów")
-```
-
 ### Wykres rozrzutu
+
+Wykres rozrzutu przedstawia związek między dwiema zmiennymi ciągłymi. Każdy
+punkt na wykresie przedstawia pojedynczą obserwację, przy czym oś X reprezentuje
+zmienną niezależną (wyjaśniającą), a oś Y zmienną zależną (modelowaną).
+Podstawowym zastosowaniem jest wizualne zbadanie potencjalnego związku między
+dwiema zmiennymi, tj. czy istnieje między nimi jakakolwiek korelacja (liniowa
+bądź nieliniowa). Jeśli tak, czy jest silna?
+
+W tym miejscu należy przypomnieć, że **korelacja nie oznacza związku przyczynowego!**
 
 ```{r}
 plot(mtcars$wt, mtcars$mpg, 
      main = "Spalanie paliwa w zależności od wagi samochodu",
-     xlab = "Waga (1000 funtów)",
+     xlab = "Waga [1000 funtów]",
      ylab = "Mile na galon (MPG)",
      pch = 19, # kształt punktu
      col = "darkred")
 ```
 
+Do wykresu możemy także dodać legendę używając funkcji `legend()`.
+
 ```{r}
 plot(mtcars$wt, mtcars$mpg, 
      main = "Spalanie paliwa w zależności od wagi i liczby cylindrów samochodu",
-     xlab = "Waga (1000 funtów)",
+     xlab = "Waga [1000 funtów]",
      ylab = "Mile na galon (MPG)",
      pch = 19,
      col = mtcars$cyl)
