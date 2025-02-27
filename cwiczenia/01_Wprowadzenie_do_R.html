@@ -3681,7 +3681,7 @@ $czy_student
 <div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="co"># wylosuj 5 liczb z zakresu od 1 do 10</span></span>
 <span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">size =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 3 2 5 7 6</code></pre>
+<pre><code>[1] 10  1  7  3  6</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb96"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="co"># stwórz sekwencję liczb od 1 do 10</span></span>
 <span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a><span class="fu">seq</span>(<span class="dv">1</span>, <span class="dv">10</span>, <span class="at">by =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -3691,12 +3691,12 @@ $czy_student
 <div class="sourceCode cell-code" id="cb98"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="co"># wylosuj 5 liczb (rozkład normalny)</span></span>
 <span id="cb98-2"><a href="#cb98-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rnorm</span>(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] -1.0497002  0.5535197 -0.2776440 -1.4585787  0.7284189</code></pre>
+<pre><code>[1]  0.4556695 -1.1323483  0.3431521 -0.9020332  0.5002091</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb100"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="co"># wylosuj 5 liczb (rozkład jednostajny)</span></span>
 <span id="cb100-2"><a href="#cb100-2" aria-hidden="true" tabindex="-1"></a><span class="fu">runif</span>(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.96633927 0.37038089 0.51021425 0.29775133 0.03793561</code></pre>
+<pre><code>[1] 0.3977236 0.1424463 0.9001356 0.1231774 0.6455599</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb102"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="co"># powtórz cały wektor 3 razy</span></span>
 <span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">times =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -3905,9 +3905,9 @@ $czy_student
 <h1>Zadania</h1>
 <ol type="1">
 <li>Oblicz powierzchnię koła o promieniu 10 cm ze wzoru <span class="math inline">\(\pi r^2\)</span>. Jako liczby <span class="math inline">\(\pi\)</span> użyj stałej <code>pi</code>.</li>
-<li>Definiując dwie zmienne <code>imie</code> oraz <code>wiek</code>, wykorzystaj funkcję <code>paste()</code> do stworzenia tekstu o następującej treści: <code>Cześć! Moje imię to &lt;imie&gt;. Mam &lt;wiek&gt; lat.</code></li>
+<li>Definiując dwie zmienne <code>imie</code> oraz <code>wiek</code>, wykorzystaj funkcję <code>paste0()</code> do stworzenia tekstu o następującej treści: <code>Cześć! Moje imię to &lt;imie&gt;. Mam &lt;wiek&gt; lat.</code></li>
 <li>Używając funkcji <code>seq()</code>, wygeneruj wektor (sekwencje) liczb parzystych od 2 do 20 i następnie oblicz sumę, średnią oraz odchylenie standardowe jego elementów używając odpowiednich funkcji.</li>
-<li>Dokonaj eksploracji opisowej dostępnego zbioru danych <code>iris</code>.</li>
+<li>Dokonaj eksploracji opisowej dostępnego zbioru danych <code>iris</code>. W szczególności sprawdź strukturę i typ danych, liczbę kolumn i wierszy, unikalne gatunki oraz statystyki opisowe.</li>
 <li>Stwórz wykres rozrzutu wykorzystując dane ze zbioru <code>iris</code> oraz zmienne <code>Sepal.Length</code> i <code>Sepal.Width</code>. Jako kolor uwzględnij gatunek irysów (zmienna <code>Species</code>) oraz dodaj legendę do wykresu.</li>
 <li>W zbiorze <code>iris</code> znajdź ten gatunek irysów, którego wartość <code>Sepal.Length</code> jest większa niż 7 cm. Jaki to gatunek?</li>
 </ol>

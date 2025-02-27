@@ -543,13 +543,15 @@ legend("topright",
 
 1. Oblicz powierzchnię koła o promieniu 10 cm ze wzoru $\pi r^2$. Jako liczby
 $\pi$ użyj stałej `pi`.
-2. Definiując dwie zmienne `imie` oraz `wiek`, wykorzystaj funkcję `paste()`
+2. Definiując dwie zmienne `imie` oraz `wiek`, wykorzystaj funkcję `paste0()`
 do stworzenia tekstu o następującej treści:
 `Cześć! Moje imię to <imie>. Mam <wiek> lat.`
 3. Używając funkcji `seq()`, wygeneruj wektor (sekwencje) liczb parzystych od
 2 do 20 i następnie oblicz sumę, średnią oraz odchylenie standardowe jego
 elementów używając odpowiednich funkcji.
-4. Dokonaj eksploracji opisowej dostępnego zbioru danych `iris`.
+4. Dokonaj eksploracji opisowej dostępnego zbioru danych `iris`. W szczególności
+sprawdź strukturę i typ danych, liczbę kolumn i wierszy, unikalne gatunki
+oraz statystyki opisowe.
 5. Stwórz wykres rozrzutu wykorzystując dane ze zbioru `iris` oraz zmienne
 `Sepal.Length` i `Sepal.Width`. Jako kolor uwzględnij gatunek irysów (zmienna
 `Species`) oraz dodaj legendę do wykresu.
