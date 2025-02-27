@@ -48,10 +48,9 @@ Dokumentację do tego pakietu znajdziesz tutaj: <https://rspatial.github.io/terr
 # Materiały dodatkowe
 
 1. ["Geocomputation with R"](https://r.geocompx.org/) Robin Lovelace, Jakub Nowosad i Jannes Muenchow
-2. ["Spatial Data Science With Applications in R"](https://r-spatial.org/book/) Edzer Pebesma i Roger Bivand
-3. ["Spatial Data Science with R and terra"](https://rspatial.org/) Robert Hijmans i inni
-4. [Klasyfikacja nienadzorowana danych satelitarnych](https://kadyb.github.io/GEOINF2022/Grupowanie.html) Krzysztof Dyba
-5. [Klasyfikacja nadzorowana danych satelitarnych](https://kadyb.github.io/GEOINF2022/Klasyfikacja.html) Krzysztof Dyba
+2. ["Spatial Data Science with R and terra"](https://rspatial.org/) Robert Hijmans i inni
+3. [Klasyfikacja nienadzorowana danych satelitarnych](https://kadyb.github.io/GEOINF2022/Grupowanie.html) Krzysztof Dyba
+4. [Klasyfikacja nadzorowana danych satelitarnych](https://kadyb.github.io/GEOINF2022/Klasyfikacja.html) Krzysztof Dyba
 
 # Kontakt 
 
