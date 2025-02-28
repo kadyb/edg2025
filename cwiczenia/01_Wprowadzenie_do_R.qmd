@@ -396,7 +396,7 @@ Przeznaczeniem eksploracji jest znalezienie odpowiedzi na następujące pytania:
 
 - `str()` -- wyświetla strukturę obiektu, obejmującą nazwy kolumn, typy danych
 i przykładowe wartości.
-- `summary()` -- zwraca statystyki opisowe.
+- `summary()` -- zwraca podstawowe statystyki opisowe.
 - `head()` -- domyślnie wyświetla pierwsze 6 wierszy zbioru danych.
 - `tail()` -- domyślnie wyświetla ostatnie 6 wierszy zestawu danych.
 - `unique()` -- zwraca unikalne wartości.
@@ -500,6 +500,19 @@ utrudnić interpretację.
 
 ```{r}
 hist(mtcars$hp, xlab = "Konie mechaniczne [KM]", ylab = "Częstość", main = NULL)
+```
+
+### Wykres gęstości
+
+Wykres gęstości to kolejna metoda wizualizacji rozkładu zmiennej ciągłej.
+Jest to wygładzona wersja histogramu pokazująca ciągłą krzywą zamiast
+dyskretnych przedziałów jak w histogramie. Oś X przedstawia wartości zmiennej
+wejściowej, natomiast oś Y prezentuje szacowaną gęstość prawdopodobieństwa,
+co pomaga zidentyfikować najczęstsze wartości w danych.
+
+```{r}
+d = density(mtcars$hp)
+plot(d, main = NA, xlab = "Konie mechaniczne [KM]", ylab = "Gęstość")
 ```
 
 ### Wykres rozrzutu
