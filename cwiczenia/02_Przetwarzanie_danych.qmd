@@ -1,0 +1,658 @@
+---
+title: "Eksploracja danych geoprzestrzennych"
+subtitle: "Przetwarzanie danych przestrzennych"
+author: "Krzysztof Dyba"
+format:
+  html:
+    toc: true
+    toc-title: " "
+    embed-resources: true
+    code-links:
+      - text: Repozytorium
+        icon: github
+        href: https://github.com/kadyb/edg2025
+---
+
+```{r message=FALSE}
+library("terra")
+```
+
+# Wprowadzenie
+
+## Dane rastrowe
+
+W pakiecie **terra** znajdziemy kilka przykładów danych rastrowych, tj.:
+
+* `elev.tif`
+* `logo.tif`
+* `meuse.tif`
+
+### Wczytywanie
+
+Do wczytania danych rastrowych służy funkcja `rast()` i wymaga podania ścieżki
+do pliku lub plików. Spróbujmy zatem wczytać przykładowy plik `elev.tif`, który
+domyślnie zawarty jest w pakiecie (w podfolderze `ex`). W tym celu należy uprzednio
+wywołać funkcję `system.file()`, która zwróci nam ścieżkę do tego pliku.
+
+```{r}
+sciezka_do_rastra = system.file("ex/elev.tif", package = "terra")
+sciezka_do_rastra # wyświetl
+```
+
+Funkcję `system.file()` stosuje się jedynie jeśli chcemy odwołać się do danych
+pochodzących z jakiegoś pakietu. W przypadku standardowej pracy, ten krok jest
+pomijany.
+
+Następnie wczytajmy dane do sesji ze wskazanej lokalizacji.
+
+```{r}
+raster = rast(sciezka_do_rastra)
+```
+
+Wpisując nazwę obiektu (tj. `raster`) możemy wyświetlić jego metadane.
+
+```{r}
+raster
+```
+
+Możemy zauważyć, że metadane składają się z 9 atrybutów:
+
+* klasa obiektu
+* wymiary (liczba wierszy, kolumn, warstw)
+* rozdzielczość
+* zakres przestrzenny (*bounding box*)
+* przestrzenny układ współrzędnych
+* źródło
+* nazwa warstwy
+* wartość minimalna i maksymalna
+
+Co ważne, pakiet **terra** przy otwieraniu rastra nie wczytuje go do pamięci,
+a jedynie tworzy wskaźnik do niego (dane przetwarzane są blokowo, co pozwala
+przetwarzać dane, które nie mieszczą się w pamięci).
+
+### Zapisywanie
+
+Do zapisu danych rastrowych służy funkcja `writeRaster()`, w której trzeba
+zdefiniować zapisywany obiekt oraz ścieżkę do zapisu. Ścieżkę do pliku można
+zdefiniować na dwa sposoby. Pierwszy (łatwiejszy) to podanie **ścieżki bezwzględnej**,
+tj. wskazanie dokładnej lokalizacji, w której znajduje się plik. Na przykład:
+
+```r
+sciezka = "C:/Users/Krzysztof/Desktop/raster.tif"
+```
+
+Jednak nie jest to zalecana metoda, gdyż uniemożliwia zlokalizowanie plików na
+różnych systemach operacyjnych. Drugi sposób polega na określeniu **ścieżki względnej**.
+W tym przypadku podajemy lokalizację pliku względem bieżącego katalogu roboczego
+(lub projektu). Aby dowiedzieć się, gdzie znajduje się katalog roboczy, możemy
+użyć funkcji `getwd()`, a do jego zmiany funkcji `setwd()`. Na przykład:
+
+```r
+getwd()
+#> "C:/Users/Krzysztof/Documents"
+sciezka = "raster.tif"
+```
+
+Teraz zapiszmy nasz obiekt w aktualnym katalogu roboczym podając nazwę `raster.tif`.
+Typ pliku (w tym przypadku *geotiff*) jest określany automatycznie na podstawie
+jego rozszerzenia w nazwie.
+
+```r
+writeRaster(raster, filename = "raster.tif")
+```
+
+W powyższej funkcji można zdefiniować również inne argumenty, np. typ danych
+(`datatype = "INT1U"`) czy kompresję (`gdal = c("COMPRESS=LZW")`).
+
+## Dane wektorowe
+
+### Wczytywanie
+
+Procedura wczytania danych wektorowych wygląda podobnie jak w przypadku danych
+rastrowych. Do tego celu służy funkcja `vect()`, która również przyjmuje ścieżkę
+do pliku. Tym razem wczytamy plik `ex/lux.shp` również dostarczony z pakietem
+**terra**.
+
+```{r}
+sciezka_do_wektora = system.file("ex/lux.shp", package = "terra")
+wektor = vect(sciezka_do_wektora)
+wektor
+```
+
+Tak jak poprzednio otrzymujemy metadane tej warstwy, które zawierają następujące
+atrybuty:
+
+* klasa obiektu
+* typ geometrii
+* wymiary (liczba geometrii, atrybutów)
+* zakres przestrzenny
+* źródło
+* przestrzenny układ współrzędnych
+* ramka danych z nazwą, typem i wartościami atrybutów
+
+Należy wspomnieć, że dane wektorowe domyślnie wczytywane są do pamięci w
+przeciwieństwie do rastrów. Chyba, że zdefiniuje się argument `proxy = TRUE`.
+
+### Zapisywanie
+
+Do zapisu danych wektorowych służy funkcja `writeVector()`. Działa ona analogicznie
+jak funkcja `writeRaster()`. Zapiszmy naszą warstwę wektorową jako *geopackage* (.gpkg)
+w katalogu roboczym.
+
+```r
+writeVector(wektor, filename = "wektor.gpkg")
+```
+
+## Wizualizacje
+
+Do podstawowej wizualizacji danych zarówno rastrowych i wektorowych służy funkcja
+`plot()`.
+
+```{r}
+plot(raster)
+```
+
+```{r}
+# wyświetla tylko geometrie
+# jeśli nie zdefiniowano żadnego atrybutu
+plot(wektor)
+```
+
+Warstwy można na siebie nakładać używając argumentu `add = TRUE`. Pamiętaj
+żeby przed wyświetleniem sprawdzić czy warstwy mają jednakowe układy współrzędnych.
+
+```{r}
+plot(raster)
+plot(wektor, add = TRUE)
+```
+
+Parametry wizualizacji oczywiście można dostosować. Sprawdź ich wykaz w dokumentacji
+funkcji (`?terra::plot`). Dla przykładu możemy nadać kolory na podstawie atrybutu
+`NAME_1` (gmina) używając argumentu `col` i definiując wybrane kolory. Oprócz tego,
+możemy zmienić kolor tła (argument `background`) oraz granic poligonów (argument
+`border`). Możemy również nadać rycinie tytuł używając argumentu `main`.
+Alternatywnie, zamiast nazw kolorów, można wykorzystać kod szesnastkowy, np.
+`#ffff00` będzie reprezentował odcień żółtego.
+
+```{r}
+plot(wektor, "NAME_1", col = c("red", "blue", "green"), background = "lightgrey",
+     border = "white" , main = "Luksemburg")
+```
+
+Do bardziej zaawansowanych wizualizacji możesz wykorzystać na przykład pakiety
+[tmap](https://r-tmap.github.io/tmap/) czy [ggplot2](https://ggplot2.tidyverse.org/).
+
+# Przetwarzanie
+
+## Dane rastrowe
+
+### Generowanie danych
+
+W poprzedniej sekcji wykorzystaliśmy funkcję `rast()` do wczytania danych
+rastrowych, niemniej posiada ona więcej zastosowań. Na przykład można użyć ją
+do konwersji (macierz -> raster) czy wygenerowania nowego rastra z zadanymi
+parametrami. W przypadku tworzenia nowego rastra można zdefiniować m. in. 
+liczbę wierszy, kolumn i warstw, zakres przestrzennych, układ współrzędnych 
+czy rozdzielczość. Zdefiniujmy "szablon" bez wartości:
+
+```{r}
+raster = rast(nrows = 10, ncols = 20, nlyrs = 1,
+              xmin = -180, xmax = 180, ymin = -90, ymax = 90,
+              crs = "EPSG:4326")
+raster
+```
+
+Funkcja `rast()` przyjmuje argument `vals`, który zostawiliśmy pusty, w związku
+z czym stworzonemu rastrowi nie zostały przypisane żadne wartości. Możemy to
+potwierdzić za pomocą funkcji `hasValues()`.
+
+```{r}
+hasValues(raster)
+```
+
+De facto, oznacza to, że stworzyliśmy jedynie metadane rastra (tj. "szablon").
+Jeśli chcemy go wypełnić, to musimy przypisać / wygenerować tyle wartości z ilu
+komórek składa się raster.
+
+```{r}
+n = ncell(raster) # liczba komórek rastra
+wartosci = rnorm(n, mean = 0, sd = 1) # wylosuj wartości z rozkładu normalnego
+head(wartosci) # wyświetl 6 pierwszych wylosowanych wartości
+# hist(wartosci) # histogram
+```
+
+Teraz przypiszmy wygenerowane wartości do `raster` za pomocą funkcji `values()`.
+
+```{r}
+values(raster) = wartosci
+raster
+```
+
+Wyświetlmy obiekt `raster`. Dodatkowo możemy wyświetlić wartości komórek jako
+etykiety używając funkcji `text()` z argumentami określającymi liczbę znaków
+(`digits`) oraz rozmiar tekstu (`cex`).
+
+```{r}
+plot(raster)
+text(raster, digits = 1, cex = 0.7)
+```
+
+### Algebra rastrów
+
+Na rastrach można wykonywać standardowe działania algebraiczne, operacje logiczne
+oraz funkcje matematyczne.
+
+```{r}
+r1 = sqrt(raster + 10)
+r1
+plot(r1)
+```
+
+```{r}
+r2 = abs(raster - r1)
+r2
+plot(r2)
+```
+
+```{r}
+r3 = raster < 0 # operacja logiczna
+r3
+plot(r3)
+```
+
+### Docinanie
+
+Nadmierny zasięg rastra wykraczający poza obszar analizy można dociąć za pomocą
+funkcji `crop()` używając innego rastra (*SpatRaster*), wektora (*SpatVector*)
+lub zasięgu zdefiniowanego przy użyciu współrzędnych (*SpatExtent*). W poniższym
+przykładzie wyznaczymy zasięg używając funkcji `ext()`.
+
+```{r}
+zasieg = ext(-100, 100, -50, 50) # xmin, xmax, ymin, ymax
+r = crop(raster, zasieg)
+r
+plot(r, ext = ext(raster)) # porównaj z oryginalnym zasięgiem
+```
+
+Należy zauważyć, że zasięg dociętego rastra może różnić się od oczekiwanego,
+ponieważ zwracane są pełne komórki w wierszach i kolumnach.
+
+### Zmiana rozdzielczości
+
+Rozdzielczość przestrzenną rastra można zmienić za pomocą trzech funkcji:
+
+* `disagg()` (zwiększa rozdzielczość, czyli komórki stają się mniejsze)
+* `aggregate()` (zmniejsza rozdzielczość, czyli komórki stają się większe)
+* `resample()` (przepróbkowanie do zdefiniowanej siatki)
+
+Pierwsze dwie funkcje wymagają podanie współczynnika agregacji, natomiast ostatnia
+wymieniona funkcja wymaga wskazania rastra z oczekiwaną geometrią. W przypadku
+funkcji `disagg()` dostępne są dwie metody, tj. interpolacji najbliższego sąsiada
+(`near`) oraz dwuliniowej (`bilinear`). Ta pierwsza stosowana jest najczęściej
+w przypadku danych kategorycznych. Zauważ również, że zastosowanie tej metody
+powoduje podział komórki na mniejsze części, co nie wpływa na efekt wizualizacji.
+
+```{r}
+r1 = disagg(raster, fact = 2, method = "bilinear")
+r2 = aggregate(raster, fact = 2, fun = "mean")
+```
+
+```{r}
+par(mfrow = c(1, 3)) # wyświetl 3 rastry obok siebie
+plot(raster, main = "Raster wejściowy")
+plot(r1, main = "Upsampling")
+plot(r2, main = "Downsampling")
+```
+
+Rozdzielczość rastrów można także sprawdzić za pomocą funkcji `res()`. Sprawdźmy
+jeszcze jak zastosować funkcję `resample()` w praktyce.
+
+```{r}
+szablon = rast(nrows = 20, ncols = 40,
+               xmin = -180, xmax = 180, ymin = -90, ymax = 90)
+r3 = resample(raster, szablon, method = "bilinear")
+```
+
+### Reprojekcja
+
+Do transformacji przestrzennego układu współrzędnych służy funkcja `project()`.
+Tak jak w przypadku poprzednich funkcji można wykorzystać różne metody interpolacji.
+Przetransformujmy nasz aktualny układ `EPSG:4326` wyrażony w stopniach do
+odwzorowania Mollweidego (`+proj=moll`) wyrażonego w metrach.
+
+```{r}
+r_moll = project(raster, "+proj=moll", method = "bilinear")
+r_moll
+```
+
+Porównajmy otrzymany raster z oryginalnym.
+
+```{r}
+raster
+par(mfrow = c(1, 2))
+plot(raster, main = "World Geodetic System 84")
+plot(r_moll, main = "Odwzorowanie Mollweidego")
+```
+
+Jeśli posiadasz dane rastrowe i wektorowe w różnych układach współrzędnych,
+to zalecana jest reprojekcja danych wektorowych z dwóch powodów:
+
+* jest szybsza
+* jest odwracalna (transformacja odbywa się bez utraty precyzji)
+
+### Statystyki globalne
+
+Wyliczenie statystyk komórek warstwy rastrowej można wykonać za pomocą funkcji
+`global()`. Dla przykładu:
+
+```{r}
+# data.frame() łączy poniższe obiekty do jednego
+data.frame(
+  global(raster, "sum"),
+  global(raster, "mean"),
+  global(raster, "sd")
+)
+```
+
+### Statystyki strefowe
+
+Jeśli posiadamy dwa rastry, tj. pierwszy numeryczny, a drugi kategoryczny
+(określający strefy), to możemy wyliczyć statystyki strefowe. Najpierw
+wykorzystajmy funkcje `sample()` do wygenerowania kategorii oznaczonych numerami
+od 1 do 3 (w rzeczywistej analizie mogą one reprezentować, np. zbiornik wodny,
+las i strefę zabudowaną). Musimy ustawić argument `replace = TRUE`, aby wykonać
+losowanie ze zwracaniem.
+
+```{r}
+kategorie = sample(1:3, size = ncell(raster), replace = TRUE)
+head(kategorie)
+```
+
+Następnie kopiujemy raster wejściowy `raster` wykorzystując funkcję `rast`
+zastępując przy tym jego wartości `vals = kategorie` i nowy raster nazywamy
+`strefy`.
+
+```{r}
+strefy = rast(raster, vals = kategorie)
+plot(strefy, main = "Strefy", col = c("blue", "green", "red"))
+```
+
+Teraz możemy obliczyć statystyki strefowe.
+
+```{r}
+stat_strefy = zonal(raster, strefy, fun = "mean")
+stat_strefy
+```
+
+### Reklasyfikacja
+
+Reklasyfikacja wartości rastra możliwa jest za pomocą funkcji `classify()`.
+Załóżmy, że chcemy wszystkie wartości poniżej 0 zamienić na brakujące wartości
+(`NA`), a wszystkie wartości powyżej 0 zamienić na 10. W tym celu musimy
+stworzyć tabelę klasyfikacyjną składającą się z trzech kolumn:
+
+1. dolny przedział wartości
+2. górny przedział wartości
+3. nowa wartość
+
+Tabelę najprościej stworzyć definiując uprzednio wektor i następnie transformując
+go do macierzy.
+
+```{r}
+# wektor
+tabela = c(
+  -Inf, 0, NA,
+  0, Inf, 10
+)
+# zamiana wektora na macierz
+tabela = matrix(tabela, ncol = 3, byrow = TRUE)
+tabela
+```
+
+Teraz przeprowadźmy reklasyfikację.
+
+```{r}
+reklasyfikacja = classify(raster, tabela)
+plot(reklasyfikacja)
+```
+
+Istnieje również prostsza alternatywa w postaci `subst()` ukierunkowana na
+zastępowanie wartości.
+
+### Okno ruchome
+
+Ostatnią omawianą funkcją jest `focal()` służącą do obliczania wartości na podstawie
+sąsiadujących komórek rastra w ruchomym oknie. Można zdefiniować dowolny kształt
+sąsiedztwa (np. prostokąt, koło) oraz nadać komórkom odpowiednie wagi. Zazwyczaj
+niniejszą funkcję wykorzystuje się do wygładzania danych numerycznych za pomocą
+średniej czy mediany oraz danych kategorycznych za pomocą mody.
+
+```{r}
+r = focal(raster, w = 3, fun = "mean")
+par(mfrow = c(1, 2))
+plot(raster, main = "Raster wejściowy")
+plot(r, main = "Raster wygładzony")
+```
+
+Omówiliśmy tylko podstawowe i najczęściej stosowane funkcje do przetwarzania
+danych rastrowych. Pakiet **terra** oferuje ich zdecydowanie więcej (sprawdź
+dokumentację).
+
+## Dane wektorowe
+
+Wczytajmy dane wektorowe Luksemburgu wykorzystane na pierwszych zajęciach.
+
+```{r}
+sciezka = system.file("ex/lux.shp", package = "terra")
+wektor = vect(sciezka)
+wektor
+```
+
+Warto zauważyć, że funkcja `vect()` poza standardowym odczytem oferuje więcej
+zaawansowanych możliwości:
+
+* wczytanie określonego zakresu przestrzennego
+* wczytanie określonych warstw
+* wczytanie określonego rodzaju danych (geometrie lub atrybuty)
+* tworzenie zapytań bazodanowych (SQL)
+* stworzenie wskaźnika do pliku (*proxy*)
+
+Zasadniczo, do atrybutów warstwy wektorowej możemy odwołać się na dwa sposoby
+używając:
+
+* znaku dolara `$` -- zwraca wektor bez geometrii
+* nawiasu kwadratowego `[]` -- zwraca geometrię z wybranymi atrybutami
+
+```{r}
+wektor$NAME_2
+```
+
+```{r}
+wektor[, "NAME_2"]
+```
+
+Oprócz tego, możemy pozyskać wszystkie atrybuty w postaci ramki danych używając
+funkcji `as.data.frame()`.
+
+### Obliczanie powierzchni
+
+W celu obliczenia powierzchni poligonów należy zastosować funkcję `expanse()`.
+Ta funkcja automatycznie wykonuje obliczenia dla układów wyrażonych w stopniach,
+więc nie jest wymagana projekcja do planarnego układu współrzędnych. Można
+również określić jednostki, w których zwrócone będą wyniki przy pomocy argumentu
+`unit`.
+
+```{r}
+powierzchnia = expanse(wektor, unit = "km")
+data.frame(nazwa = wektor$NAME_2, powierzchnia)
+```
+
+### Generowanie punktów
+
+Można wygenerować punkty o rozkładzie regularnym (`method = "regular"`) lub
+losowych (`method = "random"`) na podstawie wejściowej geometrii używając
+funkcji `spatSample()`. Istnieje również możliwość próbkowania stratyfikowanego
+(wtedy dla każdego poligonu zostanie wygenerowanych $n$ punktów).
+
+```{r}
+proba = spatSample(wektor, size = 100, method = "random")
+plot(wektor)
+plot(proba, add = TRUE)
+```
+
+### Otoczka wypukła
+
+Otoczka wypukła jest najmniejszym wielokątem wypukłym ograniczającym dany zbiór punktów.
+Innymi słowy, jest to wielokąt, którego wierzchołki stanowią najbardziej zewnętrzne
+punkty zbioru. Do jej wygenerowania służy funkcja `convHull()`.
+
+```{r}
+otoczka = convHull(wektor)
+plot(wektor)
+plot(otoczka, add = TRUE, border = "red")
+```
+
+### Bufory
+
+Bufory można wygenerować wykorzystując funkcje `buffer()`. Bufory obliczane są
+dla każdej geometrii osobno, w związku z czym, jeśli chcemy stworzyć jeden bufor
+musimy zastosować funkcję agregującą geometrie, tj. `aggregate()`; łączy ona
+wiele geometrii w jedną. Funkcja `buffer()` wymaga wskazania odległości
+bufora (argument `width`) i należy odnotować, że:
+
+* domyślną jednostką długości dla układu geograficznego są metry (nie stopnie)
+* argument `width` jest zwektoryzowany, zatem można określić różne odległości
+dla kolejnych geometrii
+
+```{r}
+bufor = buffer(aggregate(wektor), width = 1000)
+plot(wektor)
+plot(bufor, add = TRUE, border = "red")
+```
+
+### Centroidy
+
+Centroid jest to punkt określający geometryczny środek wielokąta. Dla wielokątów
+wypukłych (tj. kąty takiej figury są mniejsze niż 180°) wyliczany jest na podstawie
+średniej arytmetycznej współrzędnych wierzchołków. Jego wyznaczenie jest możliwe
+używając funkcji `centroids()`. W przypadku wielokątów wklęsłych centroid może
+znajdować się poza obiektem, wtedy może zastosować argument `inside = TRUE`,
+który wymusi przybliżoną lokalizację wewnątrz obiektu.
+
+```{r}
+centroidy = centroids(wektor, inside = FALSE)
+centroidy_wewnatrz = centroids(wektor, inside = TRUE)
+plot(wektor)
+plot(centroidy, add = TRUE, col = "blue")
+plot(centroidy_wewnatrz, add = TRUE, col = "orange")
+```
+
+### Obliczanie odległości
+
+W kolejnym kroku możemy obliczyć jak oddalone są centroidy od siebie używając
+funkcję `distance()`. Wymieniona funkcja również automatycznie wykonuje obliczenia
+dla układów geograficznych (jednostki w stopniach) i wynik domyślnie zwracany
+jest w metrach. Jeśli podamy jeden argument w funkcji, to zostaną wyliczone
+odległości każdego obiektu z każdym.
+
+```{r}
+odleglosci = distance(centroidy)
+```
+
+Jako wynik otrzymujemy obiekt klasy `dist`, który reprezentuje jako wektor dolną
+połowę macierzy odległości. Wykorzystując funkcję `as.matrix()` możemy przetransformować
+ten obiekt do pełnej macierzy.
+
+```{r}
+macierz_odleglosci = as.matrix(odleglosci)
+macierz_odleglosci[1:5, 1:5]
+```
+
+Dla ułatwienia możemy również kolumnom i wierszom nadać nazwy jednostek
+administracyjnych.
+
+```{r}
+colnames(macierz_odleglosci) = rownames(macierz_odleglosci) = centroidy$NAME_2
+# View(macierz_odleglosci) # wyświetl
+```
+
+### Relacje przestrzenne
+
+Do określenia [relacji przestrzennych](https://en.wikipedia.org/wiki/DE-9IM)
+między obiektami służy funkcja `relate()`. Dla przykładu możemy sprawdzić
+czy poligon zawiera (`relation = "contains"`) wylosowany punkt. Jako wynik
+funkcji zwracana jest macierz z wartościami logicznymi.
+
+```{r}
+proba = spatSample(wektor, size = 5, method = "random")
+plot(wektor)
+plot(proba, add = TRUE)
+```
+
+```{r}
+relate(wektor, proba, relation = "contains")
+```
+
+W wierszach zawarte są jednostki administracyjne, natomiast w kolumnach
+wylosowane punkty.
+
+### Docinanie
+
+Podobnie jak w przypadku danych rastrowych, możemy zmniejszyć zasięg warstwy
+wektorowej używając funkcję `crop()`.
+
+```{r}
+zasieg = ext(c(5.9, 6.3, 49.6, 49.9))
+wektor_dociety = crop(wektor, zasieg)
+```
+
+```{r}
+plot(wektor)
+plot(wektor_dociety, add = TRUE, border = "red")
+```
+
+Alternatywnie docięcie można wykonać używając funkcji `intersect()`.
+
+### Reprojekcja
+
+Reprojekcja danych wektorowych wygląda identycznie tak jak w przypadku
+danych rastrowych.
+
+```{r}
+wektor_3857 = project(wektor, "EPSG:3857")
+```
+
+Oczywiście w tej sekcji zostały zaprezentowane jedynie wybrane funkcje do
+przetwarzania danych wektorowych.
+
+# Zadania
+
+1. Wczytaj plik `logo.tif` z pakietu i sprawdź jego metadane.
+
+2. Pobierz dowolnie wybrane przez siebie dane z [Natural Earth](https://www.naturalearthdata.com/downloads/)
+i przygotuj wizualizację. Funkcje `download.file()` oraz `unzip()` mogą być
+przydatne w tym celu.
+
+3. Z portalu [OpenTopography](https://opentopography.org/) pobierz numeryczny
+model pokrycia terenu (np. NASADEM lub SRTM) dla małego fragmentu Polski i
+wykonaj następujące czynności:
+
+* sprawdź metadane pobranego rastra i wyświetl go
+* transformuj układ współrzędnych do `EPSG:2180`
+* przytnij raster do zmniejszonego zasięgu przestrzennego
+* wygładź wartości używając średniej arytmetycznej w oknie ruchomym
+* oblicz statystyki rastra, tj. wartość minimalna i maksymalna, średnia
+oraz odchylenie standardowe
+* zapisz raster na dysku z kompresją LZW
+
+4. Pobierz granice powiatów (np. z Geoportalu), następnie wylicz ich centroidy
+i wskaż te powiaty, które są położone najbliżej i najdalej. Wskazówki: (1)
+Odległość obiektu od samego siebie wynosi 0 m i trzeba to wykluczyć. (2) Do
+znalezienia indeksu o minimalnej lub maksymalnej wartości można wykorzystać
+funkcje `which()` z argumentem `arr.ind = TRUE`.
+
+    Zastanów się również jak na wyniki analizy wpływają miasta na prawach powiatu
+    oraz [eksklawy powiatów](https://pl.wikipedia.org/wiki/Eksklawa#Powiaty).
+
+5. W katalogu `dane` znajdziesz 10 warstw rastrowych. Sprawdź ich metadane i
+dokonaj ich harmonizacji, aby móc wczytać je jako jeden raster wielokanałowy.
