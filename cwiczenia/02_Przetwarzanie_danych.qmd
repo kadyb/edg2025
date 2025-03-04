@@ -13,7 +13,13 @@ format:
         href: https://github.com/kadyb/edg2025
 ---
 
+```{r}
+# instalacja pakietu
+# install.packages("terra")
+```
+
 ```{r message=FALSE}
+# wczytanie pakietu
 library("terra")
 ```
 
