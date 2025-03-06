@@ -18,7 +18,9 @@ format:
 # install.packages("terra")
 ```
 
-```{r message=FALSE}
+```{r}
+#| message: false
+
 # wczytanie pakietu
 library("terra")
 ```
