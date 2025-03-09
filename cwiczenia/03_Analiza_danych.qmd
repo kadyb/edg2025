@@ -1,0 +1,270 @@
+---
+title: "Eksploracja danych geoprzestrzennych"
+subtitle: "Analiza danych"
+author: "Krzysztof Dyba"
+format:
+  html:
+    toc: true
+    toc-title: " "
+    embed-resources: true
+    code-links:
+      - text: Repozytorium
+        icon: github
+        href: https://github.com/kadyb/edg2025
+---
+
+```{r}
+# ziarno losowości
+set.seed(1)
+```
+
+# Rozkład danych
+
+Rozkład danych opisuje w jaki sposób wartości w zbiorze są zorganizowane.
+Zrozumienie rozkładów ma kluczowe znaczenie dla interpretacji danych, wyboru
+odpowiednich metod statystycznych i wyciągnięcia wniosków. Testy i modele
+statystyczne opierają się na założeniach związanych z rozkładem wartości
+analizowanych zmiennych. Użycie niewłaściwej metody dla danego rozkładu może
+prowadzić do błędnych wyników, a finalnie wniosków.
+
+## Rodzaje rozkładów
+
+Istnieje kilka podstawowych rodzajów rozkładu danych, w tym:
+
+- Rozkład normalny (rozkład Gaussa) -- kształt przypomina dzwon i jest
+symetryczny wokół średniej. Odchylenie standardowe określa rozrzut od średniej.
+Średnia, mediana i moda są równe.
+- Rozkład jednostajny -- ma płaski kształt i wszystkie wartości mają identyczne
+prawdopodobieństwo wystąpienia. Średnia i mediana są równe.
+- Rozkład dwumodalny -- posiada dwa odrębne szczyty (mody), co może wskazywać
+na występowanie dwóch różnych podgrup lub procesów. W tym przypadku, średnia
+i mediana nie są zbyt przydatne.
+- Rozkład skośne -- rozkład asymetryczny z większością wartości skupioną po
+jednej stronie. Może być prawoskośny, wtedy: `średnia > mediana > moda` lub
+lewoskośny, wtedy: `średnia < mediana < moda`.
+
+### Rozkład normalny
+
+```{r}
+data = rnorm(1000, mean = 0, sd = 1)
+
+hist(data, main = "Rozkład normalny", xlab = NULL, ylab = "Częstość")
+abline(v = 0, col = "red", lty = 1) # średnia
+abline(v = c(-1, 1), col = "orange", lty = 2) # 1 odchylenie standardowe (68%)
+```
+
+### Rozkład jednostajny
+
+```{r}
+data = runif(1000, min = 0, max = 10)
+
+hist(data, main = "Rozkład jednostajny", xlab = NULL, ylab = "Częstość")
+```
+
+### Rozkład dwumodalny
+
+```{r}
+data1 = rnorm(1000, mean = 5, sd = 1) # pierwsza grupa
+data2 = rnorm(1000, mean = 10, sd = 1) # druga grupa
+bimodal_data = c(data1, data2)
+
+hist(bimodal_data, main = "Rozkład dwumodalny", xlab = NULL, ylab = "Częstość")
+abline(v = 5, col = "red")
+abline(v = 10, col = "red")
+```
+
+### Rozkład skośny
+
+```{r}
+# rozkład prawoskośny (rozkład wykładniczy)
+right_skew_data = rexp(1000, rate = 0.5)
+# rozkład lewoskośny (rozkład beta)
+left_skew_data = rbeta(1000, 5, 2)
+
+par(mfrow = c(1, 2))
+hist(right_skew_data, main = "Rozkład prawoskośny", xlab = NULL, ylab = "Częstość")
+hist(left_skew_data, main = "Rozkład lewoskośny", xlab = NULL, ylab = NULL)
+```
+
+# Rozkład normalny
+
+Rozkład normalny jest fundamentem statysytki, ponieważ jest symetryczny i ma
+dobrze zdefiniowane właściwości (tj. 68% danych mieści się w zakresie 1
+odchylenia standardowego od średniej, 95% w zakresie 2 itd.), dzięki czemu
+przewidywanie prawdopodobieństwa i przedziałów ufności jest prostsze.
+
+Co więcej, centralne twierdzenie graniczne głosi, iż rozkład średniej z próby
+wystarczająco dużej liczby niezależnych zmiennych losowych będzie zbliżony do
+rozkładu normalnego bez względu od rozkładu bazowego. Wiele testów parametrycznych
+(np. t-test, ANOVA) czy regresja liniowa, zakładają, że dane lub reszty mają
+rozkład normalny. Jeśli dane znacznie odbiegają od rozkładu normalnego, metody
+te mogą dawać błędne wyniki. Niemniej, istnieją także alternatywy nieparametryczne
+dla innych rozkładów.
+
+## Testowanie normalności rozkładu
+
+Do określenia czy dane mają rozkład normalny, można użyć metod wizualnych
+(histogram, wykres gęstości czy wykres kwantyl-kwantyl) lub testów statystycznych.
+Możemy wykorzystać test Shapiro-Wilka sprawdzający hipotezę zerową czy dane
+mają rozkład normalny lub test Kołmogorowa-Smirnowa porównujący empiryczny
+rozkład danych z rozkładem normalnym. Metody wizualne powinny zawsze uzupełniać
+testy statystyczne, ponieważ są bardziej odporne na odchylenia od normy.
+
+### Test Shapiro-Wilka
+
+Test Shapiro-Wilka posiada ograniczenie maksymalnej liczby obserwacji, która
+wynosi 5000.
+
+```{r}
+data = rnorm(1000, mean = 0, sd = 1)
+shapiro.test(data)
+```
+
+Wartość p jest poniżej 0,05, więc nie możemy odrzucić hipotezy zerowej, że
+dane mają rozkład zbliżony do normalnego. W uproszczeniu mówiąc, wartość p
+większa od 0,05 sugeruje, że dane mogą mieć rozkład normalny.
+
+```{r}
+data = runif(1000, min = 0, max = 10)
+shapiro.test(data)
+```
+
+Wartość p jest mniejsza niż 0,05, więc możemy odrzucić hipotezę zerową, że dane
+mają rozkład zbliżony do normalnego.
+
+### Test Kołmogorowa-Smirnowa
+
+Interpretacja testu Kołmogorowa-Smirnowa jest identyczna jak w przypadu testu
+Shapiro-Wilka. Jeśli wartość p jest większa od 0,05, to prawdopodobnie mamy
+do czynienia z rozkładem zmiennej zbliżonym do normalnego.
+
+```{r}
+data = rnorm(1000, mean = 0, sd = 1)
+ks.test(data, "pnorm", mean = mean(data), sd = sd(data))
+```
+
+## Transformacja danych
+
+Jeśli zmienna nie ma rozkładu zbliżonego do normalnego, to możemy podjąć
+próbę jej transformacji, co potencjalnie pomoże spełnić wymagania testów
+parametrycznych i modeli liniowych, zmniejszy wpływ skośności oraz wartości
+odstających, a także zwiększy liniowość relacji między zmiennymi. Jednak,
+należy mieć na uwadze, iż transformacja nie zawsze pomaga w przypadku trudnych
+rozkładów (w takiej sytuacji przydatne są testy nieparametryczne oraz modele
+nieliniowe czy uczenia maszynowego). Warto także wypróbować różne transformacje,
+aby sprawdzić, która z nich daje najlepsze wyniki.
+
+Podczas interpretacji wyników należy dokonać transformacji wstecznej do oryginalnej
+skali wartości. Jeśli do transformacji wykorzystałeś logarytm, to operacją odwrotną
+jest funkcja wykładnicza.
+
+### Pierwiastek
+
+Pierwiastkowania nie można stosować do wartości ujemnych.
+
+```{r}
+data_sqrt = sqrt(right_skew_data)
+
+par(mfrow = c(1, 2))
+hist(right_skew_data, main = "Rozkład prawoskośny", xlab = NULL, ylab = "Częstość")
+hist(data_sqrt, main = "Transformacja pierwiastkowa", xlab = NULL, ylab = NULL)
+```
+
+### Logarytm
+
+Logarytmowania nie można przeprowadzić dla danych z wartościami zerowymi lub
+ujemnymi. W przypadku zer, można dodać bardzo małą wartość przed obliczeniem
+logarytmu, np. 0,000001.
+
+```{r}
+data_log = log(right_skew_data)
+
+par(mfrow = c(1, 2))
+hist(right_skew_data, main = "Rozkład prawoskośny", xlab = NULL, ylab = "Częstość")
+hist(data_log, main = "Transformacja logarytmiczna", xlab = NULL, ylab = NULL)
+```
+
+### Potęga
+
+```{r}
+data_pow = left_skew_data^2
+
+par(mfrow = c(1, 2))
+hist(left_skew_data, main = "Rozkład lewoskośny", xlab = NULL, ylab = "Częstość")
+hist(data_pow, main = "Transformacja potęgowa", xlab = NULL, ylab = NULL)
+```
+
+### Box-Cox
+
+Podobnie jak transformacja logarytmiczna, transformacja Boxa-Coxa nie działa
+w przypadku wartości poniżej i równych zero. Funkcja dostępna jest w wielu
+pakietach, np. w [bestNormalize](https://petersonr.github.io/bestNormalize/).
+
+```{r}
+#| message: false
+library("bestNormalize")
+data_boxcox = boxcox(right_skew_data, standardize = FALSE)
+```
+
+```{r}
+par(mfrow = c(1, 2))
+hist(right_skew_data, main = "Rozkład prawoskośny", xlab = NULL, ylab = "Częstość")
+hist(data_boxcox$x.t, main = "Transformacja Boxa-Coxa", xlab = NULL, ylab = NULL)
+```
+
+### Yeo-Johnson
+
+Transformacja Yeo-Johnsona jest rozszerzeniem transformacji Boxa-Coxa dla liczb
+ujemnych i równych zero. Funkcja dostępna jest w wielu pakietach, np.
+w [bestNormalize](https://petersonr.github.io/bestNormalize/).
+
+```{r}
+#| message: false
+library("bestNormalize")
+data_yeo = yeojohnson(right_skew_data, standardize = FALSE)
+```
+
+```{r}
+par(mfrow = c(1, 2))
+hist(right_skew_data, main = "Rozkład prawoskośny", xlab = NULL, ylab = "Częstość")
+hist(data_yeo$x.t, main = "Transformacja Yeo-Johnsona", xlab = NULL, ylab = NULL)
+```
+# Zależności między zmiennymi
+
+Określenie związku pomiędzy zmiennymi jest istotne, ponieważ pozwala podjąć
+decyzję, które zmienne uwzględnić w modelu ze względu na ich wzajemne powiązanie,
+jak i wynik modelowania (tj. które zmienne są najistotniejsze). Oprócz tego,
+możemy uniknąć redundancji informacji poprzez wykluczenie mocno skorelowanych
+ze sobą zmiennych, dzięki czemu interpretacja działania modelu będzie prostsza
+i zwiększy się wydajność obliczeń.
+
+Związek może występować między zmiennymi numerycznymi oraz kategorycznymi.
+W zależności od ich typu stosuje się różne metody analityczne. W przypadku
+zmiennych numerycznych do wizualizacji zależności można wykorzystać wykres
+rozrzutu, który pokaże czy istnieje zależność liniowa lub nieliniowa oraz
+kierunek (dodatni lub ujemny). Natomiast, podejście ilościowe polega na
+wykorzystaniu testów korelacji, które umożliwiają wyliczenia współczynnika
+korelacji oraz testowanie hipotez.
+
+## Testy korelacji
+
+Pamiętaj, że korelacja nie oznacza związku przyczynowo-skutkowego, a istotność
+statystyczna nie zawsze przekłada się na praktyczne zastosowanie.
+
+## Macierz korelacji
+
+```{r}
+#| message: false
+library("corrplot")
+```
+
+
+# Zadanie
+
+Dokonaj eksploracyjnej analizy danych zbioru zamieszczonego w katalogu `dane`.
+W szczególności sprawdź statystyki opisowe, wartości odstające, brakujące wartości,
+rozkłady wartości oraz korelacje pomiędzy zmiennymi. W tym celu wykorzystaj
+poznane techniki wizualne oraz opisowe. Dane należy wczytać jako raster
+wielokanałowy uprzednio dokonując harmonizacji danych. Wartości oblicz dla próby
+(pamiętaj, aby ustawić ziarno losowości). Finalnie, przedstaw wnioski w formie
+raportu wynikające z przeprowadzonej analizy.
