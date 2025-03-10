@@ -88,7 +88,7 @@ hist(left_skew_data, main = "Rozkład lewoskośny", xlab = NULL, ylab = NULL)
 
 # Rozkład normalny
 
-Rozkład normalny jest fundamentem statysytki, ponieważ jest symetryczny i ma
+Rozkład normalny jest fundamentem statystyki, ponieważ jest symetryczny i ma
 dobrze zdefiniowane właściwości (tj. 68% danych mieści się w zakresie 1
 odchylenia standardowego od średniej, 95% w zakresie 2 itd.), dzięki czemu
 przewidywanie prawdopodobieństwa i przedziałów ufności jest prostsze.
@@ -134,7 +134,7 @@ mają rozkład zbliżony do normalnego.
 
 ### Test Kołmogorowa-Smirnowa
 
-Interpretacja testu Kołmogorowa-Smirnowa jest identyczna jak w przypadu testu
+Interpretacja testu Kołmogorowa-Smirnowa jest identyczna jak w przypadku testu
 Shapiro-Wilka. Jeśli wartość p jest większa od 0,05, to prawdopodobnie mamy
 do czynienia z rozkładem zmiennej zbliżonym do normalnego.
 
@@ -263,7 +263,7 @@ iris = iris
 ```
 
 Analizę zależności pomiędzy zmiennymi możemy rozpocząć od eksploracji wizualnej.
-W tym celu wykorzystamy funkcję `pairs()`, która stowrzy macierz wykresów
+W tym celu wykorzystamy funkcję `pairs()`, która stworzy macierz wykresów
 rozrzutu wszystkich zmiennych.
 
 ```{r}
@@ -310,7 +310,7 @@ cor_mat = cor(iris[, 1:4], method = "pearson")
 corrplot(cor_mat, method = "number")
 ```
 
-Rycinę możemy zmodyfikować tak, aby pominąć współczynniki korelacji nieistone
+Rycinę możemy zmodyfikować tak, aby pominąć współczynniki korelacji nieistotne
 statystycznie i wyświetlić tylko dolną część macierzy.
 
 ```{r}
