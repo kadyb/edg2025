@@ -244,20 +244,80 @@ zmiennych numerycznych do wizualizacji zależności można wykorzystać wykres
 rozrzutu, który pokaże czy istnieje zależność liniowa lub nieliniowa oraz
 kierunek (dodatni lub ujemny). Natomiast, podejście ilościowe polega na
 wykorzystaniu testów korelacji, które umożliwiają wyliczenia współczynnika
-korelacji oraz testowanie hipotez.
+korelacji (siły) oraz istotności statystycznej.
 
 ## Testy korelacji
+
+Możemy wyróżnić dwa podstawowe rodzaje testów korelacji:
+
+1. Parametryczny -- zakłada liniową zależność pomiędzy zmiennymi oraz rozkład
+normalny (test Pearsona). Jest wrażliwy na wartości odstające.
+2. Nieparametryczny -- zakłada monotoniczną zależność pomiędzy zmiennymi
+niekoniecznie liniową (test Spearmana i Kendalla).
+
+Użyjmy przykładowego zestawu danych `iris`, aby przećwiczyć testowanie korelacji
+w praktyce.
+
+```{r}
+iris = iris
+```
+
+Analizę zależności pomiędzy zmiennymi możemy rozpocząć od eksploracji wizualnej.
+W tym celu wykorzystamy funkcję `pairs()`, która stowrzy macierz wykresów
+rozrzutu wszystkich zmiennych.
+
+```{r}
+pairs(iris[, 1:4], col = iris$Species, pch = 19)
+```
+
+Od razu możemy zauważyć, że wartości zmiennych `Petal.Length` oraz `Petal.Width`
+układają się w rosnącą linię, co może świadczyć o dodatniej korelacji.
+Wykonajmy odpowiedni test, który potwierdzi naszą hipotezę, używając funkcji
+`cor.test()`.
+
+```{r}
+cor.test(iris$Petal.Length, iris$Petal.Width, method = "pearson")
+```
+
+Współczynnik korelacji liniowej Pearsona wynosi około 0,96, co świadczy o
+wysokiej dodatniej korelacji. Natomiast, wartość p poniżej 0,05 sugeruje, że
+jest ona istotna statystycznie.
+
+```{r}
+cor.test(iris$Sepal.Length, iris$Sepal.Width, method = "pearson")
+```
+
+W przypadku zmiennych `Sepal.Length` oraz `Sepal.Width` nie można zauważyć,
+żeby wartości tworzyły jakiś znaczący wzorzec. Współczynnik korelacji
+obliczony z testu ma niską wartość wynoszącą około -0,12 oraz nie jest istotny
+statystycznie, ponieważ wartość p jest większa od 0,05.
 
 Pamiętaj, że korelacja nie oznacza związku przyczynowo-skutkowego, a istotność
 statystyczna nie zawsze przekłada się na praktyczne zastosowanie.
 
 ## Macierz korelacji
 
+Istnieje również możliwość przedstawienia współczynników korelacji w formie
+wizualnej jako macierz korelacji za pomocą pakietu [corrplot](https://github.com/taiyun/corrplot).
+
 ```{r}
 #| message: false
 library("corrplot")
 ```
 
+```{r}
+cor_mat = cor(iris[, 1:4], method = "pearson")
+corrplot(cor_mat, method = "number")
+```
+
+Rycinę możemy zmodyfikować tak, aby pominąć współczynniki korelacji nieistone
+statystycznie i wyświetlić tylko dolną część macierzy.
+
+```{r}
+testRes = cor.mtest(iris[, 1:4], conf.level = 0.95)
+corrplot(cor_mat, p.mat = testRes$p, method = "circle", type = "lower",
+         insig = "blank", addCoef.col = "black", diag = FALSE)
+```
 
 # Zadanie
 
@@ -267,4 +327,4 @@ rozkłady wartości oraz korelacje pomiędzy zmiennymi. W tym celu wykorzystaj
 poznane techniki wizualne oraz opisowe. Dane należy wczytać jako raster
 wielokanałowy uprzednio dokonując harmonizacji danych. Wartości oblicz dla próby
 (pamiętaj, aby ustawić ziarno losowości). Finalnie, przedstaw wnioski w formie
-raportu wynikające z przeprowadzonej analizy.
+raportu (Quarto lub Markdown) wynikające z przeprowadzonej analizy.
