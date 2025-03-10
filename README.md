@@ -43,7 +43,7 @@ Dokumentację do tego pakietu znajdziesz tutaj: <https://rspatial.github.io/terr
 
 1. [Wprowadzenie do R](https://kadyb.github.io/edg2025/cwiczenia/01_Wprowadzenie_do_R.html)
 2. [Przetwarzanie danych przestrzennych](https://kadyb.github.io/edg2025/cwiczenia/02_Przetwarzanie_danych.html)
-3. Analiza danych
+3. [Analiza danych](https://kadyb.github.io/edg2025/cwiczenia/03_Analiza_danych.html)
 
 # Materiały dodatkowe
 
