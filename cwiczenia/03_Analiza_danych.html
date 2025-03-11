@@ -3233,11 +3233,11 @@ window.Quarto = {
   <li><a href="#rozkład-skośny" id="toc-rozkład-skośny" class="nav-link" data-scroll-target="#rozkład-skośny">Rozkład skośny</a></li>
   </ul></li>
   </ul></li>
+  <li><a href="#testowanie-hipotez" id="toc-testowanie-hipotez" class="nav-link" data-scroll-target="#testowanie-hipotez">Testowanie hipotez</a></li>
   <li><a href="#rozkład-normalny-1" id="toc-rozkład-normalny-1" class="nav-link" data-scroll-target="#rozkład-normalny-1">Rozkład normalny</a>
   <ul class="collapse">
   <li><a href="#testowanie-normalności-rozkładu" id="toc-testowanie-normalności-rozkładu" class="nav-link" data-scroll-target="#testowanie-normalności-rozkładu">Testowanie normalności rozkładu</a>
   <ul class="collapse">
-  <li><a href="#testowanie-hipotez" id="toc-testowanie-hipotez" class="nav-link" data-scroll-target="#testowanie-hipotez">Testowanie hipotez</a></li>
   <li><a href="#test-shapiro-wilka" id="toc-test-shapiro-wilka" class="nav-link" data-scroll-target="#test-shapiro-wilka">Test Shapiro-Wilka</a></li>
   <li><a href="#test-kołmogorowa-smirnowa" id="toc-test-kołmogorowa-smirnowa" class="nav-link" data-scroll-target="#test-kołmogorowa-smirnowa">Test Kołmogorowa-Smirnowa</a></li>
   </ul></li>
@@ -3376,15 +3376,8 @@ window.Quarto = {
 </section>
 </section>
 </section>
-<section id="rozkład-normalny-1" class="level1">
-<h1>Rozkład normalny</h1>
-<p>Rozkład normalny jest fundamentem statystyki, ponieważ jest symetryczny i ma dobrze zdefiniowane właściwości (tj. 68% danych mieści się w zakresie 1 odchylenia standardowego od średniej, 95% w zakresie 2 itd.), dzięki czemu przewidywanie prawdopodobieństwa i przedziałów ufności jest prostsze.</p>
-<p>Co więcej, centralne twierdzenie graniczne głosi, iż rozkład średniej z próby wystarczająco dużej liczby niezależnych zmiennych losowych będzie zbliżony do rozkładu normalnego bez względu od rozkładu bazowego. Wiele testów parametrycznych (np. t-test, ANOVA) czy regresja liniowa, zakładają, że dane lub reszty mają rozkład normalny. Jeśli dane znacznie odbiegają od rozkładu normalnego, metody te mogą dawać błędne wyniki. Niemniej, istnieją także alternatywy nieparametryczne dla innych rozkładów.</p>
-<section id="testowanie-normalności-rozkładu" class="level2">
-<h2 class="anchored" data-anchor-id="testowanie-normalności-rozkładu">Testowanie normalności rozkładu</h2>
-<p>Do określenia czy dane mają rozkład normalny, można użyć metod wizualnych (histogram, wykres gęstości czy wykres kwantyl-kwantyl) lub testów statystycznych. Możemy wykorzystać test Shapiro-Wilka sprawdzający hipotezę zerową czy dane mają rozkład normalny lub test Kołmogorowa-Smirnowa porównujący empiryczny rozkład danych z rozkładem normalnym. Metody wizualne powinny zawsze uzupełniać testy statystyczne, ponieważ są bardziej odporne na odchylenia od normy.</p>
-<section id="testowanie-hipotez" class="level3">
-<h3 class="anchored" data-anchor-id="testowanie-hipotez">Testowanie hipotez</h3>
+<section id="testowanie-hipotez" class="level1">
+<h1>Testowanie hipotez</h1>
 <p>Testowanie hipotez to metoda podejmowania decyzji lub wyciągania wniosków dotyczących populacji na podstawie mniejszej próby. Polega ono na weryfikacji pewnego założenia (hipotezy) w wyniku czego można je potwierdzić lub obalić.</p>
 <p>Na początku zdefiniowane są dwie przeciwstawne hipotezy:</p>
 <ol type="1">
@@ -3399,6 +3392,13 @@ window.Quarto = {
 </ul>
 <p>Co ważne, wartość <span class="math inline">\(p\)</span> nie mierzy wielkości ani praktycznego wpływu efektu. Efekt może być istotny statystycznie, ale mały.</p>
 </section>
+<section id="rozkład-normalny-1" class="level1">
+<h1>Rozkład normalny</h1>
+<p>Rozkład normalny jest fundamentem statystyki, ponieważ jest symetryczny i ma dobrze zdefiniowane właściwości (tj. 68% danych mieści się w zakresie 1 odchylenia standardowego od średniej, 95% w zakresie 2 itd.), dzięki czemu przewidywanie prawdopodobieństwa i przedziałów ufności jest prostsze.</p>
+<p>Co więcej, centralne twierdzenie graniczne głosi, iż rozkład średniej z próby wystarczająco dużej liczby niezależnych zmiennych losowych będzie zbliżony do rozkładu normalnego bez względu od rozkładu bazowego. Wiele testów parametrycznych (np. t-test, ANOVA) czy regresja liniowa, zakładają, że dane lub reszty mają rozkład normalny. Jeśli dane znacznie odbiegają od rozkładu normalnego, metody te mogą dawać błędne wyniki. Niemniej, istnieją także alternatywy nieparametryczne dla innych rozkładów.</p>
+<section id="testowanie-normalności-rozkładu" class="level2">
+<h2 class="anchored" data-anchor-id="testowanie-normalności-rozkładu">Testowanie normalności rozkładu</h2>
+<p>Do określenia czy dane mają rozkład normalny, można użyć metod wizualnych (histogram, wykres gęstości czy wykres kwantyl-kwantyl) lub testów statystycznych. Możemy wykorzystać test Shapiro-Wilka sprawdzający hipotezę zerową czy dane mają rozkład normalny lub test Kołmogorowa-Smirnowa porównujący empiryczny rozkład danych z rozkładem normalnym. Metody wizualne powinny zawsze uzupełniać testy statystyczne, ponieważ są bardziej odporne na odchylenia od normy.</p>
 <section id="test-shapiro-wilka" class="level3">
 <h3 class="anchored" data-anchor-id="test-shapiro-wilka">Test Shapiro-Wilka</h3>
 <p>Hipotezą zerową (<span class="math inline">\(H_0\)</span>) testu Shapiro-Wilka jest założenie, że dane pochodzą z populacji o rozkładzie normalnym (tj. wartości mają rozkład normalny). To założeniem chcemy obalić, wtedy przyjmiemy hipotezę alternatywną (<span class="math inline">\(H_1\)</span>), która sugeruje, że dane nie mają rozkładu normalnego. Ograniczeniem tego testu jest maksymalna liczba obserwacji, która wynosi 5000.</p>

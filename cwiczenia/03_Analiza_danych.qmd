@@ -86,31 +86,7 @@ hist(right_skew_data, main = "Rozkład prawoskośny", xlab = NULL, ylab = "Częs
 hist(left_skew_data, main = "Rozkład lewoskośny", xlab = NULL, ylab = NULL)
 ```
 
-# Rozkład normalny
-
-Rozkład normalny jest fundamentem statystyki, ponieważ jest symetryczny i ma
-dobrze zdefiniowane właściwości (tj. 68% danych mieści się w zakresie 1
-odchylenia standardowego od średniej, 95% w zakresie 2 itd.), dzięki czemu
-przewidywanie prawdopodobieństwa i przedziałów ufności jest prostsze.
-
-Co więcej, centralne twierdzenie graniczne głosi, iż rozkład średniej z próby
-wystarczająco dużej liczby niezależnych zmiennych losowych będzie zbliżony do
-rozkładu normalnego bez względu od rozkładu bazowego. Wiele testów parametrycznych
-(np. t-test, ANOVA) czy regresja liniowa, zakładają, że dane lub reszty mają
-rozkład normalny. Jeśli dane znacznie odbiegają od rozkładu normalnego, metody
-te mogą dawać błędne wyniki. Niemniej, istnieją także alternatywy nieparametryczne
-dla innych rozkładów.
-
-## Testowanie normalności rozkładu
-
-Do określenia czy dane mają rozkład normalny, można użyć metod wizualnych
-(histogram, wykres gęstości czy wykres kwantyl-kwantyl) lub testów statystycznych.
-Możemy wykorzystać test Shapiro-Wilka sprawdzający hipotezę zerową czy dane
-mają rozkład normalny lub test Kołmogorowa-Smirnowa porównujący empiryczny
-rozkład danych z rozkładem normalnym. Metody wizualne powinny zawsze uzupełniać
-testy statystyczne, ponieważ są bardziej odporne na odchylenia od normy.
-
-### Testowanie hipotez
+# Testowanie hipotez
 
 Testowanie hipotez to metoda podejmowania decyzji lub wyciągania wniosków
 dotyczących populacji na podstawie mniejszej próby. Polega ono na weryfikacji
@@ -146,6 +122,30 @@ dowodów na jej obalenie.
 
 Co ważne, wartość $p$ nie mierzy wielkości ani praktycznego wpływu efektu.
 Efekt może być istotny statystycznie, ale mały.
+
+# Rozkład normalny
+
+Rozkład normalny jest fundamentem statystyki, ponieważ jest symetryczny i ma
+dobrze zdefiniowane właściwości (tj. 68% danych mieści się w zakresie 1
+odchylenia standardowego od średniej, 95% w zakresie 2 itd.), dzięki czemu
+przewidywanie prawdopodobieństwa i przedziałów ufności jest prostsze.
+
+Co więcej, centralne twierdzenie graniczne głosi, iż rozkład średniej z próby
+wystarczająco dużej liczby niezależnych zmiennych losowych będzie zbliżony do
+rozkładu normalnego bez względu od rozkładu bazowego. Wiele testów parametrycznych
+(np. t-test, ANOVA) czy regresja liniowa, zakładają, że dane lub reszty mają
+rozkład normalny. Jeśli dane znacznie odbiegają od rozkładu normalnego, metody
+te mogą dawać błędne wyniki. Niemniej, istnieją także alternatywy nieparametryczne
+dla innych rozkładów.
+
+## Testowanie normalności rozkładu
+
+Do określenia czy dane mają rozkład normalny, można użyć metod wizualnych
+(histogram, wykres gęstości czy wykres kwantyl-kwantyl) lub testów statystycznych.
+Możemy wykorzystać test Shapiro-Wilka sprawdzający hipotezę zerową czy dane
+mają rozkład normalny lub test Kołmogorowa-Smirnowa porównujący empiryczny
+rozkład danych z rozkładem normalnym. Metody wizualne powinny zawsze uzupełniać
+testy statystyczne, ponieważ są bardziej odporne na odchylenia od normy.
 
 ### Test Shapiro-Wilka
 
