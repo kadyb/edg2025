@@ -110,18 +110,58 @@ mają rozkład normalny lub test Kołmogorowa-Smirnowa porównujący empiryczny
 rozkład danych z rozkładem normalnym. Metody wizualne powinny zawsze uzupełniać
 testy statystyczne, ponieważ są bardziej odporne na odchylenia od normy.
 
+### Testowanie hipotez
+
+Testowanie hipotez to metoda podejmowania decyzji lub wyciągania wniosków
+dotyczących populacji na podstawie mniejszej próby. Polega ono na weryfikacji
+pewnego założenia (hipotezy) w wyniku czego można je potwierdzić lub obalić.
+
+Na początku zdefiniowane są dwie przeciwstawne hipotezy:
+
+1. Hipoteza zerowa ($H_0$) -- domyślne założenie stwierdzające brak efektu,
+brak różnicy czy brak związku. Tę hipotezę staramy się obalić.
+2. Hipoteza alternatywna ($H_1$) -- zaprzeczenie hipotezy zerowej, czyli
+stwierdzenie istnienia efektu, różnicy czy związku. Podejrzewamy, że ta
+hipoteza może być prawdziwa i próbujemy ją potwierdzić poprzez obalenie
+hipotezy zerowej.
+
+Następnie musimy określić poziom istotności testu ($\alpha$), czyli wartość
+progową (zazwyczaj przyjmuje się wartość 0,05 lub 0,01), która definiuje
+prawdopodobieństwo odrzucenia hipotezy zerowej ($H_0$), gdy jest ona prawdziwa.
+Wiąże się to z pewnym ryzykiem, że odrzuciliśmy właściwą hipotezę.
+
+W finalnym etapie wykonujemy test statystyczny, z którego zwracane jest
+prawdopodobieństwo testowe nazywane wartością $p$ (*p-value*) zakładające,
+że hipoteza zerowa ($H_0$) jest prawdziwa. Najważniejszym zadaniem jest
+porównanie założonego poziomu istotności testu ($\alpha$) z otrzymaną wartością
+$p$:
+
+- Jeśli wartość $p \leq \alpha$, to odrzucamy hipotezę zerową ($H_0$).
+Oznacza to, że wynik jest istotny statystycznie, co sugeruje, że hipoteza
+alternatywna ($H_1$) jest bardziej prawdopodobna. Jednak nie dowodzi tego
+bezpośrednio.
+- Jeśli $p > \alpha$, to nie możemy odrzucić hipotezy zerowej ($H_0$).
+Oznacza to, że wynik nie jest statystycznie istotny i nie ma wystarczających
+dowodów na jej obalenie.
+
+Co ważne, wartość $p$ nie mierzy wielkości ani praktycznego wpływu efektu.
+Efekt może być istotny statystycznie, ale mały.
+
 ### Test Shapiro-Wilka
 
-Test Shapiro-Wilka posiada ograniczenie maksymalnej liczby obserwacji, która
-wynosi 5000.
+Hipotezą zerową ($H_0$) testu Shapiro-Wilka jest założenie, że dane pochodzą z
+populacji o rozkładzie normalnym (tj. wartości mają rozkład normalny). To
+założeniem chcemy obalić, wtedy przyjmiemy hipotezę alternatywną ($H_1$), która
+sugeruje, że dane nie mają rozkładu normalnego. Ograniczeniem tego testu jest
+maksymalna liczba obserwacji, która wynosi 5000.
 
 ```{r}
 data = rnorm(1000, mean = 0, sd = 1)
 shapiro.test(data)
 ```
 
-Wartość p jest poniżej 0,05, więc nie możemy odrzucić hipotezy zerowej, że
-dane mają rozkład zbliżony do normalnego. W uproszczeniu mówiąc, wartość p
+Wartość $p$ jest powyżej 0,05, więc nie możemy odrzucić hipotezy zerowej ($H_0$),
+że dane mają rozkład zbliżony do normalnego. W uproszczeniu mówiąc, wartość $p$
 większa od 0,05 sugeruje, że dane mogą mieć rozkład normalny.
 
 ```{r}
@@ -129,14 +169,17 @@ data = runif(1000, min = 0, max = 10)
 shapiro.test(data)
 ```
 
-Wartość p jest mniejsza niż 0,05, więc możemy odrzucić hipotezę zerową, że dane
-mają rozkład zbliżony do normalnego.
+Wartość $p$ jest mniejsza niż 0,05, więc możemy odrzucić hipotezę zerową ($H_0$),
+że dane mają rozkład zbliżony do normalnego, przyjmując hipotezę alternatywną
+($H_1$). W powyższym przykładzie rozkład jest jednostajny.
 
 ### Test Kołmogorowa-Smirnowa
 
 Interpretacja testu Kołmogorowa-Smirnowa jest identyczna jak w przypadku testu
-Shapiro-Wilka. Jeśli wartość p jest większa od 0,05, to prawdopodobnie mamy
-do czynienia z rozkładem zmiennej zbliżonym do normalnego.
+Shapiro-Wilka. Hipoteza zerowa ($H_0$) zakłada, że próba pochodzi z określonego
+rozkładu, w tym przypadku rozkładu normalnego `pnorm`. Jeśli wartość $p$ jest
+większa od 0,05, to prawdopodobnie mamy do czynienia z rozkładem zmiennej
+zbliżonym do normalnego.
 
 ```{r}
 data = rnorm(1000, mean = 0, sd = 1)
@@ -273,14 +316,16 @@ pairs(iris[, 1:4], col = iris$Species, pch = 19)
 Od razu możemy zauważyć, że wartości zmiennych `Petal.Length` oraz `Petal.Width`
 układają się w rosnącą linię, co może świadczyć o dodatniej korelacji.
 Wykonajmy odpowiedni test, który potwierdzi naszą hipotezę, używając funkcji
-`cor.test()`.
+`cor.test()`. W teście Pearsona hipoteza zerowa ($H_0$) zakłada, że nie ma liniowej
+korelacji między dwiema zmiennymi, podczas gdy hipoteza alternatywna ($H_1$)
+zakłada istnienie takiej relacji.
 
 ```{r}
 cor.test(iris$Petal.Length, iris$Petal.Width, method = "pearson")
 ```
 
-Współczynnik korelacji liniowej Pearsona wynosi około 0,96, co świadczy o
-wysokiej dodatniej korelacji. Natomiast, wartość p poniżej 0,05 sugeruje, że
+Współczynnik korelacji liniowej Pearsona (`cor`) wynosi około 0,96, co świadczy
+o wysokiej dodatniej korelacji. Natomiast, wartość $p$ poniżej 0,05 sugeruje, że
 jest ona istotna statystycznie.
 
 ```{r}
@@ -290,7 +335,7 @@ cor.test(iris$Sepal.Length, iris$Sepal.Width, method = "pearson")
 W przypadku zmiennych `Sepal.Length` oraz `Sepal.Width` nie można zauważyć,
 żeby wartości tworzyły jakiś znaczący wzorzec. Współczynnik korelacji
 obliczony z testu ma niską wartość wynoszącą około -0,12 oraz nie jest istotny
-statystycznie, ponieważ wartość p jest większa od 0,05.
+statystycznie, ponieważ wartość $p$ jest większa od 0,05.
 
 Pamiętaj, że korelacja nie oznacza związku przyczynowo-skutkowego, a istotność
 statystyczna nie zawsze przekłada się na praktyczne zastosowanie.
