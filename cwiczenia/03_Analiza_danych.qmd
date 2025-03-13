@@ -198,7 +198,7 @@ nieliniowe czy uczenia maszynowego). Warto także wypróbować różne transform
 aby sprawdzić, która z nich daje najlepsze wyniki.
 
 Podczas interpretacji wyników należy dokonać transformacji wstecznej do oryginalnej
-skali wartości. Jeśli do transformacji wykorzystałeś logarytm, to operacją odwrotną
+skali wartości. Jeśli do transformacji został użyty logarytm, to operacją odwrotną
 jest funkcja wykładnicza.
 
 ### Pierwiastek
