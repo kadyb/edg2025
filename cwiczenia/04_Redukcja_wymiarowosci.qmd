@@ -1,0 +1,209 @@
+---
+title: "Eksploracja danych geoprzestrzennych"
+subtitle: "Redukcja wymiarowości"
+author: "Krzysztof Dyba"
+format:
+  html:
+    toc: true
+    toc-title: " "
+    embed-resources: true
+    code-links:
+      - text: Repozytorium
+        icon: github
+        href: https://github.com/kadyb/edg2025
+---
+
+# Wprowadzenie
+
+W rzeczywistych zbiorach danych często spotykamy się z istotnie dużą liczbą
+zmiennych (cech), które opisują pewne obserwacje (obiekty). Jest to tak zwane
+zjawisko wielowymiarowości danych (*high dimensionality*). W praktyce, powoduje
+to problemy związane z ilością wymaganej pamięci do przetwarzania danych, dłuższym
+czasem obliczeń, trudnościami w interpretacji zależności i ich wizualizacją w
+przestrzeni dwuowymiarowej, a także zmniejszenie skuteczności modelu wraz ze
+wzrostem liczby zmiennych (w takiej sytuacji model zazwyczaj słabo generalizuje
+zależnośći).
+
+Rozwiązaniem może być zastosowanie metody opartej na **analizie głównych składowych**
+(*principal component analysis*, PCA), która jest najczęściej stosowanym podejściem
+do redukcji wymiarowości. Przekształca ona zbiór danych ze skorelowanymi zmiennymi
+w nowy zbiór nieskorelowanych zmiennych nazywanmi głównymi składowymi (*principal components*),
+zachowując przy tym jak najwięcej zmienności (informacji). Główne składowe są
+liniowymi kombinacjami oryginalnych zmiennych, uporządkowanymi według ilości
+wariancji, którą wyjaśniają. Oznacza to, że pierwsza główna składowa (PC1)
+wyjaśnia największą wariancję, a każda kolejna składowa (PC2, PC3, itd.) mniej.
+
+Analiza głównych składowych umożliwa przede wszystkim zmniejszenie liczby
+zmiennych w zbiorze danych i usunięcie współliniowości między nimi. Oprócz tego,
+przydatna jest do wizualizacji danych wielowymiarowych w dwóch wymiarach
+wykorzystując dwie najistotniejsze główne składowe (PC1 i PC2).
+
+Technika ta wymaga spełnienia kilku założeń:
+
+1. Relacje między zmiennymi są liniowe.
+2. Zmienne są typu numerycznego.
+3. Wszystkie obserwacje mają wartości (brak `NA` w zbiorze danych).
+4. Zmienne powinny mieć rozkład zbliżony do normalnego i brak wartości odstających.
+5. Zmienne muszą posiadać jednakowe skale (standaryzacja).
+
+# Analiza
+
+```{r}
+#| message: false
+library("corrplot")
+library("ggplot2")
+```
+
+## Przygotowanie danych
+
+Analizę przeprowadzimy na przykładzie danych społeczno-ekonomicznych z
+[World Bank Data](https://data.worldbank.org/). Dla uproszczenia przyjmijmy,
+że interesują nas wyłącznie kraje europejskie.
+
+```{r}
+# wczytanie danych w formacie .csv
+data = read.csv2("../dane/world_bank_data.csv")
+# selekcja krajów europejskich
+data = data[data$region == "EU" & !is.na(data$region), ]
+# wyświetlenie struktury danych
+str(data)
+```
+
+Jak możemy zauważyć powyżek, w naszej ramce danych mamy liczne wartości brakujące
+`NA` (w szczególności w kolumnie `literacy`), co uniemożliwi nam wykonanie
+analizy głównych składowych. Zatem musimy je usunąć.
+
+```{r}
+# usuń całą kolumnę
+data$literacy = NULL
+```
+
+```{r}
+# usuń wiersze z brakującymi wartościami
+idx = complete.cases(data)
+data = data[idx, ]
+```
+
+Poglądowo sprawdźmy również ogólną korelację liniową pomiędzy zmiennymi.
+
+```{r}
+# macierz korelacji
+cor_mat = cor(data[, 4:10], method = "pearson")
+corrplot(cor_mat, method = "number", type = "lower", diag = FALSE)
+```
+
+Silna korelacja występuję pomiędzy całkowitą populacją kraju a produktem krajowym
+brutto (PKB). Wynika to z prostego związku, iż PKB mierzy wartość wszystkich dóbr
+i usług wytworzonych w gospodarce w danym okresie, a większa liczba ludności
+zwiększa produkcję oraz konsumpcję. Pozostałe zmienne nie wykazuje aż tak silnych
+zależności.
+
+Analiza głównych składowych jest wrażliwa na skalę zmiennych, dlatego ważne
+jest uprzednie ustandaryzowanie danych, tj. wyśrodkowanie (poprzez odjęcie
+średniej) i przeskalowanie (poprzez podzielenie przez odchylenie standardowe).
+Zapewnia to, że zmienne o większej skali nie zdominują pozostałych zmiennych.
+Do standaryzacji danych służy funkcja `scale()`.
+
+```{r}
+# skalowanie danych
+data_scale = scale(data[4:10])
+```
+
+Po tej operacji średnia wartość każdej zmiennej wynosi 0, a odchylenie standardowe
+jest równe 1.
+
+## Analiza głównych składowych
+
+Do analizy głównych składowych można wykorzystać między innymi funkcję `prcomp()`.
+Jeśli dokonaliśmy wcześniej standaryzacji danych, to koniecznie musimy nadać
+argumentom `scale.` i `center` wartość `FALSE`, aby uniknąć podwójnej standaryzacji.
+
+```{r}
+pca = prcomp(data_scale, scale. = FALSE, center = FALSE)
+summary(pca)
+```
+
+W podsumowaniu wyników otrzymujemy:
+
+- Odchylenie standardowe (*Standard deviation*) -- wskazuje istotność każdej
+głównej składowej.
+- Proporcja wariancji (*Proportion of Variance*) -- proporcja całkowitej
+wariancji wyjaśniona przez każdą główną składową.
+- Proporcja skumulowana (*Cumulative Proportion*) -- skumulowana część wariancji
+wyjaśniona przez pierwsze $k$ głównych składowych.
+
+Dodatkowo, otrzymaliśmy dwa obiekty `rotation` i `x`. Ten pierwszy reprezentuje
+macierz ładunków (*loadings*), natomiast drugi zawiera nowe wartości obserwacji
+po transformacji rzutowane na główne składowe (można je później wykorzystać
+do modelowania).
+
+```{r}
+pca$rotation[, 1:2]
+```
+
+Ładunki informują, w jakim stopniu każda zmienna wejściowa ma wpływ na każdą
+główną składową, tzn. wysoka wartość ładunku w pierwszej składowej głównej
+oznacza, że jest silnie skorelowana z tą składową. Dla przykładu, zmienne
+`gdp` oraz `pop` mają wysoki dodatni ładunek na pierwszej składowej (PC1),
+oznacza to, że ta składowa jest silnie zależna od tych zmiennych.
+
+## Interpretacja
+
+Najważniejszym korkiem jest zrozumienie, w jaki sposób interpretować otrzymane
+wyniki. W tym celu będą pomocne dwa wykresy.
+
+### Wykres piargowy
+
+Wykres piargowy (*scree plot*) to wykres wyjaśnionej wariancji dla każdej
+głównej składowej. Pomaga określić, ile głównych składowych należy zachować do
+dalszej anlizy. Punkt przegięcia, tzw. "łokieć" wykresu zazwyczaj wskazuje punkt,
+w którym dodanie większej liczby składowych w niewielkim stopniu przyczynia się
+do ogólnej wyjaśnionej wariancji.
+
+```{r}
+plot(pca, main = "Analiza głównych składowych", xlab = "Główna składowa")
+```
+
+Powyższy wykres sugeruje, że powinniśmy zachować pierwsze trzy główne składowe,
+które wyjaśniają ponad 80% zmienności w danych. Dodanie czwartej głównej składowej
+pozwoliłoby na wyjaśnienie ponad 90% zmienności.
+
+### Biplot
+
+```{r}
+biplot(pca, cex = 0.6, xlabs = data$country)
+```
+
+- wartość bliska 0° wówczas są one silnie dodatnio skorelowane;
+- wartość bliska 180° to parametry są silnie skorelowane, ale przeciwnie;
+- wartość bliska 90° - dwa parametry są niezależne (ortogonalne).
+
+```{r}
+values = as.data.frame(pca$x)
+loadings = as.data.frame(pca$rotation)
+scale = 5
+
+ggplot() +
+  geom_point(data = values, aes(x = PC1, y = PC2)) +
+  geom_segment(data = loadings, 
+               aes(x = 0, y = 0, xend = PC1 * scale, yend = PC2 * scale),
+               arrow = arrow(length = unit(0.2, "cm")), color = "red") +
+  geom_text(data = loadings,
+            aes(x = PC1 * scale, y = PC2 * scale, label = rownames(loadings)),
+            color = "red") +
+  theme_bw()
+```
+
+# Mapa
+
+Omówić przykład PCA na danych przestrzennych.
+
+# Zadanie
+
+Dokonaj redukcji wymiarowości rastrów znajdujących się w katalogu `dane`
+używając analizy głównych składowych i losowej próby. Wcześniej przygotuj zbiór
+danych do analizy, tj. usuń brakujące i odstające wartości oraz spróbuj
+transformować zmienne do rozkładu normalnego. Zaprezentuj pierwszą składową
+na mapie oraz zinterpretuj, co ona przedstawia. Otrzymane wyniki i wnioski
+przedstaw w formie raportu (Quarto lub Markdown) uwzględniając odpowiednie
+wykresy.
