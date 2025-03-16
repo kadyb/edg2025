@@ -166,17 +166,24 @@ plot(pca, main = "Analiza głównych składowych", xlab = "Główna składowa")
 
 Powyższy wykres sugeruje, że powinniśmy zachować pierwsze trzy główne składowe,
 które wyjaśniają ponad 80% zmienności w danych. Dodanie czwartej głównej składowej
-pozwoliłoby na wyjaśnienie ponad 90% zmienności.
+pozwoliłoby na wyjaśnienie ponad 90% zmienności. Pozostałe składowe reprezentują
+mniejszą ilość informacji (zasadniczo jest to szum w danych).
 
 ### Biplot
+
+Biplot to wykres punktowy przedstawiający rzutowane obserwacje na wybrane
+główne składowe oraz strzałki reprezentujące ładunki oryginalnych zmiennych,
+które tworzą pewne kąty. Jeśli wartość kąta pomiędzy strzałkami jest bliska:
+
+- 0° to wówczas są one silnie dodatnio skorelowane.
+- 180° to zmienne są również silnie skorelowane, ale przeciwnie.
+- 90° to zmienne są niezależne (ortogonalne).
 
 ```{r}
 biplot(pca, cex = 0.6, xlabs = data$country)
 ```
 
-- wartość bliska 0° wówczas są one silnie dodatnio skorelowane;
-- wartość bliska 180° to parametry są silnie skorelowane, ale przeciwnie;
-- wartość bliska 90° - dwa parametry są niezależne (ortogonalne).
+Możemy także wykonać ten sam wykres używając pakietu `ggplot2`.
 
 ```{r}
 values = as.data.frame(pca$x)
