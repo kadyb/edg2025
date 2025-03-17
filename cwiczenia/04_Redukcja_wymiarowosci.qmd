@@ -27,11 +27,12 @@ zależnośći).
 Rozwiązaniem może być zastosowanie metody opartej na **analizie głównych składowych**
 (*principal component analysis*, PCA), która jest najczęściej stosowanym podejściem
 do redukcji wymiarowości. Przekształca ona zbiór danych ze skorelowanymi zmiennymi
-w nowy zbiór nieskorelowanych zmiennych nazywanmi głównymi składowymi (*principal components*),
-zachowując przy tym jak najwięcej zmienności (informacji). Główne składowe są
-liniowymi kombinacjami oryginalnych zmiennych, uporządkowanymi według ilości
-wariancji, którą wyjaśniają. Oznacza to, że pierwsza główna składowa (PC1)
-wyjaśnia największą wariancję, a każda kolejna składowa (PC2, PC3, itd.) mniej.
+w nowy zbiór nieskorelowanych (ortogonalnych) zmiennych nazywanmi głównymi
+składowymi (*principal components*), zachowując przy tym jak najwięcej zmienności
+(informacji). Główne składowe są liniowymi kombinacjami oryginalnych zmiennych,
+uporządkowanymi według ilości wariancji, którą wyjaśniają. Oznacza to, że pierwsza
+główna składowa (PC1) wyjaśnia największą wariancję, a każda kolejna składowa
+(PC2, PC3, itd.) mniej.
 
 Analiza głównych składowych umożliwa przede wszystkim zmniejszenie liczby
 zmiennych w zbiorze danych i usunięcie współliniowości między nimi. Oprócz tego,
@@ -44,7 +45,12 @@ Technika ta wymaga spełnienia kilku założeń:
 2. Zmienne są typu numerycznego.
 3. Wszystkie obserwacje mają wartości (brak `NA` w zbiorze danych).
 4. Zmienne powinny mieć rozkład zbliżony do normalnego i brak wartości odstających.
-5. Zmienne muszą posiadać jednakowe skale (standaryzacja).
+5. Zmienne muszą posiadać jednakowe skale (wymagana standaryzacja).
+
+Niemniej, nie jest to jedyne podejście do redukcji wymiarowości. Wyróżnić
+można także skalowanie wielowymiarowe (*multidimensional scaling*), autoenkodery
+oparte o sieci neuronowe czy techniki służące wyłącznie do wizualizacji *t-SNE*
+i *UMAP*.
 
 # Analiza
 
@@ -143,9 +149,17 @@ pca$rotation[, 1:2]
 
 Ładunki informują, w jakim stopniu każda zmienna wejściowa ma wpływ na każdą
 główną składową, tzn. wysoka wartość ładunku w pierwszej składowej głównej
-oznacza, że jest silnie skorelowana z tą składową. Dla przykładu, zmienne
-`gdp` oraz `pop` mają wysoki dodatni ładunek na pierwszej składowej (PC1),
-oznacza to, że ta składowa jest silnie zależna od tych zmiennych.
+oznacza, że jest silnie skorelowana z tą składową. Natomiast znak wskazuje
+kierunek zależności.
+
+Dla przykładu, zmienne `gdp` oraz `pop` mają wysoki dodatni ładunek na pierwszej
+składowej (PC1), oznacza to, że ta składowa jest silnie zależna od tych zmiennych.
+Zobaczymy jak wygląda zależność pomiędzy pierwszą główną składową (PC1) a
+ładunkiem o największej wartości (zmienna `gdp`) na wykresie rozrzutu.
+
+```{r}
+plot(data$gdp, pca$x[, 1], pch = 19, xlab = "PKB", ylab = "PC1")
+```
 
 ## Interpretacja
 
@@ -158,7 +172,8 @@ Wykres piargowy (*scree plot*) to wykres wyjaśnionej wariancji dla każdej
 głównej składowej. Pomaga określić, ile głównych składowych należy zachować do
 dalszej anlizy. Punkt przegięcia, tzw. "łokieć" wykresu zazwyczaj wskazuje punkt,
 w którym dodanie większej liczby składowych w niewielkim stopniu przyczynia się
-do ogólnej wyjaśnionej wariancji.
+do ogólnej wyjaśnionej wariancji. Aby go wyświetlić wystarczy użyć funkcji
+`plot()` na obiekcie klasy `prcomp`.
 
 ```{r}
 plot(pca, main = "Analiza głównych składowych", xlab = "Główna składowa")
@@ -175,12 +190,15 @@ Biplot to wykres punktowy przedstawiający rzutowane obserwacje na wybrane
 główne składowe oraz strzałki reprezentujące ładunki oryginalnych zmiennych,
 które tworzą pewne kąty. Jeśli wartość kąta pomiędzy strzałkami jest bliska:
 
-- 0° to wówczas są one silnie dodatnio skorelowane.
+- 0° to zmienne są silnie dodatnio skorelowane.
 - 180° to zmienne są również silnie skorelowane, ale przeciwnie.
 - 90° to zmienne są niezależne (ortogonalne).
 
+Biplot można stworzyć używając funkcji `biplot()` na obiekcie klasy `prcomp`.
+Argument `choices` pozwoli nam wybrać główne składowe.
+
 ```{r}
-biplot(pca, cex = 0.6, xlabs = data$country)
+biplot(pca, choices = 1:2, cex = 0.6, xlabs = data$country)
 ```
 
 Możemy także wykonać ten sam wykres używając pakietu `ggplot2`.
@@ -188,7 +206,7 @@ Możemy także wykonać ten sam wykres używając pakietu `ggplot2`.
 ```{r}
 values = as.data.frame(pca$x)
 loadings = as.data.frame(pca$rotation)
-scale = 5
+scale = 6
 
 ggplot() +
   geom_point(data = values, aes(x = PC1, y = PC2)) +
@@ -197,13 +215,24 @@ ggplot() +
                arrow = arrow(length = unit(0.2, "cm")), color = "red") +
   geom_text(data = loadings,
             aes(x = PC1 * scale, y = PC2 * scale, label = rownames(loadings)),
-            color = "red") +
+            color = "red", nudge_y = -0.2) +
+  geom_vline(xintercept = 0, linetype = 2, alpha = 0.7) +
+  geom_hline(yintercept = 0, linetype = 2, alpha = 0.7) +
+  ylim(c(-3.8, 3.8)) +
+  xlim(c(-4.5, 4.5)) +
+  coord_equal() +
   theme_bw()
 ```
 
+Niemniej, interpretacja głównych składowych jest skomplikowanym procesem. Z tego
+powodu warto rozważyć najprostsze techniki redukcji wymiarowości oparte na usuwaniu
+cechy o niskiej wariancji (mała zmienność to mało informacji) oraz cech, które
+są ze sobą silnie skorelowane (np. korelacja powyżej 90%), aby zmniejszyć
+redundancję danych.
+
 # Mapa
 
-Omówić przykład PCA na danych przestrzennych.
+*Omówić przykład PCA na danych przestrzennych.*
 
 # Zadanie
 
