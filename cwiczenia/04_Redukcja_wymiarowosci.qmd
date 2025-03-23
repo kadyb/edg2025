@@ -66,7 +66,7 @@ oznacza, że wszystkie wartości są identyczne (brak zmienności).
 sum((x - mean(x))^2 / (length(x) - 1))
 ```
 
-Pamiętaj, że wariancja jest wyrażona w kwadratowych jednostkach ($j^2$)
+Pamiętaj, że wariancja jest wyrażona w jednostkach kwadratowych ($j^2$)
 oryginalnych danych, co może sprawić, że interpretacja będzie mniej intuicyjna.
 Z tego powodu często preferowane jest odchylenie standardowe, tj. pierwiastek
 kwadratowy z wariancji.
@@ -117,15 +117,16 @@ Poglądowo sprawdźmy również ogólną korelację liniową pomiędzy zmiennymi
 
 ```{r}
 # macierz korelacji
-cor_mat = cor(data[, 4:10], method = "pearson")
+cor_mat = cor(data[, 4:11], method = "pearson")
 corrplot(cor_mat, method = "number", type = "lower", diag = FALSE)
 ```
 
-Silna korelacja występuję pomiędzy całkowitą populacją kraju a produktem krajowym
-brutto (PKB). Wynika to z prostego związku, iż PKB mierzy wartość wszystkich dóbr
-i usług wytworzonych w gospodarce w danym okresie, a większa liczba ludności
-zwiększa produkcję oraz konsumpcję. Pozostałe zmienne nie wykazuje aż tak silnych
-zależności.
+Najsilniejsza korelacja występuję pomiędzy całkowitą populacją kraju a produktem
+krajowym brutto (PKB). Wynika to z prostego związku, iż PKB mierzy wartość
+wszystkich dóbr i usług wytworzonych w gospodarce w danym okresie, a większa liczba
+ludności zwiększa produkcję oraz konsumpcję. Kolejna silna zależność występuje
+pomiędzy produktem krajowym brutto na osobę a dostępem do internetu i spodziewaną
+długością życia. Pozostałe zmienne nie wykazuje aż tak silnych zależności.
 
 Analiza głównych składowych jest wrażliwa na skalę zmiennych, dlatego ważne
 jest uprzednie ustandaryzowanie danych, tj. wyśrodkowanie (poprzez odjęcie
@@ -135,7 +136,7 @@ Do standaryzacji danych służy funkcja `scale()`.
 
 ```{r}
 # skalowanie danych
-data_scale = scale(data[4:10])
+data_scale = scale(data[4:11])
 ```
 
 Po tej operacji średnia wartość każdej zmiennej wynosi 0, a odchylenie standardowe
@@ -175,10 +176,10 @@ główną składową, tzn. wysoka wartość ładunku w pierwszej składowej gł�
 oznacza, że jest silnie skorelowana z tą składową. Natomiast znak wskazuje
 kierunek zależności.
 
-Dla przykładu, zmienne `gdp` oraz `pop` mają wysoki dodatni ładunek na pierwszej
-składowej (PC1), oznacza to, że ta składowa jest silnie zależna od tych zmiennych.
-Zobaczymy jak wygląda zależność pomiędzy pierwszą główną składową (PC1) a
-ładunkiem o największej wartości (zmienna `gdp`) na wykresie rozrzutu.
+Dla przykładu, zmienne `life_exp`, `gdp` oraz `gdp_pc` mają wysoki dodatni
+ładunek na pierwszej składowej (PC1), oznacza to, że ta składowa jest silnie
+zależna od tych zmiennych. Zobaczymy jak wygląda zależność pomiędzy pierwszą
+główną składową (PC1) a zmienną `gdp` na wykresie rozrzutu.
 
 ```{r}
 plot(data$gdp, pca$x[, 1], pch = 19, xlab = "PKB", ylab = "PC1")
@@ -200,6 +201,7 @@ do ogólnej wyjaśnionej wariancji. Aby go wyświetlić wystarczy użyć funkcji
 
 ```{r}
 plot(pca, main = "Analiza głównych składowych", xlab = "Główna składowa")
+abline(v = 3.7, lty = 2, col = "red")
 ```
 
 Powyższy wykres sugeruje, że powinniśmy zachować pierwsze trzy główne składowe,
