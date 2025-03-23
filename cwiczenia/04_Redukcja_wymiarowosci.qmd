@@ -68,8 +68,8 @@ sum((x - mean(x))^2 / (length(x) - 1))
 
 Pamiętaj, że wariancja jest wyrażona w kwadratowych jednostkach ($j^2$)
 oryginalnych danych, co może sprawić, że interpretacja będzie mniej intuicyjna.
-Z tego powodu często preferowane jest odchylenie standardowe (pierwiastek
-kwadratowy z wariancji).
+Z tego powodu często preferowane jest odchylenie standardowe, tj. pierwiastek
+kwadratowy z wariancji.
 
 Analiza głównych składowych zakłada, że główne składowe o największej wariancji
 zawierają najważniejsze informacje. Jeśli główna składowa nie wykazuje prawie
@@ -226,7 +226,7 @@ biplot(pca, choices = 1:2, cex = 0.6, xlabs = data$country)
 
 W przypadku większych zbiorów danych, składających się z minimum kilkuset
 obserwacji, odczytanie ich nazw nie będzie możliwe. W takiej sytuacji warto
-zamienić etykiety nazw na kropki, ustawiając argument `xlabs` na `rep("·", nrow(data))`.
+zamienić etykiety nazw na kropki, ustawiając argument `xlabs = rep("·", nrow(data))`.
 Alternatywnie, można całkowicie je pominąć i interpretować jedynie położenie
 głównych składowych.
 
@@ -236,71 +236,155 @@ cechy o bliskiej zeru wariancji (mała zmienność to mało informacji) oraz cec
 które są ze sobą silnie skorelowane (np. korelacja powyżej 90%), aby zmniejszyć
 redundancję danych.
 
-# Mapa
+# Analiza przestrzenna
 
 ```{r}
 #| message: false
 library("terra")
 ```
 
+W tej sekcji zastosujemy redukcję wymiarowości do danych przestrzennych, a
+wynik zaprezentujemy na mapie. Zacznijmy od wylistowania rastrów, które mamy
+dostępne w katalogu `dane` używając funkcji `list.files()`. Doprecyzujmy, że
+interesują nas wyłącznie pliki rastrowe z rozszerzeniem `.tif`.
+
 ```{r}
+# listowanie plików w folderze
 files = list.files("../dane/", pattern = "\\.tif$", full.names = TRUE)
 files = files[1:3]
 ```
 
+Następnie używając funkcji `rast()` możemy wczytać wybrane trzy warstwy jako
+jeden raster wielokanałowy, tj. składający się z trzech warstw. Pamiętaj żeby
+stworzyć raster wielokanałowy, to poszczególne warstwy muszą posiadać tę samą
+geometrię (liczba kolumn i wierszy), zakres przestrzenny oraz układ przestrzenny!
+
 ```{r}
+# wczytanie rastrów
 r = rast(files)
 r
 ```
 
+Wybrane rastry zostały wczytane jako obiekt `r`. Kolejne kroki analizy wykonamy
+na mniejszej próbie losowej. Takie podejście stosuje się w przypadku przetwarzania
+ogromnych zbiorów danych, ponieważ nie jest możliwe, aby wczytać je do pamięci
+komputera. Do losowania próby służy funkcja `spatSample()`, w której możemy
+zdefiniować jej wielkość oraz usuwanie brakujących wartości `NA`. Szczególnie
+ważne jest zadbanie o powtarzalność analizy, więc koniecznie jest wcześniejsze
+zdefiniowanie ziarna losowości `set.seed()`.
+
 ```{r}
-set.seed(1) # ziarno losowości
+# ziarno losowości
+set.seed(1)
+# losowanie próby
 smp = spatSample(r, size = 5000, na.rm = TRUE, as.points = TRUE)
 ```
+
+Teraz możemy wyświetlić wylosowane punkty na mapie.
 
 ```{r}
 plot(r[[1]])
 plot(smp, add = TRUE, cex = 0.4, col = "red")
 ```
 
+Większość narzędzi czy modeli operuje na typowych strukturach danych takich jak
+macierze czy ramki danych (niekoniecznie pliki rastrowe czy wektorowe). Z tego
+powodu dokonamy konwersji punktów (klasa `SpatVector`) na ramkę danych
+wykorzystując funkcję `as.data.frame()`.
+
 ```{r}
+# konwersja punktów na ramkę danych
 df_smp = as.data.frame(smp)
 ```
 
+Następnie dane z próby należy ustandaryzować do wspólnej skali przy użyciu funkcji
+`scale()`. Istotną czynnością jest zapisane współczynników centrowania i skalowania
+z próby, ponieważ będzie trzeba je później zastosować dla całych rastrów (wszystkich
+komórek).
+
 ```{r}
+# standaryzacja próby
 df_smp_scale = scale(df_smp, center = TRUE, scale = TRUE)
+# współczynnik centrowania
 v_center = attr(df_smp_scale, "scaled:center")
+# współczynnik skalowania
 v_scale = attr(df_smp_scale, "scaled:scale")
 ```
+
+Po standaryzacji danych możemy obliczyć główne składowe za pomocą poznanej już
+funkcji `prcomp()`.
 
 ```{r}
 pca = prcomp(df_smp_scale, center = FALSE, scale. = FALSE)
 ```
 
+Po wyznaczeniu głównych składowych, przechodzimy do najtrudniejszego etapu,
+polegającego na ekstrapolacji wyliczonych główych składowych z próby na cały
+raster. Zasadniczo, tę procedurę przeprowadza się sekwencyjnie z podziałem na
+mniejsze bloki rastra, jednakże nasze rastry są małe i możemy je wczytać całe
+do pamięci.
+
+Ponownie wykorzystajmy funkcję `as.data.frame()`, aby dokonać konwersji rastrów
+(`SpatRaster`) do ramki danych. Ustawmy także argumeny `na.rm = FALSE` do
+zachowania pustych wartości w rastrze. Następnie, kluczowe krokiem jest wyznaczenie
+indeksów komórek, które posiadają wartości używając funkcji `complete.cases()`,
+ponieważ będzie to niezbędne do wstawienia wartości w odpowiednie miejsca w
+wektorze.
+
 ```{r}
 df = as.data.frame(r, na.rm = FALSE)
+# indeksy komórek z wartościami
 idx = complete.cases(df)
+# usuń puste wartości
 df = df[idx, ]
 ```
+
+Tak jak wcześniej, standaryzujemy całe dane, z tą różnicą, iż definiujemy
+uprzednio wyliczone współczynniki centrowania (`v_center`) i skalowania
+(`v_scale`).
 
 ```{r}
 # standaryzacja całego zbioru
 df = scale(df, center = v_center, scale = v_scale)
 ```
 
+Mamy już przygotowane dane, teraz możemy wykonać ekstrapolację używając
+funkcji `predict()` i podając dwa wymagane argumenty. Pierwszy to obliczone
+składowe główne w obiekcie `pca`, a drugi obiekt to ramka danych `df`.
+
 ```{r}
 # PCA dla całego zbioru danych
 pr = predict(pca, df)
 ```
 
+Wynikiem powyższej predykcji jest macierz, w której w wierszach znajdują się
+komórki rastra (blisko 80 tysięcy), a w kolumnach składowe główne. Zauważ, że
+raster wejściowy składa się z 81 tysięcy komórek, natomiast z predykcji
+otrzymaliśmy ich mniej, co spowodowane jest wykluczeniem brakujących wartości.
+Rozwiązanie tego problemu jest proste. Należy wstawić wartości predykcji tylko
+w tych komórkach, które posiadały wartości.
+
+Stwórzmy zatem nowy wektor zawierający wyłącznie brakujące wartości `NA` o takiej
+długości, ile raster posiada wszystkich komórek (270 * 300). Następnie używając
+indeksów z obiektu `idx` przypiszmy wartości pierwszej głównej składowej do
+wektora `vec` w odpowiednich miejscach.
+
 ```{r}
+# stwórz pusty wektor
 vec = rep(NA, ncell(r))
+# przypisz wartości z PC1
 vec[idx] = pr[, 1]
 ```
 
+Następnie tworzymy nowy raster o nazwie `output` kopiując metadane z rastra `r`
+oraz definiując jeden kanał i wartości na podstawie wektora `vec`.
+
 ```{r}
+# stwórz nowy raster
 output = rast(r, nlyrs = 1, vals = vec)
 ```
+
+Finalnie, dokonajmy wizualizacji pierwszej głównej składowej (PC1) na mapie.
 
 ```{r}
 plot(output, main = "Pierwsza składowa główna (PC1)")
