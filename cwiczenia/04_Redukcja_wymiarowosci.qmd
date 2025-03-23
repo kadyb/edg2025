@@ -31,13 +31,13 @@ w nowy zbiór nieskorelowanych (ortogonalnych) zmiennych nazywanmi głównymi
 składowymi (*principal components*), zachowując przy tym jak najwięcej zmienności
 (informacji). Główne składowe są liniowymi kombinacjami oryginalnych zmiennych,
 uporządkowanymi według ilości wariancji, którą wyjaśniają. Oznacza to, że pierwsza
-główna składowa (PC1) wyjaśnia największą wariancję, a każda kolejna składowa
-(PC2, PC3, itd.) mniej.
+główna składowa (PC1) wyjaśnia największą zmienność (wariancję), a każda kolejna
+składowa (PC2, PC3, itd.) mniej.
 
 Analiza głównych składowych umożliwa przede wszystkim zmniejszenie liczby
 zmiennych w zbiorze danych i usunięcie współliniowości między nimi. Oprócz tego,
 przydatna jest do wizualizacji danych wielowymiarowych w dwóch wymiarach
-wykorzystując dwie najistotniejsze główne składowe (PC1 i PC2).
+wykorzystując najczęściej dwie najistotniejsze główne składowe (PC1 i PC2).
 
 Technika ta wymaga spełnienia kilku założeń:
 
@@ -52,12 +52,35 @@ można także skalowanie wielowymiarowe (*multidimensional scaling*), autoenkode
 oparte o sieci neuronowe czy techniki służące wyłącznie do wizualizacji *t-SNE*
 i *UMAP*.
 
+## Wariancja
+
+Przed przystąpieniem do analizy, należy wytłumaczyć czym jest właściwie wariancja.
+Jest to miara statystyczna, która opisuje ilościowo zróżnicowanie (rozrzut)
+wartości w zbiorze danych, określając jak bardzo odbiegają od wartości średniej
+tego zbioru. Wysoka wariancja wskazuje, że punkty są rozproszone, podczas gdy
+niska wariancja oznacza, że są one skupione blisko średniej. Zerowa wariancja
+oznacza, że wszystkie wartości są identyczne (brak zmienności).
+
+```r
+# wariancja dla próby
+sum((x - mean(x))^2 / (length(x) - 1))
+```
+
+Pamiętaj, że wariancja jest wyrażona w kwadratowych jednostkach ($j^2$)
+oryginalnych danych, co może sprawić, że interpretacja będzie mniej intuicyjna.
+Z tego powodu często preferowane jest odchylenie standardowe (pierwiastek
+kwadratowy z wariancji).
+
+Analiza głównych składowych zakłada, że główne składowe o największej wariancji
+zawierają najważniejsze informacje. Jeśli główna składowa nie wykazuje prawie
+żadnej wariancji, to ma ona niewielki wkład w reprezentację zbioru danych i można
+ją pominąć.
+
 # Analiza
 
 ```{r}
 #| message: false
 library("corrplot")
-library("ggplot2")
 ```
 
 ## Przygotowanie danych
@@ -132,7 +155,7 @@ summary(pca)
 W podsumowaniu wyników otrzymujemy:
 
 - Odchylenie standardowe (*Standard deviation*) -- wskazuje istotność każdej
-głównej składowej.
+głównej składowej (im większa wartość, tym większa istotność).
 - Proporcja wariancji (*Proportion of Variance*) -- proporcja całkowitej
 wariancji wyjaśniona przez każdą główną składową.
 - Proporcja skumulowana (*Cumulative Proportion*) -- skumulowana część wariancji
@@ -201,38 +224,87 @@ Argument `choices` pozwoli nam wybrać główne składowe.
 biplot(pca, choices = 1:2, cex = 0.6, xlabs = data$country)
 ```
 
-Możemy także wykonać ten sam wykres używając pakietu `ggplot2`.
-
-```{r}
-values = as.data.frame(pca$x)
-loadings = as.data.frame(pca$rotation)
-scale = 6
-
-ggplot() +
-  geom_point(data = values, aes(x = PC1, y = PC2)) +
-  geom_segment(data = loadings, 
-               aes(x = 0, y = 0, xend = PC1 * scale, yend = PC2 * scale),
-               arrow = arrow(length = unit(0.2, "cm")), color = "red") +
-  geom_text(data = loadings,
-            aes(x = PC1 * scale, y = PC2 * scale, label = rownames(loadings)),
-            color = "red", nudge_y = -0.2) +
-  geom_vline(xintercept = 0, linetype = 2, alpha = 0.7) +
-  geom_hline(yintercept = 0, linetype = 2, alpha = 0.7) +
-  ylim(c(-3.8, 3.8)) +
-  xlim(c(-4.5, 4.5)) +
-  coord_equal() +
-  theme_bw()
-```
+W przypadku większych zbiorów danych, składających się z minimum kilkuset
+obserwacji, odczytanie ich nazw nie będzie możliwe. W takiej sytuacji warto
+zamienić etykiety nazw na kropki, ustawiając argument `xlabs` na `rep("·", nrow(data))`.
+Alternatywnie, można całkowicie je pominąć i interpretować jedynie położenie
+głównych składowych.
 
 Niemniej, interpretacja głównych składowych jest skomplikowanym procesem. Z tego
 powodu warto rozważyć najprostsze techniki redukcji wymiarowości oparte na usuwaniu
-cechy o niskiej wariancji (mała zmienność to mało informacji) oraz cech, które
-są ze sobą silnie skorelowane (np. korelacja powyżej 90%), aby zmniejszyć
+cechy o bliskiej zeru wariancji (mała zmienność to mało informacji) oraz cech,
+które są ze sobą silnie skorelowane (np. korelacja powyżej 90%), aby zmniejszyć
 redundancję danych.
 
 # Mapa
 
-*Omówić przykład PCA na danych przestrzennych.*
+```{r}
+#| message: false
+library("terra")
+```
+
+```{r}
+files = list.files("../dane/", pattern = "\\.tif$", full.names = TRUE)
+files = files[1:3]
+```
+
+```{r}
+r = rast(files)
+r
+```
+
+```{r}
+set.seed(1) # ziarno losowości
+smp = spatSample(r, size = 5000, na.rm = TRUE, as.points = TRUE)
+```
+
+```{r}
+plot(r[[1]])
+plot(smp, add = TRUE, cex = 0.4, col = "red")
+```
+
+```{r}
+df_smp = as.data.frame(smp)
+```
+
+```{r}
+df_smp_scale = scale(df_smp, center = TRUE, scale = TRUE)
+v_center = attr(df_smp_scale, "scaled:center")
+v_scale = attr(df_smp_scale, "scaled:scale")
+```
+
+```{r}
+pca = prcomp(df_smp_scale, center = FALSE, scale. = FALSE)
+```
+
+```{r}
+df = as.data.frame(r, na.rm = FALSE)
+idx = complete.cases(df)
+df = df[idx, ]
+```
+
+```{r}
+# standaryzacja całego zbioru
+df = scale(df, center = v_center, scale = v_scale)
+```
+
+```{r}
+# PCA dla całego zbioru danych
+pr = predict(pca, df)
+```
+
+```{r}
+vec = rep(NA, ncell(r))
+vec[idx] = pr[, 1]
+```
+
+```{r}
+output = rast(r, nlyrs = 1, vals = vec)
+```
+
+```{r}
+plot(output, main = "Pierwsza składowa główna (PC1)")
+```
 
 # Zadanie
 
