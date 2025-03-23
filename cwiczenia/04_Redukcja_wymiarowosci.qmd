@@ -76,7 +76,7 @@ zawierają najważniejsze informacje. Jeśli główna składowa nie wykazuje pra
 żadnej wariancji, to ma ona niewielki wkład w reprezentację zbioru danych i można
 ją pominąć.
 
-# Analiza
+# Analiza tabelaryczna
 
 ```{r}
 #| message: false
