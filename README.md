@@ -45,6 +45,7 @@ Dokumentację do tego pakietu znajdziesz tutaj: <https://rspatial.github.io/terr
 2. [Przetwarzanie danych przestrzennych](https://kadyb.github.io/edg2025/cwiczenia/02_Przetwarzanie_danych.html)
 3. [Analiza danych](https://kadyb.github.io/edg2025/cwiczenia/03_Analiza_danych.html)
 4. [Redukcja wymiarowości](https://kadyb.github.io/edg2025/cwiczenia/04_Redukcja_wymiarowosci.html)
+5. Klasyfikacja nienadzorowana
 
 # Materiały dodatkowe
 
