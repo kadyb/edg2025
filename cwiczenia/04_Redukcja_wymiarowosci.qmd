@@ -76,7 +76,7 @@ zawierają najważniejsze informacje. Jeśli główna składowa nie wykazuje pra
 żadnej wariancji, to ma ona niewielki wkład w reprezentację zbioru danych i można
 ją pominąć.
 
-# Analiza tabelaryczna
+# Analiza danych tabelarycznych
 
 ```{r}
 #| message: false
@@ -239,7 +239,7 @@ cechy o bliskiej zeru wariancji (mała zmienność to mało informacji) oraz cec
 które są ze sobą silnie skorelowane (np. korelacja powyżej 90%), aby zmniejszyć
 redundancję danych.
 
-# Analiza przestrzenna
+# Analiza danych przestrzennych
 
 ```{r}
 #| message: false
@@ -399,5 +399,5 @@ używając analizy głównych składowych i losowej próby. Wcześniej przygotuj
 danych do analizy, tj. usuń brakujące i odstające wartości oraz spróbuj
 transformować zmienne do rozkładu normalnego. Zaprezentuj pierwszą składową
 na mapie oraz zinterpretuj, co ona przedstawia. Otrzymane wyniki i wnioski
-przedstaw w formie raportu (Quarto lub Markdown) uwzględniając odpowiednie
-wykresy.
+przedstaw w formie raportu (Quarto lub Markdown) z wykresami oraz wyjaśnij,
+dlaczego podjąłeś określone decyzje.

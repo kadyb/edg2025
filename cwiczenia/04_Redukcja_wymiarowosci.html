@@ -3227,7 +3227,7 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#wariancja" id="toc-wariancja" class="nav-link" data-scroll-target="#wariancja">Wariancja</a></li>
   </ul></li>
-  <li><a href="#analiza-tabelaryczna" id="toc-analiza-tabelaryczna" class="nav-link" data-scroll-target="#analiza-tabelaryczna">Analiza tabelaryczna</a>
+  <li><a href="#analiza-danych-tabelarycznych" id="toc-analiza-danych-tabelarycznych" class="nav-link" data-scroll-target="#analiza-danych-tabelarycznych">Analiza danych tabelarycznych</a>
   <ul class="collapse">
   <li><a href="#przygotowanie-danych" id="toc-przygotowanie-danych" class="nav-link" data-scroll-target="#przygotowanie-danych">Przygotowanie danych</a></li>
   <li><a href="#analiza-głównych-składowych" id="toc-analiza-głównych-składowych" class="nav-link" data-scroll-target="#analiza-głównych-składowych">Analiza głównych składowych</a></li>
@@ -3237,7 +3237,7 @@ window.Quarto = {
   <li><a href="#biplot" id="toc-biplot" class="nav-link" data-scroll-target="#biplot">Biplot</a></li>
   </ul></li>
   </ul></li>
-  <li><a href="#analiza-przestrzenna" id="toc-analiza-przestrzenna" class="nav-link" data-scroll-target="#analiza-przestrzenna">Analiza przestrzenna</a></li>
+  <li><a href="#analiza-danych-przestrzennych" id="toc-analiza-danych-przestrzennych" class="nav-link" data-scroll-target="#analiza-danych-przestrzennych">Analiza danych przestrzennych</a></li>
   <li><a href="#zadanie" id="toc-zadanie" class="nav-link" data-scroll-target="#zadanie">Zadanie</a></li>
   </ul>
 <div class="quarto-code-links"><h2>Code Links</h2><ul><li><a href="https://github.com/kadyb/edg2025"><i class="bi bi-github"></i>Repozytorium</a></li></ul></div></nav>
@@ -3293,8 +3293,8 @@ window.Quarto = {
 <p>Analiza głównych składowych zakłada, że główne składowe o największej wariancji zawierają najważniejsze informacje. Jeśli główna składowa nie wykazuje prawie żadnej wariancji, to ma ona niewielki wkład w reprezentację zbioru danych i można ją pominąć.</p>
 </section>
 </section>
-<section id="analiza-tabelaryczna" class="level1">
-<h1>Analiza tabelaryczna</h1>
+<section id="analiza-danych-tabelarycznych" class="level1">
+<h1>Analiza danych tabelarycznych</h1>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;corrplot&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -3451,8 +3451,8 @@ gdp_pc      0.4287361 -0.3696659</code></pre>
 </section>
 </section>
 </section>
-<section id="analiza-przestrzenna" class="level1">
-<h1>Analiza przestrzenna</h1>
+<section id="analiza-danych-przestrzennych" class="level1">
+<h1>Analiza danych przestrzennych</h1>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">&quot;terra&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -3562,7 +3562,7 @@ names       : xmod@urban, MEAN_green@urban, DIST_waters@urban </code></pre>
 </section>
 <section id="zadanie" class="level1">
 <h1>Zadanie</h1>
-<p>Dokonaj redukcji wymiarowości rastrów znajdujących się w katalogu <code>dane</code> używając analizy głównych składowych i losowej próby. Wcześniej przygotuj zbiór danych do analizy, tj. usuń brakujące i odstające wartości oraz spróbuj transformować zmienne do rozkładu normalnego. Zaprezentuj pierwszą składową na mapie oraz zinterpretuj, co ona przedstawia. Otrzymane wyniki i wnioski przedstaw w formie raportu (Quarto lub Markdown) uwzględniając odpowiednie wykresy.</p>
+<p>Dokonaj redukcji wymiarowości rastrów znajdujących się w katalogu <code>dane</code> używając analizy głównych składowych i losowej próby. Wcześniej przygotuj zbiór danych do analizy, tj. usuń brakujące i odstające wartości oraz spróbuj transformować zmienne do rozkładu normalnego. Zaprezentuj pierwszą składową na mapie oraz zinterpretuj, co ona przedstawia. Otrzymane wyniki i wnioski przedstaw w formie raportu (Quarto lub Markdown) z wykresami oraz wyjaśnij, dlaczego podjąłeś określone decyzje.</p>
 </section>
 
 </main>
