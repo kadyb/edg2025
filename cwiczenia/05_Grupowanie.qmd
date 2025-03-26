@@ -1,0 +1,32 @@
+---
+title: "Eksploracja danych geoprzestrzennych"
+subtitle: "Klasyfikacja nienadzorowana"
+author: "Krzysztof Dyba"
+format:
+  html:
+    toc: true
+    toc-title: " "
+    embed-resources: true
+    code-links:
+      - text: Repozytorium
+        icon: github
+        href: https://github.com/kadyb/edg2025
+---
+
+1. <https://kadyb.github.io/GEOINF2022/Grupowanie.html>
+2. <https://kadyb.github.io/OGH2023/Clustering.html>
+
+# Wprowadzenie
+
+# Zadanie
+
+- Dokonaj klasyfikacji nienadzorowanej danych rastrowych znajdujących się w
+katalogu `dane` używając metody `k-means`.
+- Zweryfikuj otrzymane wyniki za pomocą wskaźnika *silhouette*.
+- Sprawdź jak zmienia się wynik dla innej liczby klastrów.
+- Przetestuj [inną metodę klasteryzacji](https://www.datacamp.com/doc/r/cluster),
+np. *Gaussian mixture models*.
+- Zaprezentuj wynik klasteryzacji na mapie i dobierz odpowiedni schemat kolorów.
+- Spróbuj zinterpretować, co przedstawiają wydzielone klastry wykorzystując
+wykres pudełkowy. Spróbuj również nazwać powstałe klastry.
+- Otrzymane wyniki i wnioski przedstaw w formie raportu (Quarto lub Markdown).
