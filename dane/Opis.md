@@ -18,3 +18,6 @@
   - 7 -- murawa
   - 8 -- zbiorniki wodne
   - 9 -- tereny podmokłe
+
+\
+*Niniejszy zbiór danych został przygotowany przez prof. Jarosława Jasiewicza.*
