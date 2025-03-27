@@ -21,9 +21,10 @@ format:
 # Zadanie
 
 - Dokonaj klasyfikacji nienadzorowanej danych rastrowych znajdujących się w
-katalogu `dane` używając metody `k-means`.
+katalogu `dane` (w repozytorium GitHub) używając metody `k-means` na podstawie
+losowej próby. Pamiętaj, że ta metoda jest wrażliwa na skalę zmiennych wejściowych.
 - Zweryfikuj otrzymane wyniki za pomocą wskaźnika *silhouette*.
-- Sprawdź jak zmienia się wynik dla innej liczby klastrów.
+- Sprawdź jak zmieni się wynik dla innej liczby klastrów.
 - Przetestuj [inną metodę klasteryzacji](https://www.datacamp.com/doc/r/cluster),
 np. *Gaussian mixture models*.
 - Zaprezentuj wynik klasteryzacji na mapie i dobierz odpowiedni schemat kolorów.
