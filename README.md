@@ -13,7 +13,7 @@ uczenia maszynowego do analizy regresji oraz klasyfikacji (nadzorowanej i nienad
 
 **1. Instalacja R**
 
-Interpreter języka **R** można pobrać dla [Windows](https://cloud.r-project.org/bin/windows/base/R-4.4.2-win.exe),
+Interpreter języka **R** można pobrać dla [Windows](https://cloud.r-project.org/bin/windows/base/),
 [MacOS](https://cran.r-project.org/bin/macosx/) oraz [Linux](https://cloud.r-project.org/bin/linux/).
 
 **2. Instalacja RStudio**
@@ -46,13 +46,12 @@ Dokumentację do tego pakietu znajdziesz tutaj: <https://rspatial.github.io/terr
 3. [Analiza danych](https://kadyb.github.io/edg2025/cwiczenia/03_Analiza_danych.html)
 4. [Redukcja wymiarowości](https://kadyb.github.io/edg2025/cwiczenia/04_Redukcja_wymiarowosci.html)
 5. [Klasyfikacja nienadzorowana](https://kadyb.github.io/edg2025/cwiczenia/05_Grupowanie.html)
+6. [Klasyfikacja nadzorowana](https://kadyb.github.io/edg2025/cwiczenia/06_Klasyfikacja.html)
 
 # Materiały dodatkowe
 
 1. ["Geocomputation with R"](https://r.geocompx.org/) Robin Lovelace, Jakub Nowosad i Jannes Muenchow
 2. ["Spatial Data Science with R and terra"](https://rspatial.org/) Robert Hijmans i inni
-3. [Klasyfikacja nienadzorowana danych satelitarnych](https://kadyb.github.io/GEOINF2022/Grupowanie.html) Krzysztof Dyba
-4. [Klasyfikacja nadzorowana danych satelitarnych](https://kadyb.github.io/GEOINF2022/Klasyfikacja.html) Krzysztof Dyba
 
 # Kontakt 
 
