@@ -30,3 +30,4 @@ zmienne wyjaśniające są najistotniejsze? Która klasa jest najczęściej bł�
 klasyfikowana przez model?
 - Porównaj wyniki klasyfikacji z mapą referencyjną (użyj identycznego schematu
 kolorów).
+- Otrzymane wyniki i wnioski przedstaw w formie raportu (Quarto lub Markdown).

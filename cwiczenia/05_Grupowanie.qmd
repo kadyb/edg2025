@@ -13,8 +13,8 @@ format:
         href: https://github.com/kadyb/edg2025
 ---
 
-1. <https://kadyb.github.io/GEOINF2022/Grupowanie.html>
-2. <https://kadyb.github.io/OGH2023/Clustering.html>
+1. Materiały: <https://kadyb.github.io/GEOINF2022/Grupowanie.html>
+2. Dane: <https://zenodo.org/records/7299645>
 
 # Wprowadzenie
 
