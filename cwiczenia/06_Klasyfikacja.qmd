@@ -1,0 +1,32 @@
+---
+title: "Eksploracja danych geoprzestrzennych"
+subtitle: "Klasyfikacja nadzorowana"
+author: "Krzysztof Dyba"
+format:
+  html:
+    toc: true
+    toc-title: " "
+    embed-resources: true
+    code-links:
+      - text: Repozytorium
+        icon: github
+        href: https://github.com/kadyb/edg2025
+---
+
+1. Materiały: <https://kadyb.github.io/GEOINF2022/Klasyfikacja.html>
+2. Dane: <https://zenodo.org/records/7299645>
+
+# Wprowadzenie
+
+# Zadanie
+
+- Dokonaj klasyfikacji nadzorowanej danych rastrowych znajdujących się w
+katalogu `dane` (w repozytorium GitHub) używając drzewa decyzyjnego na podstawie
+losowej próby. Jako dane referencyjne wykorzystaj klasy pokrycia terenu.
+- Oblicz procentowy udział poszczególnych klas pokrycia terenu na obszarze.
+- Oceń skuteczność wytrenowanego modelu klasyfikacyjnego na zbiorze testowym.
+- Zinterpretuj decyzje klasyfikacyjne podejmowane przez model. Które
+zmienne wyjaśniające są najistotniejsze? Która klasa jest najczęściej błędnie
+klasyfikowana przez model?
+- Porównaj wyniki klasyfikacji z mapą referencyjną (użyj identycznego schematu
+kolorów).
