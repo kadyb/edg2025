@@ -18,6 +18,7 @@
   - 7 -- murawa
   - 8 -- zbiorniki wodne
   - 9 -- tereny podmokłe
+- `temp.gpkg` -- odnotowana temperatura dla punktów [°C]
 
 \
 *Niniejszy zbiór danych został przygotowany przez prof. Jarosława Jasiewicza.*
