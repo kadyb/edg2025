@@ -1,0 +1,27 @@
+---
+title: "Eksploracja danych geoprzestrzennych"
+subtitle: "Analiza regresji"
+author: "Krzysztof Dyba"
+format:
+  html:
+    toc: true
+    toc-title: " "
+    embed-resources: true
+    code-links:
+      - text: Repozytorium
+        icon: github
+        href: https://github.com/kadyb/edg2025
+---
+
+# Zadanie
+
+- Wykonaj eksploracyjną analizę zbioru `temp.gpkg` zawierającego pomiary
+temperatury, w szczególności sprawdź statystyki opisowe, brakujące i odstające
+wartości oraz rozkład.
+- Zbadaj czy występuje zależność pomiędzy temperaturą a klasami pokrycia terenu
+wykorzystując wykres pudełkowy.
+- Zbadaj związek pomiędzy temperaturą a ośmioma zmiennymi wyjaśniającymi
+wykorzystując wykres rozrzutu z uwzględnieniem klas pokrycia terenu.
+- Stwórz model regresji oraz przedstaw otrzymane równanie regresji.
+- Dokonaj interpretacji opracowanego modelu.
+- Wykonaj predykcję temperatury dla całej mapy.
