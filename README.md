@@ -47,7 +47,7 @@ Dokumentację do tego pakietu znajdziesz tutaj: <https://rspatial.github.io/terr
 4. [Redukcja wymiarowości](https://kadyb.github.io/edg2025/cwiczenia/04_Redukcja_wymiarowosci.html)
 5. [Klasyfikacja nienadzorowana](https://kadyb.github.io/edg2025/cwiczenia/05_Grupowanie.html)
 6. [Klasyfikacja nadzorowana](https://kadyb.github.io/edg2025/cwiczenia/06_Klasyfikacja.html)
-7. Analiza regresji
+7. [Analiza regresji](https://kadyb.github.io/edg2025/cwiczenia/07_Regresja.html)
 
 # Materiały dodatkowe
 
