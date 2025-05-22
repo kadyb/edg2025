@@ -53,7 +53,8 @@ Opracowanie modelu przestrzennego cen nieruchomości na badanym obszarze:
 Analiza wzorców w zbiorze danych:
 
 - Wykonanie grupowania przestrzennego zmiennych wyjaśniających i uzasadnienie
-doboru liczby klastrów. Wyniki należy zaprezentować na mapie.
+doboru liczby klastrów.
+- Wizualizacja wyników klasteryzacji na mapie.
 - **Dokonanie interpretacji otrzymanych klastrów**.
 
 \
