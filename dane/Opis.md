@@ -7,7 +7,7 @@
 - `05_imperm.tif` -- nieprzepuszczalność podłoża [%]
 - `06_highbuildup.tif` -- wysoka zabudowa [%]
 - `07_buildup.tif` -- zabudowa [%]
-- `08_road_dens.tif` -- gęstość dróg [m/m^2]
+- `08_road_dens.tif` -- gęstość dróg [m/km^2]
 - `10_landuse.tif` -- klasy pokrycia terenu:
   - 1 -- gęsta zabudowa
   - 2 -- zabudowa
