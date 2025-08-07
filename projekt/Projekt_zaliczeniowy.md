@@ -45,7 +45,7 @@ Opracowanie modelu przestrzennego cen nieruchomości na badanym obszarze:
   zmiennymi wyjaśniającymi.
 - Dokonanie oceny jakości modelu.
 - Zbadanie wpływu transformacji zmiennych na model.
-- Stworzenie mapy cen nieruchomości.
+- Stworzenie mapy prognozowanych cen nieruchomości dla całego obszaru.
 - **Wyjaśnienie roli poszczególnych zmiennych w modelu**.
 
 ### Ocena bardzo dobra
