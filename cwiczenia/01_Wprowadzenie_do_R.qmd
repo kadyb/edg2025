@@ -444,6 +444,15 @@ str(mtcars)
 Sprawdź samodzielnie pozostałe funkcje do eksploracji i odpowiedz na wcześniej
 postawione pytania.
 
+**Uwaga!** Obliczanie statystyk opisowych (takich jak średnia, mediana czy
+odchylenie standardowe) dla zmiennej jakościowej (np. rodzaj skrzyni biegów,
+klasy pokrycia terenu) nie ma sensu, ponieważ są to właściwie tylko etykiety
+bez znaczenia numerycznego. W przypadku zmiennych jakościowych (kategorycznych)
+można wyznaczyć modę (dominantę) czy częstość występowania poszczególnych
+kategorii. Aby środowisko R poprawnie traktowało te zmienne jako kategorie
+(grupy), należy dokonać konwersji z typu numerycznego na czynnikowy, używając
+funkcji `as.factor()`.
+
 ## Wizualna
 
 ### Wykres słupkowy
