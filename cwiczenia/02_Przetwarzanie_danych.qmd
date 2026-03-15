@@ -31,9 +31,9 @@ library("terra")
 
 W pakiecie **terra** znajdziemy kilka przykładów danych rastrowych, tj.:
 
-* `elev.tif`
-* `logo.tif`
-* `meuse.tif`
+* `elev.tif`,
+* `logo.tif`,
+* `meuse.tif`.
 
 ### Wczytywanie
 
@@ -65,14 +65,14 @@ raster
 
 Możemy zauważyć, że metadane składają się z 9 atrybutów:
 
-* klasa obiektu
-* wymiary (liczba wierszy, kolumn, warstw)
-* rozdzielczość
-* zakres przestrzenny (*bounding box*)
-* przestrzenny układ współrzędnych
-* źródło
-* nazwa warstwy
-* wartość minimalna i maksymalna
+* klasa obiektu,
+* wymiary (liczba wierszy, kolumn, warstw),
+* rozdzielczość,
+* zakres przestrzenny (*bounding box*),
+* przestrzenny układ współrzędnych,
+* źródło,
+* nazwa warstwy,
+* wartość minimalna i maksymalna.
 
 Co ważne, pakiet **terra** przy otwieraniu rastra nie wczytuje go do pamięci,
 a jedynie tworzy wskaźnik do niego (dane przetwarzane są blokowo, co pozwala
@@ -130,13 +130,13 @@ wektor
 Tak jak poprzednio otrzymujemy metadane tej warstwy, które zawierają następujące
 atrybuty:
 
-* klasa obiektu
-* typ geometrii
-* wymiary (liczba geometrii, atrybutów)
-* zakres przestrzenny
-* źródło
-* przestrzenny układ współrzędnych
-* ramka danych z nazwą, typem i wartościami atrybutów
+* klasa obiektu,
+* typ geometrii,
+* wymiary (liczba geometrii, atrybutów),
+* zakres przestrzenny,
+* źródło,
+* przestrzenny układ współrzędnych,
+* ramka danych z nazwą, typem i wartościami atrybutów,
 
 Należy wspomnieć, że dane wektorowe domyślnie wczytywane są do pamięci w
 przeciwieństwie do rastrów. Chyba, że zdefiniuje się argument `proxy = TRUE`.
@@ -289,9 +289,9 @@ ponieważ zwracane są pełne komórki w wierszach i kolumnach.
 
 Rozdzielczość przestrzenną rastra można zmienić za pomocą trzech funkcji:
 
-* `disagg()` (zwiększa rozdzielczość, czyli komórki stają się mniejsze)
-* `aggregate()` (zmniejsza rozdzielczość, czyli komórki stają się większe)
-* `resample()` (przepróbkowanie do zdefiniowanej siatki)
+* `disagg()` (zwiększa rozdzielczość, czyli komórki stają się mniejsze),
+* `aggregate()` (zmniejsza rozdzielczość, czyli komórki stają się większe),
+* `resample()` (przepróbkowanie do zdefiniowanej siatki).
 
 Pierwsze dwie funkcje wymagają podanie współczynnika agregacji, natomiast ostatnia
 wymieniona funkcja wymaga wskazania rastra z oczekiwaną geometrią. W przypadku
@@ -345,8 +345,8 @@ plot(r_moll, main = "Odwzorowanie Mollweidego")
 Jeśli posiadasz dane rastrowe i wektorowe w różnych układach współrzędnych,
 to zalecana jest reprojekcja danych wektorowych z dwóch powodów:
 
-* jest szybsza
-* jest odwracalna (transformacja odbywa się bez utraty precyzji)
+* jest szybsza,
+* jest odwracalna (transformacja odbywa się bez utraty precyzji).
 
 ### Statystyki globalne
 
@@ -399,9 +399,9 @@ Załóżmy, że chcemy wszystkie wartości poniżej 0 zamienić na brakujące wa
 (`NA`), a wszystkie wartości powyżej 0 zamienić na 10. W tym celu musimy
 stworzyć tabelę klasyfikacyjną składającą się z trzech kolumn:
 
-1. dolny przedział wartości
-2. górny przedział wartości
-3. nowa wartość
+1. dolny przedział wartości,
+2. górny przedział wartości,
+3. nowa wartość.
 
 Tabelę najprościej stworzyć definiując uprzednio wektor i następnie transformując
 go do macierzy.
@@ -459,17 +459,17 @@ wektor
 Warto zauważyć, że funkcja `vect()` poza standardowym odczytem oferuje więcej
 zaawansowanych możliwości:
 
-* wczytanie określonego zakresu przestrzennego
-* wczytanie określonych warstw
-* wczytanie określonego rodzaju danych (geometrie lub atrybuty)
-* tworzenie zapytań bazodanowych (SQL)
-* stworzenie wskaźnika do pliku (*proxy*)
+* wczytanie określonego zakresu przestrzennego,
+* wczytanie określonych warstw,
+* wczytanie określonego rodzaju danych (geometrie lub atrybuty),
+* tworzenie zapytań bazodanowych (SQL),
+* stworzenie wskaźnika do pliku (*proxy*).
 
 Zasadniczo, do atrybutów warstwy wektorowej możemy odwołać się na dwa sposoby
 używając:
 
-* znaku dolara `$` -- zwraca wektor bez geometrii
-* nawiasu kwadratowego `[]` -- zwraca geometrię z wybranymi atrybutami
+* znaku dolara `$` -- zwraca wektor bez geometrii,
+* nawiasu kwadratowego `[]` -- zwraca geometrię z wybranymi atrybutami.
 
 ```{r}
 wektor$NAME_2
@@ -528,9 +528,9 @@ musimy zastosować funkcję agregującą geometrie, tj. `aggregate()`; łączy o
 wiele geometrii w jedną. Funkcja `buffer()` wymaga wskazania odległości
 bufora (argument `width`) i należy odnotować, że:
 
-* domyślną jednostką długości dla układu geograficznego są metry (nie stopnie)
+* domyślną jednostką długości dla układu geograficznego są metry (nie stopnie),
 * argument `width` jest zwektoryzowany, zatem można określić różne odległości
-dla kolejnych geometrii
+dla kolejnych geometrii.
 
 ```{r}
 bufor = buffer(aggregate(wektor), width = 1000)
@@ -645,22 +645,22 @@ przydatne w tym celu.
 model pokrycia terenu (np. NASADEM lub SRTM) dla małego fragmentu Polski i
 wykonaj następujące czynności:
 
-* sprawdź metadane pobranego rastra i wyświetl go
-* transformuj układ współrzędnych do `EPSG:2180`
-* przytnij raster do zmniejszonego zasięgu przestrzennego
-* wygładź wartości używając średniej arytmetycznej w oknie ruchomym
+* sprawdź metadane pobranego rastra i wyświetl go,
+* transformuj układ współrzędnych do `EPSG:2180`,
+* przytnij raster do zmniejszonego zasięgu przestrzennego,
+* wygładź wartości używając średniej arytmetycznej w oknie ruchomym,
 * oblicz statystyki rastra, tj. wartość minimalna i maksymalna, średnia
-oraz odchylenie standardowe
-* zapisz raster na dysku z kompresją LZW
+oraz odchylenie standardowe,
+* zapisz raster na dysku z kompresją LZW.
 
 4. Pobierz granice powiatów (np. z Geoportalu), następnie wylicz ich centroidy
 i wskaż te powiaty, które są położone najbliżej i najdalej. Wskazówki: (1)
 Odległość obiektu od samego siebie wynosi 0 m i trzeba to wykluczyć. (2) Do
 znalezienia indeksu o minimalnej lub maksymalnej wartości można wykorzystać
-funkcje `which()` z argumentem `arr.ind = TRUE`.
+funkcje `which()` z argumentem `arr.ind = TRUE`. Zastanów się również jak na
+wyniki analizy wpływają miasta na prawach powiatu oraz
+[eksklawy powiatów](https://pl.wikipedia.org/wiki/Eksklawa#Powiaty).
 
-    Zastanów się również jak na wyniki analizy wpływają miasta na prawach powiatu
-    oraz [eksklawy powiatów](https://pl.wikipedia.org/wiki/Eksklawa#Powiaty).
-
-5. W katalogu `dane` znajdziesz 10 warstw rastrowych. Sprawdź ich metadane i
-dokonaj ich harmonizacji, aby móc wczytać je jako jeden raster wielokanałowy.
+5. W katalogu `dane` znajdziesz 9 warstw rastrowych. Sprawdź ich metadane.
+Jeśli wszystkie parametry rastrów są identyczne, to połącz warstwy reprezentujące
+zmienne ilościowe w jeden raster wielokanałowy i zapisz go na dysku.
