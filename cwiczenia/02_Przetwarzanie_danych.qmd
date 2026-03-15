@@ -136,7 +136,7 @@ atrybuty:
 * zakres przestrzenny,
 * źródło,
 * przestrzenny układ współrzędnych,
-* ramka danych z nazwą, typem i wartościami atrybutów,
+* ramka danych z nazwą, typem i wartościami atrybutów.
 
 Należy wspomnieć, że dane wektorowe domyślnie wczytywane są do pamięci w
 przeciwieństwie do rastrów. Chyba, że zdefiniuje się argument `proxy = TRUE`.
