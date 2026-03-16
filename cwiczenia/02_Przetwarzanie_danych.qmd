@@ -376,7 +376,7 @@ kategorie = sample(1:3, size = ncell(raster), replace = TRUE)
 head(kategorie)
 ```
 
-Następnie kopiujemy raster wejściowy `raster` wykorzystując funkcję `rast`
+Następnie kopiujemy raster wejściowy `raster` wykorzystując funkcję `rast()`
 zastępując przy tym jego wartości `vals = kategorie` i nowy raster nazywamy
 `strefy`.
 
