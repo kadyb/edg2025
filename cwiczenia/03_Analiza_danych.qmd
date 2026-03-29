@@ -367,7 +367,8 @@ corrplot(cor_mat, p.mat = testRes$p, method = "circle", type = "lower",
 # Zadanie
 
 Dokonaj eksploracyjnej analizy danych dla zbioru zamieszczonego w katalogu `dane`.
-Wykorzystaj poznane na zajęciach techniki wizualne oraz opisowe, aby sprawdzić:
+Zaprezentuj wczytane zmienne na mapach, a następnie wykorzystaj poznane na
+zajęciach techniki wizualne oraz opisowe, aby sprawdzić:
 
 - statystyki opisowe,
 - rozkłady wartości,
@@ -380,7 +381,7 @@ losowości! Do każdego etapu analizy obowiązkowo dołącz wnioski.
 
 Jako rozwiązanie należy przesłać:
 
-1. Działający plik źródłowy (np. plik Quarto `.qmd` lub RMarkdown `.Rmd`). 
+1. Działający plik źródłowy (np. Quarto `.qmd` lub RMarkdown `.Rmd`). 
 2. Wygenerowany raport z wynikami przeprowadzonej analizy, rycinami oraz
 wnioskami (np. `.html` lub `.pdf`). Uwaga: Jeśli generujesz raport w formacie
 `.html`, to pamiętaj osadzić wszystkie niezbędne pliki.
