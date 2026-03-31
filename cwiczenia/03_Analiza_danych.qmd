@@ -366,9 +366,10 @@ corrplot(cor_mat, p.mat = testRes$p, method = "circle", type = "lower",
 
 # Zadanie
 
-Dokonaj eksploracyjnej analizy danych dla zbioru zamieszczonego w katalogu `dane`.
-Zaprezentuj wczytane zmienne na mapach, a następnie wykorzystaj poznane na
-zajęciach techniki wizualne oraz opisowe, aby sprawdzić:
+Dokonaj eksploracyjnej analizy danych dla plików rastrowych (`*.tif`)
+zamieszczonych w katalogu `dane`. Zaprezentuj wczytane zmienne na mapach,
+a następnie wykorzystaj poznane na zajęciach techniki wizualne oraz opisowe,
+aby sprawdzić:
 
 - statystyki opisowe,
 - rozkłady wartości,
@@ -376,8 +377,9 @@ zajęciach techniki wizualne oraz opisowe, aby sprawdzić:
 - wartości odstające,
 - korelacje pomiędzy zmiennymi.
 
-Obliczenia wykonaj na podstawie losowej próby. Pamiętaj, aby ustawić ziarno
-losowości! Do każdego etapu analizy obowiązkowo dołącz wnioski.
+Obliczenia wykonaj na podstawie losowej próby i napisz jaka wielkość próby
+została wykorzystana. Pamiętaj, aby ustawić ziarno losowości! Do każdego etapu
+analizy obowiązkowo dołącz komentarz z wnioskami.
 
 Jako rozwiązanie należy przesłać:
 
