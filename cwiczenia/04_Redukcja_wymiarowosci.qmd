@@ -42,9 +42,9 @@ wykorzystując najczęściej dwie najistotniejsze główne składowe (PC1 i PC2)
 Technika ta wymaga spełnienia kilku założeń:
 
 1. Relacje między zmiennymi są liniowe.
-2. Zmienne są typu numerycznego.
+2. Dane są typu ilościowego (dane jakościowe wymagają odpowiedniego kodowania).
 3. Wszystkie obserwacje mają wartości (brak `NA` w zbiorze danych).
-4. Zmienne powinny mieć rozkład zbliżony do normalnego i brak wartości odstających.
+4. Ograniczenie wpływu wartości odstających, ponieważ zniekształcają wyniki.
 5. Zmienne muszą posiadać jednakowe skale (wymagana standaryzacja).
 
 Niemniej, nie jest to jedyne podejście do redukcji wymiarowości. Wyróżnić
