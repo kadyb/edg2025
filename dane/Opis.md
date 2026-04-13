@@ -1,9 +1,9 @@
 # Opis zmiennych
 
-- `01_roughness.tif` -- szorstkość terenu (złożoność powierzchni) [-]
+- `01_roughness.tif` -- szorstkość terenu (złożoność powierzchni) [m]
 - `02_green.tif` -- znormalizowany różnicowy wskaźnik wegetacji [-]
 - `03_distwaters.tif` -- odległość od wody [m]
-- `04_terange.tif` -- relief (lokalna amplituda wysokości) [-]
+- `04_terange.tif` -- relief (lokalna amplituda wysokości) [m]
 - `05_imperm.tif` -- nieprzepuszczalność podłoża [%]
 - `06_highbuildup.tif` -- wysoka zabudowa [%]
 - `07_buildup.tif` -- zabudowa [%]
