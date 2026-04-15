@@ -15,24 +15,43 @@ format:
 
 # Wprowadzenie
 
-W rzeczywistych zbiorach danych często spotykamy się z istotnie dużą liczbą
-zmiennych (cech), które opisują pewne obserwacje (obiekty). Jest to tak zwane
-zjawisko wielowymiarowości danych (*high dimensionality*). W praktyce, powoduje
-to problemy związane z ilością wymaganej pamięci do przetwarzania danych, dłuższym
-czasem obliczeń, trudnościami w interpretacji zależności i ich wizualizacją w
-przestrzeni dwuwymiarowej, a także zmniejszenie skuteczności modelu wraz ze
-wzrostem liczby zmiennych (w takiej sytuacji model zazwyczaj słabo generalizuje
+Wariancja jest to miara statystyczna, która opisuje ilościowo zróżnicowanie
+(rozrzut) wartości w zbiorze danych, określając jak bardzo odbiegają od wartości
+średniej tego zbioru. Wysoka wariancja wskazuje, że punkty są rozproszone,
+podczas gdy niska wariancja oznacza, że są one skupione blisko średniej.
+Zerowa wariancja oznacza, że wszystkie wartości są identyczne (brak zmienności).
+Należy pamiętać, że wariancja wyrażona jest w jednostkach kwadratowych ($j^2$)
+oryginalnych danych, co może sprawić, że interpretacja będzie mniej intuicyjna.
+Z tego powodu często preferowane jest odchylenie standardowe, tj. pierwiastek
+kwadratowy z wariancji.
+
+```r
+# wariancja dla próby
+sum((x - mean(x))^2 / (length(x) - 1))
+```
+
+W analizie danych wariancja traktowana jest jako miara ilości informacji.
+Przyjmuje się, że im większa zmienność danej cechy, tym więcej istotnych
+informacji ona niesie. W rzeczywistych zbiorach danych często spotykamy się
+z ogromną liczbą zmiennych (cech), które opisują pewne obserwacje (obiekty).
+Jest to tak zwane zjawisko wielowymiarowości danych (*high dimensionality*).
+W praktyce, powoduje to problemy związane z ilością wymaganej pamięci do
+przetwarzania danych, dłuższym czasem obliczeń, trudnościami w interpretacji
+zależności i ich wizualizacją w przestrzeni dwuwymiarowej, a także zmniejszenie
+skuteczności modelu wraz ze wzrostem liczby zmiennych (słaba generalizacja
 zależności).
 
-Rozwiązaniem może być zastosowanie metody opartej na **analizie głównych składowych**
-(*principal component analysis*, PCA), która jest najczęściej stosowanym podejściem
-do redukcji wymiarowości. Przekształca ona zbiór danych ze skorelowanymi zmiennymi
-w nowy zbiór nieskorelowanych (ortogonalnych) zmiennych nazywanymi głównymi
-składowymi (*principal components*), zachowując przy tym jak najwięcej zmienności
-(informacji). Główne składowe są liniowymi kombinacjami oryginalnych zmiennych,
-uporządkowanymi według ilości wariancji, którą wyjaśniają. Oznacza to, że pierwsza
-główna składowa (PC1) wyjaśnia największą zmienność (wariancję), a każda kolejna
-składowa (PC2, PC3, itd.) mniej.
+Rozwiązaniem tych problemów może być zastosowanie **analizy głównych składowych**
+(*principal component analysis*, PCA), która jest najczęściej stosowaną
+metodą do redukcji wymiarowości. Przekształca ona zbiór danych ze
+skorelowanymi zmiennymi w nowy zbiór nieskorelowanych (ortogonalnych) zmiennych
+nazywanymi głównymi składowymi (*principal components*), zachowując przy tym
+jak najwięcej zmienności (informacji). Główne składowe są liniowymi kombinacjami
+oryginalnych zmiennych, uporządkowanymi według ilości wariancji, którą wyjaśniają.
+Oznacza to, że pierwsza główna składowa (PC1) wyjaśnia największą zmienność
+(wariancję), a każda kolejna składowa (PC2, PC3, itd.) mniej. Jeśli główna
+składowa nie wykazuje prawie żadnej wariancji, to ma ona niewielki wkład w
+reprezentację zbioru danych (wtedy najczęściej jest pomijana).
 
 Analiza głównych składowych umożliwia przede wszystkim zmniejszenie liczby
 zmiennych w zbiorze danych i usunięcie współliniowości między nimi. Oprócz tego,
@@ -45,36 +64,12 @@ Technika ta wymaga spełnienia kilku założeń:
 2. Dane są typu ilościowego (dane jakościowe wymagają odpowiedniego kodowania).
 3. Wszystkie obserwacje mają wartości (brak `NA` w zbiorze danych).
 4. Ograniczenie wpływu wartości odstających, ponieważ zniekształcają wyniki.
-5. Zmienne muszą posiadać jednakowe skale (wymagana standaryzacja).
+5. Zmienne muszą posiadać jednakowe skale (wymagana standaryzacja danych).
 
 Niemniej, nie jest to jedyne podejście do redukcji wymiarowości. Wyróżnić
 można także skalowanie wielowymiarowe (*multidimensional scaling*), autoenkodery
-oparte o sieci neuronowe czy techniki służące wyłącznie do wizualizacji *t-SNE*
-i *UMAP*.
-
-## Wariancja
-
-Przed przystąpieniem do analizy, należy wytłumaczyć czym jest właściwie wariancja.
-Jest to miara statystyczna, która opisuje ilościowo zróżnicowanie (rozrzut)
-wartości w zbiorze danych, określając jak bardzo odbiegają od wartości średniej
-tego zbioru. Wysoka wariancja wskazuje, że punkty są rozproszone, podczas gdy
-niska wariancja oznacza, że są one skupione blisko średniej. Zerowa wariancja
-oznacza, że wszystkie wartości są identyczne (brak zmienności).
-
-```r
-# wariancja dla próby
-sum((x - mean(x))^2 / (length(x) - 1))
-```
-
-Pamiętaj, że wariancja jest wyrażona w jednostkach kwadratowych ($j^2$)
-oryginalnych danych, co może sprawić, że interpretacja będzie mniej intuicyjna.
-Z tego powodu często preferowane jest odchylenie standardowe, tj. pierwiastek
-kwadratowy z wariancji.
-
-Analiza głównych składowych zakłada, że główne składowe o największej wariancji
-zawierają najważniejsze informacje. Jeśli główna składowa nie wykazuje prawie
-żadnej wariancji, to ma ona niewielki wkład w reprezentację zbioru danych i można
-ją pominąć.
+oparte na sieciach neuronowych czy techniki służące wyłącznie do wizualizacji,
+takie jak *t-SNE* i *UMAP*.
 
 # Analiza danych tabelarycznych
 

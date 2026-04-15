@@ -2346,10 +2346,7 @@ window.Quarto = {
   <nav id="TOC" role="doc-toc" class="toc-active">
    
   <ul>
-  <li><a href="#wprowadzenie" id="toc-wprowadzenie" class="nav-link active" data-scroll-target="#wprowadzenie">Wprowadzenie</a>
-  <ul class="collapse">
-  <li><a href="#wariancja" id="toc-wariancja" class="nav-link" data-scroll-target="#wariancja">Wariancja</a></li>
-  </ul></li>
+  <li><a href="#wprowadzenie" id="toc-wprowadzenie" class="nav-link active" data-scroll-target="#wprowadzenie">Wprowadzenie</a></li>
   <li><a href="#analiza-danych-tabelarycznych" id="toc-analiza-danych-tabelarycznych" class="nav-link" data-scroll-target="#analiza-danych-tabelarycznych">Analiza danych tabelarycznych</a>
   <ul class="collapse">
   <li><a href="#przygotowanie-danych" id="toc-przygotowanie-danych" class="nav-link" data-scroll-target="#przygotowanie-danych">Przygotowanie danych</a></li>
@@ -2395,8 +2392,11 @@ window.Quarto = {
 
 <section id="wprowadzenie" class="level1">
 <h1>Wprowadzenie</h1>
-<p>W rzeczywistych zbiorach danych często spotykamy się z istotnie dużą liczbą zmiennych (cech), które opisują pewne obserwacje (obiekty). Jest to tak zwane zjawisko wielowymiarowości danych (<em>high dimensionality</em>). W praktyce, powoduje to problemy związane z ilością wymaganej pamięci do przetwarzania danych, dłuższym czasem obliczeń, trudnościami w interpretacji zależności i ich wizualizacją w przestrzeni dwuwymiarowej, a także zmniejszenie skuteczności modelu wraz ze wzrostem liczby zmiennych (w takiej sytuacji model zazwyczaj słabo generalizuje zależności).</p>
-<p>Rozwiązaniem może być zastosowanie metody opartej na <strong>analizie głównych składowych</strong> (<em>principal component analysis</em>, PCA), która jest najczęściej stosowanym podejściem do redukcji wymiarowości. Przekształca ona zbiór danych ze skorelowanymi zmiennymi w nowy zbiór nieskorelowanych (ortogonalnych) zmiennych nazywanymi głównymi składowymi (<em>principal components</em>), zachowując przy tym jak najwięcej zmienności (informacji). Główne składowe są liniowymi kombinacjami oryginalnych zmiennych, uporządkowanymi według ilości wariancji, którą wyjaśniają. Oznacza to, że pierwsza główna składowa (PC1) wyjaśnia największą zmienność (wariancję), a każda kolejna składowa (PC2, PC3, itd.) mniej.</p>
+<p>Wariancja jest to miara statystyczna, która opisuje ilościowo zróżnicowanie (rozrzut) wartości w zbiorze danych, określając jak bardzo odbiegają od wartości średniej tego zbioru. Wysoka wariancja wskazuje, że punkty są rozproszone, podczas gdy niska wariancja oznacza, że są one skupione blisko średniej. Zerowa wariancja oznacza, że wszystkie wartości są identyczne (brak zmienności). Należy pamiętać, że wariancja wyrażona jest w jednostkach kwadratowych (<span class="math inline">\(j^2\)</span>) oryginalnych danych, co może sprawić, że interpretacja będzie mniej intuicyjna. Z tego powodu często preferowane jest odchylenie standardowe, tj. pierwiastek kwadratowy z wariancji.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># wariancja dla próby</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>((x <span class="sc">-</span> <span class="fu">mean</span>(x))<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> (<span class="fu">length</span>(x) <span class="sc">-</span> <span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>W analizie danych wariancja traktowana jest jako miara ilości informacji. Przyjmuje się, że im większa zmienność danej cechy, tym więcej istotnych informacji ona niesie. W rzeczywistych zbiorach danych często spotykamy się z ogromną liczbą zmiennych (cech), które opisują pewne obserwacje (obiekty). Jest to tak zwane zjawisko wielowymiarowości danych (<em>high dimensionality</em>). W praktyce, powoduje to problemy związane z ilością wymaganej pamięci do przetwarzania danych, dłuższym czasem obliczeń, trudnościami w interpretacji zależności i ich wizualizacją w przestrzeni dwuwymiarowej, a także zmniejszenie skuteczności modelu wraz ze wzrostem liczby zmiennych (słaba generalizacja zależności).</p>
+<p>Rozwiązaniem tych problemów może być zastosowanie <strong>analizy głównych składowych</strong> (<em>principal component analysis</em>, PCA), która jest najczęściej stosowaną metodą do redukcji wymiarowości. Przekształca ona zbiór danych ze skorelowanymi zmiennymi w nowy zbiór nieskorelowanych (ortogonalnych) zmiennych nazywanymi głównymi składowymi (<em>principal components</em>), zachowując przy tym jak najwięcej zmienności (informacji). Główne składowe są liniowymi kombinacjami oryginalnych zmiennych, uporządkowanymi według ilości wariancji, którą wyjaśniają. Oznacza to, że pierwsza główna składowa (PC1) wyjaśnia największą zmienność (wariancję), a każda kolejna składowa (PC2, PC3, itd.) mniej. Jeśli główna składowa nie wykazuje prawie żadnej wariancji, to ma ona niewielki wkład w reprezentację zbioru danych (wtedy najczęściej jest pomijana).</p>
 <p>Analiza głównych składowych umożliwia przede wszystkim zmniejszenie liczby zmiennych w zbiorze danych i usunięcie współliniowości między nimi. Oprócz tego, przydatna jest do wizualizacji danych wielowymiarowych w dwóch wymiarach wykorzystując najczęściej dwie najistotniejsze główne składowe (PC1 i PC2).</p>
 <p>Technika ta wymaga spełnienia kilku założeń:</p>
 <ol type="1">
@@ -2404,17 +2404,9 @@ window.Quarto = {
 <li>Dane są typu ilościowego (dane jakościowe wymagają odpowiedniego kodowania).</li>
 <li>Wszystkie obserwacje mają wartości (brak <code>NA</code> w zbiorze danych).</li>
 <li>Ograniczenie wpływu wartości odstających, ponieważ zniekształcają wyniki.</li>
-<li>Zmienne muszą posiadać jednakowe skale (wymagana standaryzacja).</li>
+<li>Zmienne muszą posiadać jednakowe skale (wymagana standaryzacja danych).</li>
 </ol>
-<p>Niemniej, nie jest to jedyne podejście do redukcji wymiarowości. Wyróżnić można także skalowanie wielowymiarowe (<em>multidimensional scaling</em>), autoenkodery oparte o sieci neuronowe czy techniki służące wyłącznie do wizualizacji <em>t-SNE</em> i <em>UMAP</em>.</p>
-<section id="wariancja" class="level2">
-<h2 class="anchored" data-anchor-id="wariancja">Wariancja</h2>
-<p>Przed przystąpieniem do analizy, należy wytłumaczyć czym jest właściwie wariancja. Jest to miara statystyczna, która opisuje ilościowo zróżnicowanie (rozrzut) wartości w zbiorze danych, określając jak bardzo odbiegają od wartości średniej tego zbioru. Wysoka wariancja wskazuje, że punkty są rozproszone, podczas gdy niska wariancja oznacza, że są one skupione blisko średniej. Zerowa wariancja oznacza, że wszystkie wartości są identyczne (brak zmienności).</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># wariancja dla próby</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>((x <span class="sc">-</span> <span class="fu">mean</span>(x))<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> (<span class="fu">length</span>(x) <span class="sc">-</span> <span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<p>Pamiętaj, że wariancja jest wyrażona w jednostkach kwadratowych (<span class="math inline">\(j^2\)</span>) oryginalnych danych, co może sprawić, że interpretacja będzie mniej intuicyjna. Z tego powodu często preferowane jest odchylenie standardowe, tj. pierwiastek kwadratowy z wariancji.</p>
-<p>Analiza głównych składowych zakłada, że główne składowe o największej wariancji zawierają najważniejsze informacje. Jeśli główna składowa nie wykazuje prawie żadnej wariancji, to ma ona niewielki wkład w reprezentację zbioru danych i można ją pominąć.</p>
-</section>
+<p>Niemniej, nie jest to jedyne podejście do redukcji wymiarowości. Wyróżnić można także skalowanie wielowymiarowe (<em>multidimensional scaling</em>), autoenkodery oparte na sieciach neuronowych czy techniki służące wyłącznie do wizualizacji, takie jak <em>t-SNE</em> i <em>UMAP</em>.</p>
 </section>
 <section id="analiza-danych-tabelarycznych" class="level1">
 <h1>Analiza danych tabelarycznych</h1>
