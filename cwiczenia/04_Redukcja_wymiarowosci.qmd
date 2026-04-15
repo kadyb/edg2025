@@ -395,9 +395,22 @@ plot(output, main = "Pierwsza składowa główna (PC1)")
 # Zadanie
 
 Dokonaj redukcji wymiarowości rastrów znajdujących się w katalogu `dane`
-używając analizy głównych składowych i losowej próby. Wcześniej przygotuj zbiór
-danych do analizy, tj. usuń brakujące i odstające wartości oraz spróbuj
-transformować zmienne do rozkładu normalnego. Zaprezentuj pierwszą składową
-na mapie oraz zinterpretuj, co ona przedstawia. Otrzymane wyniki i wnioski
-przedstaw w formie raportu (Quarto lub Markdown) z wykresami oraz wyjaśnij,
-dlaczego podjąłeś określone decyzje.
+używając analizy głównych składowych (*PCA*) i losowej próby. Przed analizą
+przygotuj odpowiednio dane:
+
+- usuń brakujące wartości (`NA`),
+- zidentyfikuj i usuń wartości odstające,
+- jeśli rozkład zmiennych istotnie odbiega od normalnego, to spróbuj zastosować
+transformacje,
+- pamiętaj o standaryzacji zmiennych.
+
+Jako finalny wynik analizy wygeneruj mapę przedstawiającą pierwszą główną
+składową oraz zinterpretuj, co ona przedstawia. W raporcie należy wyjaśnić
+i uzasadnić wybór zastosowanych metod analitycznych.
+
+Jako rozwiązanie należy przesłać:
+
+- Działający plik źródłowy (np. Quarto `.qmd` lub RMarkdown `.Rmd`).
+- Wygenerowany raport z wynikami przeprowadzonej analizy, rycinami oraz wnioskami
+(np. `.html` lub `.pdf`). Uwaga: Jeśli generujesz raport w formacie `.html`, to
+pamiętaj osadzić wszystkie niezbędne pliki.
