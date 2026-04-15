@@ -396,7 +396,7 @@ plot(output, main = "Pierwsza składowa główna (PC1)")
 
 Dokonaj redukcji wymiarowości rastrów znajdujących się w katalogu `dane`
 używając analizy głównych składowych (*PCA*) i losowej próby. Przed analizą
-przygotuj odpowiednio dane:
+przygotuj odpowiednio dane wejściowe:
 
 - usuń brakujące wartości (`NA`),
 - zidentyfikuj i usuń wartości odstające,
@@ -404,9 +404,9 @@ przygotuj odpowiednio dane:
 transformacje,
 - pamiętaj o standaryzacji zmiennych.
 
-Jako finalny wynik analizy wygeneruj mapę przedstawiającą pierwszą główną
-składową oraz zinterpretuj, co ona przedstawia. W raporcie należy wyjaśnić
-i uzasadnić wybór zastosowanych metod analitycznych.
+Finalnym wynikiem analizy jest mapa przedstawiająca pierwszą główną składową
+wraz z interpretacją, co ona przedstawia. W raporcie należy wyjaśnić i uzasadnić
+wybór zastosowanych metod analitycznych.
 
 Jako rozwiązanie należy przesłać:
 
