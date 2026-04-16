@@ -33,12 +33,12 @@ sum((x - mean(x))^2 / (length(x) - 1))
 W analizie danych wariancja traktowana jest jako miara ilości informacji.
 Przyjmuje się, że im większa zmienność danej cechy, tym więcej istotnych
 informacji ona niesie. W rzeczywistych zbiorach danych często spotykamy się
-z ogromną liczbą zmiennych (cech), które opisują pewne obserwacje (obiekty).
+z ogromną liczbą cech (zmiennych), które opisują pewne obserwacje (obiekty).
 Jest to tak zwane zjawisko wielowymiarowości danych (*high dimensionality*).
 W praktyce, powoduje to problemy związane z ilością wymaganej pamięci do
 przetwarzania danych, dłuższym czasem obliczeń, trudnościami w interpretacji
 zależności i ich wizualizacją w przestrzeni dwuwymiarowej, a także zmniejszenie
-skuteczności modelu wraz ze wzrostem liczby zmiennych (słaba generalizacja
+skuteczności modelu wraz ze wzrostem liczby zmiennych (słabsza generalizacja
 zależności).
 
 Rozwiązaniem tych problemów może być zastosowanie **analizy głównych składowych**
@@ -51,7 +51,7 @@ oryginalnych zmiennych, uporządkowanymi według ilości wariancji, którą wyja
 Oznacza to, że pierwsza główna składowa (PC1) wyjaśnia największą zmienność
 (wariancję), a każda kolejna składowa (PC2, PC3, itd.) mniej. Jeśli główna
 składowa nie wykazuje prawie żadnej wariancji, to ma ona niewielki wkład w
-reprezentację zbioru danych (wtedy najczęściej jest pomijana).
+reprezentację zbioru danych i z tego powodu jest wykluczana z dalszej analizy.
 
 Analiza głównych składowych umożliwia przede wszystkim zmniejszenie liczby
 zmiennych w zbiorze danych i usunięcie współliniowości między nimi. Oprócz tego,
