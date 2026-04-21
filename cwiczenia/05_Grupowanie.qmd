@@ -16,18 +16,24 @@ format:
 1. Materiały: <https://kadyb.github.io/GEOINF2022/Grupowanie.html>
 2. Dane: <https://zenodo.org/records/7299645>
 
-# Wprowadzenie
-
 # Zadanie
 
-- Dokonaj klasyfikacji nienadzorowanej danych rastrowych znajdujących się w
-katalogu `dane` (w repozytorium GitHub) używając metody `k-means` na podstawie
-losowej próby. Pamiętaj, że ta metoda jest wrażliwa na skalę zmiennych wejściowych.
-- Zweryfikuj otrzymane wyniki za pomocą wskaźnika *silhouette*.
-- Sprawdź jak zmieni się wynik dla innej liczby klastrów.
-- Przetestuj [inną metodę klasteryzacji](https://www.datacamp.com/doc/r/cluster),
-np. *Gaussian mixture models*.
-- Zaprezentuj wynik klasteryzacji na mapie i dobierz odpowiedni schemat kolorów.
-- Spróbuj zinterpretować, co przedstawiają wydzielone klastry wykorzystując
-wykres pudełkowy. Spróbuj również nazwać powstałe klastry.
-- Otrzymane wyniki i wnioski przedstaw w formie raportu (Quarto lub Markdown).
+Dokonaj klasyfikacji nienadzorowanej danych rastrowych znajdujących się w
+katalogu `dane` (w repozytorium GitHub) używając metody `k-means`. Pamiętaj,
+że ta metoda jest wrażliwa na skalę zmiennych wejściowych. Raport musi zawierać
+następujące elementy:
+
+- Porównanie wyników dla różnej liczby klastrów.
+- Porównanie z inną wybraną metodą, np. *Gaussian mixture models* (pakiet `mclust`).
+- Weryfikacja jakości klasyfikacji za pomocą wskaźnika *silhouette* na losowej
+próbie.
+- Wizualizacja wyników na mapie z odpowiednio dobraną paletą barw.
+- Interpretacja  i etykietowanie wydzielonych klastrów na podstawie analizy
+wykresu pudełkowego (wybierz tylko jeden przykład klasyfikacji).
+
+Jako rozwiązanie należy przesłać:
+
+- Działający plik źródłowy (np. Quarto `.qmd` lub RMarkdown `.Rmd`).
+- Wygenerowany raport z wynikami przeprowadzonej analizy, rycinami oraz wnioskami
+(np. `.html` lub `.pdf`). Uwaga: Jeśli generujesz raport w formacie `.html`, to
+pamiętaj osadzić wszystkie niezbędne pliki.
