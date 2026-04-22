@@ -15,13 +15,25 @@ format:
 
 # Zadanie
 
-- Wykonaj eksploracyjną analizę zbioru `temp.gpkg` zawierającego pomiary
-temperatury, w szczególności sprawdź statystyki opisowe, brakujące i odstające
-wartości oraz rozkład.
-- Zbadaj czy występuje zależność pomiędzy temperaturą a klasami pokrycia terenu
-wykorzystując wykres pudełkowy.
+Dokonaj eksploracyjnej analizy danych zbioru `temp.gpkg` zawierającego pomiary
+temperatury. W ramach analizy sprawdź statystyki opisowe, rozkłady wartości,
+wartości brakujące oraz wartości odstające. Następnie wykonaj poniższe punkty:
+
+- Zbadaj czy występuje zależność pomiędzy temperaturą a klasami użytkowania
+terenu wykorzystując wykres pudełkowy.
 - Zbadaj związek pomiędzy temperaturą a ośmioma zmiennymi wyjaśniającymi
-wykorzystując wykres rozrzutu z uwzględnieniem klas pokrycia terenu.
-- Stwórz model regresji oraz przedstaw otrzymane równanie regresji.
-- Dokonaj interpretacji opracowanego modelu.
-- Wykonaj predykcję temperatury dla całej mapy.
+wykorzystując wykresy rozrzutu z uwzględnieniem klas użytkowania terenu.
+- Stwórz model wielorakiej regresji liniowej oraz przedstaw otrzymane
+równanie regresji.
+- Dokonaj interpretacji statystycznej i merytorycznej opracowanego modelu.
+Czy podstawowe założenia regresji liniowej zostały spełnione (liniowość
+relacji, homoskedastyczność, normalność rozkładu reszt)?
+- Wykonaj predykcję temperatury dla całego obszaru analizy i zaprezentuj
+wynik na mapie.
+
+Jako rozwiązanie należy przesłać:
+
+- Działający plik źródłowy (np. Quarto `.qmd` lub RMarkdown `.Rmd`).
+- Wygenerowany raport z wynikami przeprowadzonej analizy, rycinami oraz wnioskami
+(np. `.html` lub `.pdf`). Uwaga: Jeśli generujesz raport w formacie `.html`, to
+pamiętaj osadzić wszystkie niezbędne pliki.
