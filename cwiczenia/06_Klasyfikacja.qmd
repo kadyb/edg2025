@@ -20,7 +20,7 @@ format:
 
 Dokonaj klasyfikacji nadzorowanej danych rastrowych znajdujących się w katalogu
 `dane` (w repozytorium GitHub) używając algorytmu drzewa decyzyjnego oraz
-losowego podziału danych na zbiór treningowy i testowy. Jako dane referencyjne
+losowego podziału na zbiór treningowy i testowy. Jako dane referencyjne
 wykorzystaj klasy użytkowania terenu. Raport musi zawierać następujące elementy:
 
 - Obliczenie procentowego udziału poszczególnych klas na analizowanym obszarze.
