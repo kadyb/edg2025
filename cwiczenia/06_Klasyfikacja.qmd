@@ -16,18 +16,25 @@ format:
 1. Materiały: <https://kadyb.github.io/GEOINF2022/Klasyfikacja.html>
 2. Dane: <https://zenodo.org/records/7299645>
 
-# Wprowadzenie
-
 # Zadanie
 
-- Dokonaj klasyfikacji nadzorowanej danych rastrowych znajdujących się w
-katalogu `dane` (w repozytorium GitHub) używając drzewa decyzyjnego na podstawie
-losowej próby. Jako dane referencyjne wykorzystaj klasy pokrycia terenu.
-- Oblicz procentowy udział poszczególnych klas pokrycia terenu na obszarze.
-- Oceń skuteczność wytrenowanego modelu klasyfikacyjnego na zbiorze testowym.
-- Zinterpretuj decyzje klasyfikacyjne podejmowane przez model. Które
-zmienne wyjaśniające są najistotniejsze? Która klasa jest najczęściej błędnie
-klasyfikowana przez model?
-- Porównaj wyniki klasyfikacji z mapą referencyjną (użyj identycznego schematu
-kolorów).
-- Otrzymane wyniki i wnioski przedstaw w formie raportu (Quarto lub Markdown).
+Dokonaj klasyfikacji nadzorowanej danych rastrowych znajdujących się w katalogu
+`dane` (w repozytorium GitHub) używając algorytmu drzewa decyzyjnego oraz
+losowego podziału danych na zbiór treningowy i testowy. Jako dane referencyjne
+wykorzystaj klasy użytkowania terenu. Raport musi zawierać następujące elementy:
+
+- Obliczenie procentowego udziału poszczególnych klas na analizowanym obszarze.
+Czy klasy są zbalansowane?
+- Interpretacja decyzji klasyfikacyjnych podejmowanych przez model. Które
+zmienne okazały się być kluczowe do rozróżnienia klas?
+- Ogólna ocena skuteczności wytrenowanego modelu na zbiorze testowym. Wskaż
+również, które klasy były najczęściej mylone na podstawie macierzy błędów.
+- Wizualne porównanie wyników klasyfikacji z mapą referencyjną (użyj
+identycznego schematu kolorów).
+
+Jako rozwiązanie należy przesłać:
+
+- Działający plik źródłowy (np. Quarto `.qmd` lub RMarkdown `.Rmd`).
+- Wygenerowany raport z wynikami przeprowadzonej analizy, rycinami oraz wnioskami
+(np. `.html` lub `.pdf`). Uwaga: Jeśli generujesz raport w formacie `.html`, to
+pamiętaj osadzić wszystkie niezbędne pliki.
