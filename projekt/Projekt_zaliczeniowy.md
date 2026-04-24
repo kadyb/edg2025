@@ -30,6 +30,7 @@ wyników. W zależności od zakresu wykonanych prac, można uzyskać następują
 
 Przeprowadzenie eksploracyjnej analizy danych:
 
+- Wizualizacja wszystkich zmiennych na mapach.
 - Sprawdzenie statystyk opisowych, brakujących i odstających wartości oraz
   rozkładu wszystkich zmiennych.
 - Zbadanie zależności pomiędzy poszczególnymi zmiennymi wyjaśniającymi oraz
@@ -50,7 +51,7 @@ Opracowanie modelu regresyjnego cen nieruchomości:
 - Stworzenie mapy prognozowanych cen nieruchomości dla całego obszaru.
 - **Wyjaśnienie roli poszczególnych zmiennych w modelu**.
 
-Ocena dobra wymaga spełnienia warunków na ocenę dostateczną.
+*Ocena dobra wymaga spełnienia warunków na ocenę dostateczną.*
 
 ### Ocena bardzo dobra
 
@@ -61,7 +62,7 @@ doboru liczby klastrów.
 - Wizualizacja wyników klasteryzacji na mapie.
 - **Dokonanie interpretacji otrzymanych klastrów**.
 
-Ocena bardzo dobra wymaga spełnienia warunków na ocenę dobrą oraz dostateczną.
+*Ocena bardzo dobra wymaga spełnienia warunków na ocenę dobrą oraz dostateczną.*
 
 \
 Projekt należy wykonać w języku R i jako rozwiązanie przesłać na platformie
