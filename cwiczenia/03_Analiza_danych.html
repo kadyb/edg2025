@@ -2552,7 +2552,7 @@ W = 0.95014, p-value &lt; 2.2e-16</code></pre>
 </section>
 <section id="test-kołmogorowa-smirnowa" class="level3">
 <h3 class="anchored" data-anchor-id="test-kołmogorowa-smirnowa">Test Kołmogorowa-Smirnowa</h3>
-<p>Interpretacja testu Kołmogorowa-Smirnowa jest identyczna jak w przypadku testu Shapiro-Wilka. Hipoteza zerowa (<span class="math inline">\(H_0\)</span>) zakłada, że próba pochodzi z określonego rozkładu, w tym przypadku rozkładu normalnego <code>pnorm</code>. Jeśli wartość <span class="math inline">\(p\)</span> jest większa od 0,05, to prawdopodobnie mamy do czynienia z rozkładem zmiennej zbliżonym do normalnego.</p>
+<p>Interpretacja testu Kołmogorowa-Smirnowa jest identyczna jak w przypadku testu Shapiro-Wilka. Hipoteza zerowa (<span class="math inline">\(H_0\)</span>) zakłada, że próba pochodzi z określonego rozkładu, w tym przypadku rozkładu normalnego <code>pnorm</code>. Jeśli wartość <span class="math inline">\(p\)</span> jest większa od 0,05, to prawdopodobnie mamy do czynienia z rozkładem zmiennej zbliżonym do normalnego. Zasadniczo, test Kołmogorowa-Smirnowa ma niższą moc statystyczną niż test Shapiro-Wilka, jednak można stosować go do większych prób niż 5000 obserwacji.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">=</span> <span class="fu">rnorm</span>(<span class="dv">1000</span>, <span class="at">mean =</span> <span class="dv">0</span>, <span class="at">sd =</span> <span class="dv">1</span>)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ks.test</span>(data, <span class="st">&quot;pnorm&quot;</span>, <span class="at">mean =</span> <span class="fu">mean</span>(data), <span class="at">sd =</span> <span class="fu">sd</span>(data))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -2675,7 +2675,7 @@ alternative hypothesis: two-sided</code></pre>
 <p>Możemy wyróżnić dwa podstawowe rodzaje testów korelacji:</p>
 <ol type="1">
 <li>Parametryczny – zakłada liniową zależność pomiędzy zmiennymi oraz rozkład normalny (test Pearsona). Jest wrażliwy na wartości odstające.</li>
-<li>Nieparametryczny – zakłada monotoniczną zależność pomiędzy zmiennymi niekoniecznie liniową (test Spearmana i Kendalla).</li>
+<li>Nieparametryczny – zakłada monotoniczną zależność pomiędzy zmiennymi niekoniecznie liniową (test Spearmana i Kendalla). Testy nieparametryczne mają mniejszą moc statystyczną, jednak są bardziej uniwersalne, gdy założenia testów parametrycznych nie są spełnione.</li>
 </ol>
 <p>Użyjmy przykładowego zestawu danych <code>iris</code>, aby przećwiczyć testowanie korelacji w praktyce.</p>
 <div class="cell">

@@ -179,7 +179,9 @@ Interpretacja testu Kołmogorowa-Smirnowa jest identyczna jak w przypadku testu
 Shapiro-Wilka. Hipoteza zerowa ($H_0$) zakłada, że próba pochodzi z określonego
 rozkładu, w tym przypadku rozkładu normalnego `pnorm`. Jeśli wartość $p$ jest
 większa od 0,05, to prawdopodobnie mamy do czynienia z rozkładem zmiennej
-zbliżonym do normalnego.
+zbliżonym do normalnego. Zasadniczo, test Kołmogorowa-Smirnowa ma niższą moc
+statystyczną niż test Shapiro-Wilka, jednak można stosować go do większych prób
+niż 5000 obserwacji.
 
 ```{r}
 data = rnorm(1000, mean = 0, sd = 1)
@@ -296,7 +298,9 @@ Możemy wyróżnić dwa podstawowe rodzaje testów korelacji:
 1. Parametryczny -- zakłada liniową zależność pomiędzy zmiennymi oraz rozkład
 normalny (test Pearsona). Jest wrażliwy na wartości odstające.
 2. Nieparametryczny -- zakłada monotoniczną zależność pomiędzy zmiennymi
-niekoniecznie liniową (test Spearmana i Kendalla).
+niekoniecznie liniową (test Spearmana i Kendalla). Testy nieparametryczne mają
+mniejszą moc statystyczną, jednak są bardziej uniwersalne, gdy założenia testów
+parametrycznych nie są spełnione.
 
 Użyjmy przykładowego zestawu danych `iris`, aby przećwiczyć testowanie korelacji
 w praktyce.
