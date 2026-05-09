@@ -2677,6 +2677,7 @@ alternative hypothesis: two-sided</code></pre>
 <li>Parametryczny – zakłada liniową zależność pomiędzy zmiennymi oraz rozkład normalny (test Pearsona). Jest wrażliwy na wartości odstające.</li>
 <li>Nieparametryczny – zakłada monotoniczną zależność pomiędzy zmiennymi niekoniecznie liniową (test Spearmana i Kendalla). Testy nieparametryczne mają mniejszą moc statystyczną, jednak są bardziej uniwersalne, gdy założenia testów parametrycznych nie są spełnione.</li>
 </ol>
+<p>Test Pearsona stosuje się do zmiennych ilościowych, natomiast testy Spearmana i Kendalla do zmiennych ilościowych oraz do zmiennych jakościowych na skali porządkowej. Żaden z tych testów nie jest przeznaczony do zmiennych jakościowych na skali nominalnej (np. klasy pokrycia terenu).</p>
 <p>Użyjmy przykładowego zestawu danych <code>iris</code>, aby przećwiczyć testowanie korelacji w praktyce.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>iris <span class="ot">=</span> iris</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>

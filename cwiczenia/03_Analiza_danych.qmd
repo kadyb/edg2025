@@ -302,6 +302,11 @@ niekoniecznie liniową (test Spearmana i Kendalla). Testy nieparametryczne mają
 mniejszą moc statystyczną, jednak są bardziej uniwersalne, gdy założenia testów
 parametrycznych nie są spełnione.
 
+Test Pearsona stosuje się do zmiennych ilościowych, natomiast testy Spearmana
+i Kendalla do zmiennych ilościowych oraz do zmiennych jakościowych na skali
+porządkowej. Żaden z tych testów nie jest przeznaczony do zmiennych jakościowych
+na skali nominalnej (np. klasy pokrycia terenu).
+
 Użyjmy przykładowego zestawu danych `iris`, aby przećwiczyć testowanie korelacji
 w praktyce.
 
