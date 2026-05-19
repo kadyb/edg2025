@@ -2583,17 +2583,17 @@ gdp_pc      0.4287361 -0.3696659</code></pre>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>r <span class="ot">=</span> <span class="fu">rast</span>(files)</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>r</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>class       : SpatRaster 
+<pre><code>class       : SpatRaster
 size        : 270, 300, 3  (nrow, ncol, nlyr)
 resolution  : 100, 100  (x, y)
 extent      : 345000, 375000, 493000, 520000  (xmin, xmax, ymin, ymax)
-coord. ref. : ETRF2000-PL / CS92 (EPSG:2180) 
-sources     : 01_roughness.tif  
-              02_green.tif  
-              03_distwaters.tif  
-names       : 01_roughness,     02_green, 03_distwaters 
-min values  :   -0.1637271, -0.004930857,      1.873463 
-max values  :   25.9834185,  0.769584060,   8061.545898 </code></pre>
+coord. ref. : ETRF2000-PL / CS92 (EPSG:2180)
+sources     : 01_roughness.tif
+              02_green.tif
+              03_distwaters.tif
+names       : 01_roughness,  02_green, 03_distwaters
+min values  :    -0.163727, -0.004931,      1.873463
+max values  :    25.983419,  0.769584,   8061.545898</code></pre>
 </div>
 </div>
 <p>Wybrane rastry zostały wczytane jako obiekt <code>r</code>. Kolejne kroki analizy wykonamy na mniejszej próbie losowej. Takie podejście stosuje się w przypadku przetwarzania ogromnych zbiorów danych, ponieważ nie jest możliwe, aby wczytać je do pamięci komputera. Do losowania próby służy funkcja <code>spatSample()</code>, w której możemy zdefiniować jej wielkość oraz usuwanie brakujących wartości <code>NA</code>. Szczególnie ważne jest zadbanie o powtarzalność analizy, więc koniecznie jest wcześniejsze zdefiniowanie ziarna losowości <code>set.seed()</code>.</p>
@@ -2682,8 +2682,7 @@ max values  :   25.9834185,  0.769584060,   8061.545898 </code></pre>
 <p>Dokonaj redukcji wymiarowości rastrów znajdujących się w katalogu <code>dane</code> używając analizy głównych składowych (<em>PCA</em>) i losowej próby. Przed analizą przygotuj odpowiednio dane wejściowe:</p>
 <ul>
 <li>usuń brakujące wartości (<code>NA</code>),</li>
-<li>zidentyfikuj i usuń wartości odstające,</li>
-<li>jeśli rozkład zmiennych istotnie odbiega od normalnego, to spróbuj zastosować transformacje,</li>
+<li>zidentyfikuj wartości odstające i podejmij odpowiednie działania (np. usunięcie, nadpisanie czy transformacja rozkładu),</li>
 <li>pamiętaj o standaryzacji zmiennych.</li>
 </ul>
 <p>Finalnym wynikiem analizy jest mapa przedstawiająca pierwszą główną składową wraz z interpretacją, co ona przedstawia. W raporcie należy wyjaśnić i uzasadnić wybór zastosowanych metod analitycznych.</p>

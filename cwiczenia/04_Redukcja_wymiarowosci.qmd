@@ -394,9 +394,8 @@ używając analizy głównych składowych (*PCA*) i losowej próby. Przed analiz
 przygotuj odpowiednio dane wejściowe:
 
 - usuń brakujące wartości (`NA`),
-- zidentyfikuj i usuń wartości odstające,
-- jeśli rozkład zmiennych istotnie odbiega od normalnego, to spróbuj zastosować
-transformacje,
+- zidentyfikuj wartości odstające i podejmij odpowiednie działania (np. usunięcie,
+nadpisanie czy transformacja rozkładu),
 - pamiętaj o standaryzacji zmiennych.
 
 Finalnym wynikiem analizy jest mapa przedstawiająca pierwszą główną składową
