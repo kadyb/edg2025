@@ -15,7 +15,7 @@
   - 4 -- obszary zieleni
   - 5 -- pola uprawne
   - 6 -- lasy
-  - 7 -- murawa
+  - 7 -- inne
   - 8 -- zbiorniki wodne
   - 9 -- tereny podmokłe
 - `temp.gpkg` -- odnotowana temperatura dla punktów [°C]
